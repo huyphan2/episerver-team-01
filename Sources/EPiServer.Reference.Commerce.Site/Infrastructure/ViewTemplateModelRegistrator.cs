@@ -1,6 +1,7 @@
 ﻿using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework.Web;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Blocks;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc;
 
@@ -18,6 +19,14 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 AvailableWithoutTag = true,
                 TemplateTypeCategory = TemplateTypeCategories.MvcPartialView,
                 Path = "~/Views/Shared/_Page.cshtml"
+            });
+            viewTemplateModelRegistrator.Add(typeof(ProductBanner), new TemplateModel
+            {
+                Name = "ProductBanner",
+                Inherit = true,
+                AvailableWithoutTag = true,
+                TemplateTypeCategory = TemplateTypeCategories.MvcPartialView,
+                Path = "~/Views/Shared/Blocks/ProductBanner.cshtml"
             });
         }
     }

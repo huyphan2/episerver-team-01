@@ -14,5 +14,17 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         [Display(Order = 110)]
         [RequiredAccess(AccessLevel.Edit)]
         public const string MailTemplates = "Mail templates";
+        #region Products Listing
+
+        public const string CarouselBanner = "Carousel Banner";
+        public const string NavigationContent = "Navigation Content";
+        public const string Products = "Products";
+        #endregion
+        
+    }
+
+    public static class UIHints
+    {
+        public const string Images = "Images";
     }
 }

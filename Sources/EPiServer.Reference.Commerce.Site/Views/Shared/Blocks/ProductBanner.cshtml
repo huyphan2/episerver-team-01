@@ -1,0 +1,14 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Shared.Blocks.ProductBanner
+    
+<div>
+    @Html.PropertyFor(x=>x.LargeBackgroundImg)
+    <div class="container">
+        <div class="row flex-row-reverse">
+            <div class="col col-md-6 col-12">
+                <span class="price">@Model.Price.ToString("C0")</span>
+                <h2 class="slick-item_title">@Model.Title</h2>
+                <p class="slick-item_desc">@Html.PropertyFor(x=>x.Description)</p>
+            </div>
+        </div>
+    </div>
+</div>
