@@ -25,12 +25,5 @@ namespace EPiServer.Reference.Commerce.Site.Features.News.Blocks
              Order = 10)]
         public virtual XhtmlString Description { get; set; }
 
-        [CultureSpecific]
-        [Display(
-             Name = "Content Area",
-             GroupName = SystemTabNames.Content,
-             Order = 20)]
-        public virtual ContentArea ContentArea { get; set; }
-
     }
 }
