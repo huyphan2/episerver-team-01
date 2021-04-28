@@ -32,7 +32,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
             var viewModel = new StartPageViewModel()
             {
                 StartPage = currentPage,
-                Promotions = GetActivePromotions()
+                Promotions = GetActivePromotions(),
+                StaticNews = currentPage.StaticNews
             };            
 
             return View(viewModel);

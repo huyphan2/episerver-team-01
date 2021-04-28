@@ -11,5 +11,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.ViewModels
         public StartPage StartPage { get; set; }
         public IEnumerable<PromotionViewModel> Promotions { get; set; }
         public IEnumerable<Recommendation> Recommendations { get; set; }
+
+        public ContentArea StaticNews { get; set; }
     }
 }

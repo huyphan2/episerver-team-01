@@ -1,0 +1,42 @@
+:root {
+  --primary-1: #57c5a0;
+  --primary-2: #f27e4b;
+  --primary-3: #242424;
+  --primary-4: #2e2e2e; }
+
+body, style {
+  font-family: Aller; }
+
+.price {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  background-color: var(--primary-1); }
+
+.product-action li i {
+  color: #adadad; }
+
+.product-action .add-to-cart i {
+  color: var(--primary-1); }
+
+.product-action a,
+.product-action button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.35s ease; }
+  .product-action a:hover,
+  .product-action button:hover {
+    background-color: var(--primary-1); }
+    .product-action a:hover i,
+    .product-action button:hover i {
+      color: #fff; }

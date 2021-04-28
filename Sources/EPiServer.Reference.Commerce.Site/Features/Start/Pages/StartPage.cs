@@ -41,6 +41,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 
         [CultureSpecific]
         [Display(
+            Name = "Static News",
+            GroupName = SystemTabNames.Content,
+            Order = 10)]
+        public virtual ContentArea StaticNews { get; set; }
+
+        [CultureSpecific]
+        [Display(
             Name = "Right menu",
             Description = "",
             GroupName = SystemTabNames.Content,
@@ -99,7 +106,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SiteTabs.SiteStructure,
             Order = 6)]
         [AllowedTypes(typeof(ResetPasswordPage))]
-        public virtual ContentReference ResetPasswordPage { get; set; }        
+        public virtual ContentReference ResetPasswordPage { get; set; }
 
         [Display(
             Name = "Login registration page",

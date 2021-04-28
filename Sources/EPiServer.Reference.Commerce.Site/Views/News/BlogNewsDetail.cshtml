@@ -1,0 +1,13 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.News.Blocks
+@model BlogNewsDetailBlock
+@{
+    Layout = null;
+}
+
+<div class="news-blog d-flex">
+    <p class="news-blog_thumb">Apr 01</p>
+    <div>
+        <h4 class="news-blog_title">@Html.PropertyFor(x => x.Title)</h4>
+        <div class="news-blog_desc">@Html.PropertyFor(x => x.Description)</div>
+    </div>
+</div>

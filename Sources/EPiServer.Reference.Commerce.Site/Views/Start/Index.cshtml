@@ -4,6 +4,12 @@
 @{
     IEnumerable<PromotionViewModel> promotions = Model.Promotions;
 }
+<link href="~/Styles/css/home.css" rel="stylesheet" />
+<link href="~/Styles/css/font.css" rel="stylesheet" />
+<link href="~/Styles/css/reset.css" rel="stylesheet" />
+<link href="~/Styles/css/styles.css" rel="stylesheet" />
+<link href="~/Styles/libs/bootstrap.min.css" rel="stylesheet" />
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
@@ -54,3 +60,15 @@
         </script>
     }
 }
+
+<!-- Start news -->
+<section id="news" class="news">
+    <div class="container">
+        <div class="news-content">
+            <div class="row">
+                @Html.PropertyFor(x => x.StaticNews)
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End news -->

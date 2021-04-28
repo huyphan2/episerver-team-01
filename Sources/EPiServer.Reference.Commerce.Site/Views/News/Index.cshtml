@@ -1,0 +1,12 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.News.Blocks
+@model NewsBlock
+@{
+    Layout = null;
+}
+
+<div class="col col-lg-3 col-md-12 col-sm-12 col-12">
+    <div class="news-item">
+        <h3 class="news-title">@Html.PropertyFor(x => x.Title)</h3>
+        <p class="news-desc">@Html.PropertyFor(x => x.Description)</p>
+    </div>
+</div>
