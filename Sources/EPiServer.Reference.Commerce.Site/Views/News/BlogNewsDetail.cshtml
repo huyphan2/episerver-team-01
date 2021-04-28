@@ -5,7 +5,7 @@
 }
 
 <div class="news-blog d-flex">
-    <p class="news-blog_thumb">Apr 01</p>
+    <p class="news-blog_thumb">@(Model.EventDate.Value.ToString("MMMM d"))</p>
     <div>
         <h4 class="news-blog_title">@Html.PropertyFor(x => x.Title)</h4>
         <div class="news-blog_desc">@Html.PropertyFor(x => x.Description)</div>
