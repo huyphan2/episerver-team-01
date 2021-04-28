@@ -1,0 +1,8 @@
+.product-list {
+  &_title {
+    span {
+      font-style: italic;
+      color: var(--primary-1);
+    }
+  }
+}
