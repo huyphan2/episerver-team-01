@@ -1,0 +1,36 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Navigation.Extensions
+@using EPiServer.SpecializedProperties
+@using EPiServer.Web.Routing;
+@model LinkItemCollection
+
+@{
+    var additionalLink = ViewData["additionalLink"] as LinkItem;
+    var anchorClass = ViewData["anchorClass"] ?? string.Empty;
+    var itemStyle = ViewData["itemStyle"] ?? string.Empty;
+    var currentPage = ViewData["currentPage"] as ContentReference;
+    var selected = ViewData["selected"] as string;
+}
+
+<nav class="navbar navbar-expand-lg navbar-light header-menu">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            @foreach (var linkItem in Model ?? Enumerable.Empty<LinkItem>())
+            {
+                var itemClass = "";
+                if (selected != null)
+                {
+                    if (currentPage == linkItem.GetContentReference())
+                    {
+                        itemClass = selected;
+                    }
+                }
+                @*<li class="@itemClass" style="@itemStyle">@Html.ContentLink(linkItem)</li>*@
+                <a class="nav-item nav-link active" href="@UrlResolver.Current.GetUrl(linkItem.Href) "><span>@linkItem.Text</span></a>
+            }
+
+        </div>
+    </div>
+</nav>

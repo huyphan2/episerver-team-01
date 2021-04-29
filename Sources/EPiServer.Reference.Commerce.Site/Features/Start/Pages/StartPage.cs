@@ -60,7 +60,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SystemTabNames.Content,
             Order = 7)]
         public virtual XhtmlString MainBody { get; set; }
-
+        [CultureSpecific]
+        [Display(
+         Name = "Footer page display",
+         Description = "",
+         GroupName = SystemTabNames.Content,
+         Order = 8)]
+        public virtual XhtmlString FooterBlock { get; set; }
         [Display(
             Name = "Checkout page",
             Description = "",
