@@ -30,6 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.News.Blocks
              Name = "Content Area",
              GroupName = SystemTabNames.Content,
              Order = 20)]
+        [AllowedTypes(typeof(BlogNewsDetailBlock))]
         public virtual ContentArea ContentArea { get; set; }
 
     }

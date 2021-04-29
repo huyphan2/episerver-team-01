@@ -9,6 +9,7 @@ using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
+using EPiServer.Reference.Commerce.Site.Features.News.Blocks;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 {
@@ -44,6 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Name = "Static News",
             GroupName = SystemTabNames.Content,
             Order = 10)]
+        [AllowedTypes(typeof(NewsBlock), typeof(BlogNewsBlock))]
         public virtual ContentArea StaticNews { get; set; }
 
         [CultureSpecific]

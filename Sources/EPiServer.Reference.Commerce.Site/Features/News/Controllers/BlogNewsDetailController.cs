@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.News.Controllers
 {
-    public class NewsDetailController : BlockController<BlogNewsDetailBlock>
+    public class BlogNewsDetailController : BlockController<BlogNewsDetailBlock>
     {
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public override ActionResult Index(BlogNewsDetailBlock currentBlock)
