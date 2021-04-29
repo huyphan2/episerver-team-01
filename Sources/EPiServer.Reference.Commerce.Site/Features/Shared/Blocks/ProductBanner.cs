@@ -8,8 +8,8 @@ using EPiServer.Web;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Shared.Blocks
 {
-    [ContentType(DisplayName = "ProductBanner", GUID = "8fff1015-8252-4f74-a22b-694a9e95573a", Description = "")]
-    public class ProductBanner : BlockData
+    [ContentType(DisplayName = "ProductBannerBlock", GUID = "8fff1015-8252-4f74-a22b-694a9e95573a", Description = "")]
+    public class ProductBannerBlock : BlockData
     {
         [CultureSpecific]
         [Display(

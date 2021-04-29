@@ -22,14 +22,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 TemplateTypeCategory = TemplateTypeCategories.MvcPartialView,
                 Path = "~/Views/Shared/_Page.cshtml"
             });
-            viewTemplateModelRegistrator.Add(typeof(ProductBanner), new TemplateModel
-            {
-                Name = "ProductBanner",
-                Inherit = true,
-                AvailableWithoutTag = true,
-                TemplateTypeCategory = TemplateTypeCategories.MvcPartialView,
-                Path = "~/Views/Shared/Blocks/ProductBanner.cshtml"
-            });
         }
     }
 }
