@@ -1,0 +1,32 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Navigation.Models;
+@using EPiServer.SpecializedProperties
+@model ContactBlock
+<div class="footer-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col col-lg-6 col-md-12 col-12">
+                <form action="">
+                    <div class="input-group footer-contact_form w-75">
+                        <input type="text" class="form-control" placeholder="Enter email for news letter" aria-label="Enter email for news letter" aria-describedby="email">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col col-lg-6 col-md-12 col-12">
+                <div class="d-flex justify-content-end footer-contact_social">
+                    @Html.PropertyFor(m => m.LinkItems)
+                    @*<a href="#" class="social"><i class="fa fa-facebook" aria-hidden="true"></i></a>  
+                    <a href="#" class="social"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    <a href="#" class="social"><i class="fa fa-google-plus" aria-hidden="true"></i></i></a>
+                    <a href="#" class="social"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                    <a href="#" class="social"><i class="fa fa-flickr" aria-hidden="true"></i></a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

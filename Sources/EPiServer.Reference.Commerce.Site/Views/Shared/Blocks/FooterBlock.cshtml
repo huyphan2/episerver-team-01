@@ -1,0 +1,7 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.Navigation.Models;
+@using EPiServer.Reference.Commerce.Site.Infrastructure
+@model FooterBlock
+<footer id="footer" class="footer">
+    @Html.PropertyFor(m => m.Content, new { HasContainer = false, HasItemContainer = false })
+ 
+</footer>

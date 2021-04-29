@@ -37,6 +37,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
     {
         public void Initialize(InitializationEngine context)
         {
+            ViewEngines.Engines.Insert(0, new SiteViewEngine());
+
             CatalogRouteHelper.MapDefaultHierarchialRouter(RouteTable.Routes, false);
 
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
