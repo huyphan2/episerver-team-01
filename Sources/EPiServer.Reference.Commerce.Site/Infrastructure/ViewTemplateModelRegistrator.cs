@@ -10,6 +10,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
     [ServiceConfiguration(typeof(IViewTemplateModelRegistrator))]
     public class ViewTemplateModelRegistrator : IViewTemplateModelRegistrator
     {
+        public const string BlockFolder = "~/Views/Shared/Blocks/";
+        public const string PagePartialsFolder = "~/Views/Shared/Partials/";
         public void Register(TemplateModelCollection viewTemplateModelRegistrator)
         {
             viewTemplateModelRegistrator.Add(typeof(PageData), new TemplateModel

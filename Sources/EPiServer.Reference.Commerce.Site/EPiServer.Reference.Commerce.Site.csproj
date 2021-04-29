@@ -64,6 +64,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPiBootstrapArea, Version=5.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiBootstrapArea.5.3.3\lib\net461\EPiBootstrapArea.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer, Version=11.17.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.Core.11.17.0\lib\net461\EPiServer.dll</HintPath>
     </Reference>
@@ -168,6 +171,9 @@
     </Reference>
     <Reference Include="EPiServer.Web.WebControls, Version=11.17.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.AspNet.11.17.0\lib\net461\EPiServer.Web.WebControls.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -411,6 +417,28 @@
     <Content Include="Scripts\js\Search.js" />
     <Content Include="Scripts\js\Warehouse.js" />
     <Content Include="Scripts\mustache.min.js" />
+    <Content Include="Static\css\font.css" />
+    <Content Include="Static\css\footer.css" />
+    <Content Include="Static\css\header.css" />
+    <Content Include="Static\css\home.css" />
+    <Content Include="Static\css\product-card.css" />
+    <Content Include="Static\css\reset.css" />
+    <Content Include="Static\css\styles.css" />
+    <Content Include="Static\images\banner-bg.png" />
+    <Content Include="Static\images\favicon.ico" />
+    <Content Include="Static\images\gallery.jpg" />
+    <Content Include="Static\images\logo.png" />
+    <Content Include="Static\images\product-img.png" />
+    <Content Include="Static\images\promotion1.jpg" />
+    <Content Include="Static\images\promotion2.jpg" />
+    <Content Include="Static\images\promotion3.jpg" />
+    <Content Include="Static\libs\bootstrap.min.css" />
+    <Content Include="Static\libs\bootstrap.min.js" />
+    <Content Include="Static\libs\font-awesome.css" />
+    <Content Include="Static\libs\jquery-3.6.0.min.js" />
+    <Content Include="Static\libs\slick.min.css" />
+    <Content Include="Static\libs\slick.min.js" />
+    <Content Include="Static\script\index.js" />
     <Content Include="Styles\font-awesome\.gitignore" />
     <Content Include="Styles\font-awesome\css\font-awesome.css" />
     <Content Include="Styles\font-awesome\css\font-awesome.min.css" />
@@ -471,6 +499,11 @@
     <Compile Include="Features\Login\ViewModels\RegistrationConfirmationMailPageViewModel.cs" />
     <Compile Include="Features\Market\Models\EmptyMarket.cs" />
     <Compile Include="Features\Market\Services\MarketContentLoader.cs" />
+    <Compile Include="Features\Navigation\Models\AboutUsBlock.cs" />
+    <Compile Include="Features\Navigation\Models\ContactBlock.cs" />
+    <Compile Include="Features\Navigation\Models\CopyrightBlock.cs" />
+    <Compile Include="Features\Navigation\Models\IconLinkBlock.cs" />
+    <Compile Include="Features\Navigation\Models\FooterBlock.cs" />
     <Compile Include="Features\Navigation\ViewModels\FooterViewModel.cs" />
     <Compile Include="Features\Payment\Controllers\PaymentController.cs" />
     <Compile Include="Features\Payment\PaymentMethods\AuthorizePaymentMethod.cs" />
@@ -521,6 +554,8 @@
     <Compile Include="Features\Shared\ViewModels\PageViewModel.cs" />
     <Compile Include="Features\Shared\ViewModels\StandardPageViewModel.cs" />
     <Compile Include="Features\Shared\Pages\StandardPage.cs" />
+    <Compile Include="Features\Start\Models\BannerBlock.cs" />
+    <Compile Include="Features\Start\Models\BannerItemBlock.cs" />
     <Compile Include="Features\Start\ViewModels\PromotionViewModel.cs" />
     <Compile Include="Features\Start\ViewModels\StartPageViewModel.cs" />
     <Compile Include="Features\Warehouse\Controllers\WarehouseController.cs" />
@@ -626,6 +661,7 @@
     <Compile Include="Features\Start\Pages\StartPage.cs" />
     <Compile Include="Features\Cart\Controllers\WishListController.cs" />
     <Compile Include="Features\Cart\Pages\WishListPage.cs" />
+    <Compile Include="Infrastructure\CustomRenderingInitialization.cs" />
     <Compile Include="Infrastructure\Facades\CountryManagerFacade.cs" />
     <Compile Include="Infrastructure\Facades\CurrentContactFacade.cs" />
     <Compile Include="Infrastructure\Facades\CustomerContextFacade.cs" />
@@ -672,6 +708,7 @@
     <Compile Include="Features\Shared\Services\IPricingService.cs" />
     <Compile Include="Features\Shared\Services\PricingService.cs" />
     <Compile Include="Infrastructure\SiteTabs.cs" />
+    <Compile Include="Infrastructure\SiteViewEngine.cs" />
     <Compile Include="Infrastructure\StructureMapDependencyResolver.cs" />
     <Compile Include="Infrastructure\ModelBinderProvider.cs" />
     <Compile Include="Infrastructure\ViewTemplateModelRegistrator.cs" />
@@ -890,6 +927,19 @@
     <Content Include="Views\ErrorHandling\InternalError.cshtml" />
     <Content Include="Views\ErrorHandling\Forbidden.cshtml" />
     <Content Include="Views\ErrorHandling\OtherHttpStatusCode.cshtml" />
+    <Content Include="Static\fonts\Aller_Bd.ttf" />
+    <Content Include="Static\fonts\Aller_BdIt.ttf" />
+    <Content Include="Static\fonts\Aller_It.ttf" />
+    <Content Include="Static\fonts\Aller_Lt.ttf" />
+    <Content Include="Static\fonts\Aller_LtIt.ttf" />
+    <Content Include="Static\fonts\Aller_Rg.ttf" />
+    <Content Include="Static\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Views\Shared\Blocks\BannerBlock.cshtml" />
+    <Content Include="Views\Shared\Partials\MainMenu.cshtml" />
+    <Content Include="Views\Shared\Blocks\FooterBlock.cshtml" />
+    <Content Include="Views\Shared\Blocks\CopyrightBlock.cshtml" />
+    <Content Include="Views\Shared\Blocks\ContactBlock.cshtml" />
+    <Content Include="Views\Shared\Blocks\AboutUsBlock.cshtml" />
     <Content Include="Views\Shared\Blocks\ProductBanner.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Images.cshtml" />
     <Content Include="Views\ProductListing\Index.cshtml" />

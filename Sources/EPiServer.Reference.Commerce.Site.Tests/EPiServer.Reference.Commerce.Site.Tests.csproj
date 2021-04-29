@@ -365,10 +365,6 @@
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EPiServer.Reference.Commerce.Site\EPiServer.Reference.Commerce.Site.csproj">
-      <Project>{9ac1dc21-c56d-49eb-a264-9441d8602f1a}</Project>
-      <Name>EPiServer.Reference.Commerce.Site</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\xunit.analyzers.0.8.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
