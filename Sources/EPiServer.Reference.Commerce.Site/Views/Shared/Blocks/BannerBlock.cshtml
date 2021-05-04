@@ -1,8 +1,17 @@
 ﻿@using EPiServer;
+@using EPiServer.Commerce.Catalog.ContentTypes
 @using EPiServer.Reference.Commerce.Site.Features.Start.Models;
 @using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+@using EPiServer.Reference.Commerce.Site.Features.Product.Services
+@using EPiServer.Web.Routing
 @model BannerBlock
 
+@{
+    var pageRouteHelper = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IPageRouteHelper>();
+    var currentPageType = pageRouteHelper.Page.PageTypeName;
+    var productService= EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IProductService>();
+    bool isProductListing = currentPageType.Equals("ProductListing", StringComparison.OrdinalIgnoreCase);
+}
 <section id="banner" class="banner">
     @{
         var contentLoader = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IContentLoader>();
@@ -17,31 +26,39 @@
                 var item = contentLoader.Get<BannerItemBlock>(contentItem.ContentLink);
                 if (item != null && item.Product != null)
                 {
-                    var product = contentLoader.Get<FashionProduct>(item.Product); 
+                    var productModel = productService.GetProductTileViewModel(item.Product);
                     <div class='slick-item'>
-                        <img src="@Url.ContentUrl(item.Image)" alt="slick background" class="slick-item_background">
+                        <img src="@Url.ContentUrl(item.LargeBackground)" alt="slick background" class="slick-item_background">
                         <div class="container">
                             <div class="row flex-row-reverse">
                                 <div class="col col-md-6 col-12">
-                                    <span class="price">@product.</span>
-                                    <h2 class="slick-item_title">@item.Title</h2>
-                                    <p class="slick-item_desc">@item.Description</p>
-                                    <nav class="product-action">
-                                        <ul class="d-flex">
-                                            <li>
-                                                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                            </li>
-                                            <li>
-                                                <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                            </li>
-                                            <li>
-                                                <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                                            </li>
-                                            <li>
-                                                <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                    <span class="price">@productModel.PlacedPrice</span>
+                                    @if (isProductListing)
+                                    {
+                                        <a href="@UrlResolver.Current.GetUrl(item.Link.FirstOrDefault().Href)" target="@item.Link.FirstOrDefault().Target" class="slick-item_title">@item.Title</a>
+                                        <p class="slick-item_desc">@item.Description</p>
+                                    }
+                                    else
+                                    {
+                                        <h2 class="slick-item_title">@item.Title</h2>
+                                        <p class="slick-item_desc">@item.Description</p>
+                                        <nav class="product-action">
+                                            <ul class="d-flex">
+                                                <li>
+                                                    <a href="@UrlResolver.Current.GetUrl(item.Link.FirstOrDefault().Href)" target="@item.Link.FirstOrDefault().Target"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                </li>
+                                                <li>
+                                                    <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                                </li>
+                                                <li>
+                                                    <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
+                                                </li>
+                                                <li>
+                                                    <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -50,26 +67,30 @@
             }
         }
     </div>
-    <div class="extra-dots">
-        <div class="container">
-            <div class="row justify-content-between">
-                @if (Model != null && Model.BannerItems != null && Model.BannerItems.Items.Any())
-                {
-                    foreach (var contentItem in Model.BannerItems.Items)
+    @if (!isProductListing)
+    {
+        <div class="extra-dots">
+            <div class="container">
+                <div class="row justify-content-between">
+                    @if (Model != null && Model.BannerItems != null && Model.BannerItems.Items.Any())
                     {
-                        var item = contentLoader.Get<BannerItemBlock>(contentItem.ContentLink);
+                        foreach (var contentItem in Model.BannerItems.Items)
+                        {
+                            var item = contentLoader.Get<BannerItemBlock>(contentItem.ContentLink);
 
-                        <div class="extra-dots-item @(i == 0?"active":"")" data-extra="@i">
-                            <h4 class="extra-dots-item_title">@item.Name</h4>
-                            <p class="extra-dots-item_desc">@item.Note</p>
-                        </div>
+                            <div class="extra-dots-item @(i == 0?"active":"")" data-extra="@i">
+                                <h4 class="extra-dots-item_title">@item.Name</h4>
+                                <p class="extra-dots-item_desc">@item.Note</p>
+                            </div>
 
-                        i++;
+                            i++;
+                        }
                     }
-                }
 
+                </div>
             </div>
         </div>
-    </div>
+    }
+   
 </section>
 

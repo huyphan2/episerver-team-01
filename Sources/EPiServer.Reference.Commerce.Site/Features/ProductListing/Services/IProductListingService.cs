@@ -6,7 +6,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
 {
     public interface IProductListingService
     {
-        IEnumerable<ProductTileViewModel> GetListProduct();
+        IEnumerable<ProductTileViewModel> GetListProduct(string brand, string category, decimal price);
         FilterParams GetFilterParams();
 
     }

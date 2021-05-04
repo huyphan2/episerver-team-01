@@ -29,6 +29,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages;
 using EPiServer.Personalization.Commerce.Tracking;
+using EPiServer.Reference.Commerce.Site.Features.ProductListing.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {

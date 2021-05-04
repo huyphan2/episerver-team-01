@@ -719,6 +719,7 @@
     <Compile Include="Infrastructure\SiteViewEngine.cs" />
     <Compile Include="Infrastructure\StructureMapDependencyResolver.cs" />
     <Compile Include="Infrastructure\ModelBinderProvider.cs" />
+    <Compile Include="Infrastructure\Validation\LinkItemCollectionMaxItemsCount.cs" />
     <Compile Include="Infrastructure\ViewTemplateModelRegistrator.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapResolver.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapDependencyScope.cs" />
