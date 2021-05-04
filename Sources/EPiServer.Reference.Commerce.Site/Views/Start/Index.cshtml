@@ -1,0 +1,8 @@
+﻿@using EPiServer.Commerce.Marketing
+@using EPiServer.Reference.Commerce.Site.Features.Start.ViewModels
+@model StartPageViewModel
+@{
+    IEnumerable<PromotionViewModel> promotions = Model.Promotions;
+}
+
+@Html.PropertyFor(x => x.StartPage.MainBody)
