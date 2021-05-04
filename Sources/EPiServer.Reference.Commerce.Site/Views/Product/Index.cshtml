@@ -148,12 +148,15 @@
                 <div class="row">
                     <div class="col col-12">
                         <div class="product-detail-paragraph">
-                            @foreach (var specification in Model.Product.TechSpecs)
+                            @if (!Equals(Model.Product.TechSpecs, null) && Model.Product.TechSpecs.Any())
                             {
-                                <div class="product-tech-spec">
-                                    <p class="title">@specification.Name</p>
-                                    <p class="text">@Html.Raw(specification.Description)</p>
-                                </div>
+                                foreach (var specification in Model.Product.TechSpecs)
+                                {
+                                    <div class="product-tech-spec">
+                                        <p class="title">@specification.Name</p>
+                                        <p class="text">@Html.Raw(specification.Description)</p>
+                                    </div>
+                                }
                             }
                         </div>
                     </div>
