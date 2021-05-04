@@ -21,6 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Controllers
         public ActionResult Index(Pages.ProductListing currentPage)
         {
             var abc = _productListingService.GetListProduct("Faded Glory huy", "abc", 155);
+            currentPage.FilterParams = _productListingService.GetFilterParams(currentPage);
             return View(currentPage);
         }
     }

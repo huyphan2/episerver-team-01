@@ -6,6 +6,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.ViewModels
     {
         public List<string> Brands { get; set; }
         public List<string> Categories { get; set; }
-        public List<decimal> Price{ get; set; }
+        public List<double> Price{ get; set; }
     }
 }

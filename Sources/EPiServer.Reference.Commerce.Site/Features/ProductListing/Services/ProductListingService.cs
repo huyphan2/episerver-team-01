@@ -18,10 +18,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
     public class ProductListingService : IProductListingService
     {
         private readonly IEpiserverFindService _episerverFindService;
+        private readonly IContentLoader _contentLoader;
 
-        public ProductListingService(IEpiserverFindService episerverFindService)
+
+        public ProductListingService(IEpiserverFindService episerverFindService, IContentLoader contentLoader)
         {
             _episerverFindService = episerverFindService;
+            _contentLoader = contentLoader;
         }
 
 
@@ -34,12 +37,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
            // if (price!=0) filter = filter.And(x => x.Brand.Match(brand));
             var check = _episerverFindService.EpiClient().Search<FashionProduct>().Filter(x => filter)
                 .GetContentResult();
+            
             return new List<ProductTileViewModel>();
         }
 
-        public FilterParams GetFilterParams()
+        public FilterParams GetFilterParams(Pages.ProductListing currentProductListing)
         {
-            
+            var model = new FilterParams();
+            var prices = _contentLoader.Get<Pages.ProductListing>(currentProductListing.ContentLink).PriceFilter;
+            var brand = _episerverFindService.EpiClient().Search<FashionProduct>().OrderBy(x => x.Brand)
+                .Select(x => x.Brand).GetResult();
+            int totalBrand = brand.TotalMatching;
+            var categories = _episerverFindService.EpiClient().Search<FashionNode>().OrderBy(x=>x.Name).Select(x=>x.Name).GetResult();
+            int totalCategory = categories.TotalMatching;
+            model.Price = prices.ToList();
+            model.Brands = _episerverFindService.EpiClient().Search<FashionProduct>().OrderBy(x => x.Brand)
+                .Select(x => x.Brand).Take(totalBrand).GetResult().Distinct().ToList();
+            model.Categories = _episerverFindService.EpiClient().Search<FashionNode>().OrderBy(x => x.Name).Select(x => x.Name).Take(totalCategory).GetResult().Distinct().ToList();
+            return model;
         }
     }
 }

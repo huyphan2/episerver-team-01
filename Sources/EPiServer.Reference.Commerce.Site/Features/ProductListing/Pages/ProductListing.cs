@@ -1,10 +1,12 @@
-﻿using EPiServer.Core;
+﻿using System.Collections.Generic;
+using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Blocks;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure;
 using System.ComponentModel.DataAnnotations;
+using EPiServer.Reference.Commerce.Site.Features.ProductListing.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Start.Models;
 using EPiServer.Web;
 
@@ -24,11 +26,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages
         public virtual ContentArea ProductListingContent { get; set; }
         [CultureSpecific]
         [Display(
-            Name = "Description",
-            Description = "The main body will be shown in the main content area of the page, using the XHTML-editor you can insert for example text, images and tables.",
+            Name = "Price Filter",
+            Description = "List Price Filter Param",
             GroupName = SiteTabs.Products,
             Order = 2)]
-        [UIHint(UIHint.Textarea)]
-        public virtual string Description { get; set; }
+        
+        public virtual IList<double> PriceFilter { get; set; }
+        [Ignore]
+        public FilterParams FilterParams { get; set; }
     }
 }
