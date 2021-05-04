@@ -1,0 +1,71 @@
+/* Product list */
+.product-list {
+  background-color: #ebe7df;
+  padding: 35px 0 5px; }
+  .product-list_title {
+    color: var(--primary-3);
+    font-size: 25px;
+    margin-bottom: 25px;
+    line-height: 30px; }
+    @media screen and (max-width: 992px) {
+      .product-list_title {
+        margin-bottom: 15px; } }
+
+.product-list-filter {
+  justify-content: flex-end;
+  margin-bottom: 25px; }
+  @media screen and (max-width: 992px) {
+    .product-list-filter {
+      justify-content: flex-start; } }
+  .product-list-filter_view {
+    display: flex; }
+    .product-list-filter_view span {
+      color: #bcb5a7;
+      font-size: 14px;
+      margin-right: 12px; }
+    .product-list-filter_view .item-view, .product-list-filter_view .list-view {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid #bcb5a7; }
+      .product-list-filter_view .item-view.current, .product-list-filter_view .item-view:hover, .product-list-filter_view .list-view.current, .product-list-filter_view .list-view:hover {
+        border-color: #898170; }
+      .product-list-filter_view .item-view i, .product-list-filter_view .list-view i {
+        color: #bcb5a7; }
+  .product-list-filter .btn-sort {
+    color: var(--primary-1);
+    border-color: var(--primary-1);
+    padding: 4px 12px;
+    font-size: 14px;
+    border-radius: 0; }
+    .product-list-filter .btn-sort i {
+      display: flex;
+      width: 14px;
+      height: 14px;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background-color: var(--primary-1);
+      transition: all .35s ease;
+      border-radius: 50%;
+      margin-left: 8px; }
+    .product-list-filter .btn-sort.degrease i {
+      transform: rotate(-180deg); }
+    .product-list-filter .btn-sort:hover, .product-list-filter .btn-sort:not(:disabled):not(.disabled):active {
+      background-color: var(--primary-1);
+      border-color: var(--primary-1); }
+      .product-list-filter .btn-sort:hover span, .product-list-filter .btn-sort:not(:disabled):not(.disabled):active span {
+        transition: color .35s ease;
+        color: #fff; }
+      .product-list-filter .btn-sort:hover i, .product-list-filter .btn-sort:not(:disabled):not(.disabled):active i {
+        background-color: #fff;
+        color: var(--primary-1); }
+    .product-list-filter .btn-sort:disabled {
+      color: #bcb5a7;
+      border-color: #bcb5a7;
+      pointer-events: none; }
+      .product-list-filter .btn-sort:disabled i {
+        background-color: #bcb5a7; }

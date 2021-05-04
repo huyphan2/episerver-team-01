@@ -1,0 +1,59 @@
+.footer-about-us {
+  padding: 50px 0 30px;
+  background-color: var(--primary-3);
+  border-bottom: 1px solid #1c1c1c; }
+  .footer-about-us_title {
+    color: #7d7d7d;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-bottom: 22px; }
+  .footer-about-us_desc {
+    color: #a4a4a4;
+    font-size: 12px;
+    margin-bottom: 8px;
+    font-style: italic; }
+    .footer-about-us_desc.time {
+      color: #c4c5bf;
+      margin-bottom: 12px; }
+    .footer-about-us_desc i {
+      color: var(--primary-1); }
+  .footer-about-us_gallery {
+    margin-bottom: 8px;
+    margin-right: 8px;
+    width: 76px;
+    height: 56px;
+    object-fit: cover; }
+
+.footer-contact {
+  padding: 20px 0;
+  background-color: var(--primary-3); }
+  .footer-contact_form, .footer-contact_social {
+    margin: 15px 0; }
+  .footer-contact_form button {
+    padding: 6px 15px;
+    background-color: #7d7d7d; }
+    .footer-contact_form button i {
+      color: #2e2e2e; }
+  .footer-contact_social .social {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    background-color: #2e2e2e;
+    transition: all .35s ease; }
+    .footer-contact_social .social i {
+      color: #7d7d7d;
+      transition: all .35s ease; }
+    .footer-contact_social .social:hover {
+      background-color: var(--primary-1); }
+      .footer-contact_social .social:hover i {
+        color: #fff; }
+
+.footer-static {
+  padding: 30px 0 30px;
+  background-color: #2e2e2e; }
+  .footer-static p {
+    color: #fff;
+    font-size: 12px; }

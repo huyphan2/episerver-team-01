@@ -78,7 +78,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                     .ToList(),
                 Color = variant.Color,
                 Size = variant.Size,
-                Images = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver),
+                //Images = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver),
+                Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver),
                 IsAvailable = defaultPrice != null
             };
         }
