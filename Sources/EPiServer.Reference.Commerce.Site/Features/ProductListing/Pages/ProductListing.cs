@@ -5,6 +5,7 @@ using EPiServer.Reference.Commerce.Site.Features.Shared.Blocks;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure;
 using System.ComponentModel.DataAnnotations;
+using EPiServer.Reference.Commerce.Site.Features.Start.Models;
 using EPiServer.Web;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages
@@ -19,7 +20,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages
             Description = "The main body will be shown in the main content area of the page, using the XHTML-editor you can insert for example text, images and tables.",
             GroupName = SiteTabs.Products,
             Order = 1)]
-        [AllowedTypes(typeof(ProductBannerBlock))]
+        [AllowedTypes(typeof(BannerBlock))]
         public virtual ContentArea ProductListingContent { get; set; }
         [CultureSpecific]
         [Display(
