@@ -950,6 +950,9 @@
     <Content Include="Views\Shared\DisplayTemplates\Images.cshtml" />
     <Content Include="Views\ProductListing\Index.cshtml" />
     <Content Include="Views\Shared\Blocks\IconLinkBlock.cshtml" />
+    <Content Include="Views\News\BlogNews.cshtml" />
+    <Content Include="Views\News\BlogNewsDetail.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
