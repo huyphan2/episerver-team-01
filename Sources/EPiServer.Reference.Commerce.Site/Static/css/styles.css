@@ -4,6 +4,11 @@
   --primary-3: #242424;
   --primary-4: #2e2e2e; }
 
+.wrapper {
+  width: 100%;
+  position: relative;
+  padding-top: 105px; }
+
 body, style {
   font-family: Aller; }
 

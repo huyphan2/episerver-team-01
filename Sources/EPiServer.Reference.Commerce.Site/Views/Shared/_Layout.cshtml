@@ -16,6 +16,7 @@
     @RenderSection("Meta", false)
     @*@Styles.Render("~/styles/bundled")*@
     @Styles.Render("~/bundles/style")
+    @RenderSection("Styles", false)
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,18 +25,18 @@
     <![endif]-->
     <link rel="icon" href="~/Styles/Images/favicon.ico" type="image/x-icon">
     @*@{
-        var requestLang = ViewContext.RequestContext.GetLanguage();
-        if (!string.IsNullOrEmpty(requestLang))
-        {
-            //ChangeThis - Using language annotations. You should update defaultLanguage below according your site.
-            //Refer to: https://support.google.com/webmasters/answer/189077?hl=en for detail guide.
-            var defaultLanguage = "en";
-            var requestContentLink = ViewContext.RequestContext.GetContentLink();
-            @Helpers.RenderHrefLangs(requestContentLink, defaultLanguage);
+            var requestLang = ViewContext.RequestContext.GetLanguage();
+            if (!string.IsNullOrEmpty(requestLang))
+            {
+                //ChangeThis - Using language annotations. You should update defaultLanguage below according your site.
+                //Refer to: https://support.google.com/webmasters/answer/189077?hl=en for detail guide.
+                var defaultLanguage = "en";
+                var requestContentLink = ViewContext.RequestContext.GetContentLink();
+                @Helpers.RenderHrefLangs(requestContentLink, defaultLanguage);
+            }
         }
-    }
-    @Html.RequiredClientResources("Header")
-    @Html.LoadTrackingAPI()*@
+        @Html.RequiredClientResources("Header")
+        @Html.LoadTrackingAPI()*@
 </head>
 <body>
     <div class="wrapper">
