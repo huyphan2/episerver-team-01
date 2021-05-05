@@ -5,7 +5,7 @@
     IEnumerable<PromotionViewModel> promotions = Model.Promotions;
 }
 
-@Html.PropertyFor(x => x.StartPage.MainBody)
+@Html.PropertyFor(x => x.StartPage.MainContent, new { HasContainer = false, HasItemContainer = false })
 
 <section id="promotion" class="promotion">
     <div class="container">
@@ -18,7 +18,45 @@
                         <p class="promotion-item_text">@promotion.Name</p>
                     </a>
                 </div>
-            } 
+            }
+        </div>
+    </div>
+</section>
+<section id="new-product" class="product-group new-product">
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-10 col-12">
+                <h2 class="title">@Html.Translate(@"/Start/Newest")</h2>
+            </div>
+            @*<div class="col col-sm-2 col-12 text-right">
+                <button class="btn btn-outline-primary" disabled>Show All</button>
+            </div>*@
+        </div>
+        <div class="row">
+            @foreach (var item in Model.NewestProduct)
+            {
+                @Html.Partial("_Product", item)
+
+            }
+        </div>
+    </div>
+</section>
+<section id="best-seller" class="product-group best-seller">
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-10 col-12">
+                <h2 class="title">@Html.Translate(@"/Start/BestSeller")</h2>
+            </div>
+            @*<div class="col col-sm-2 col-12 text-right">
+                <button class="btn btn-outline-primary">Show All</button>
+            </div>*@
+        </div>
+        <div class="row">
+            @foreach (var item in Model.BestSeller)
+            {
+                @Html.Partial("_Product", item)
+            }
+
         </div>
     </div>
 </section>

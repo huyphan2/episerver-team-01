@@ -4,6 +4,7 @@ using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
 using System.ComponentModel.DataAnnotations;
 using EPiServer.DataAnnotations;
+using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
 {
@@ -58,5 +59,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         [BackingType(typeof(PropertyDictionaryMultiple))]
         [Display(Name = "Available Colors", Order = 6)]
         public virtual ItemCollection<string> AvailableColors { get; set; }
+        [ScaffoldColumn(false)]
+        public virtual int Ranking { get; set; }
+        [Ignore]
+        [ScaffoldColumn(false)]
+        public virtual DateTime PublishedDate { get; set; }
     }
 }

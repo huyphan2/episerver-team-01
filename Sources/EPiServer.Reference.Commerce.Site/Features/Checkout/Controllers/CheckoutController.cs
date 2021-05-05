@@ -195,6 +195,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Controllers
             {
                 return View(viewModel);
             }
+            var list = purchaseOrder.Forms.ToList().Select(t => t.GetAllLineItems().Select(x => x.Code));
+            
+            
 
             var confirmationSentSuccessfully = _checkoutService.SendConfirmation(viewModel, purchaseOrder);
 

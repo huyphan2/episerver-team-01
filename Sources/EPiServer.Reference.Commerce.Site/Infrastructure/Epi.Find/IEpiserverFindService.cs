@@ -14,5 +14,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
         ITypeSearch<T> CreateTypeSearch<T>() where  T: IContent;
         IClient EpiClient();
         IContentResult<FashionVariant> GetFashionCurrentMarket();
+   
     }
 }

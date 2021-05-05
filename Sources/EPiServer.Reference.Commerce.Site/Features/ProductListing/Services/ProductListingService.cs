@@ -39,7 +39,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
 
         public FilterParams GetFilterParams()
         {
-            
+            return null;
         }
     }
 }
