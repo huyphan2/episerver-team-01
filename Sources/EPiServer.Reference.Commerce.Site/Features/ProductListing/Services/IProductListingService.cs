@@ -8,5 +8,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
     {
         IEnumerable<ProductTileViewModel> GetListProduct(string brand, string category, decimal price);
         FilterParams GetFilterParams(Pages.ProductListing currentProductListing);
+        List<string> GetCategories();
+        List<string> GetBrands();
     }
 }

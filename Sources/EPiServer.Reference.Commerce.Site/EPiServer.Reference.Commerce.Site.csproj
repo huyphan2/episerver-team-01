@@ -667,9 +667,11 @@
     <Compile Include="Infrastructure\CustomRenderingInitialization.cs" />
     <Compile Include="Infrastructure\DependencyResolverInitialization.cs" />
     <Compile Include="Infrastructure\Epi.Find\EpiserverFind.cs" />
+    <Compile Include="Infrastructure\Epi.Find\EPiServerFindInitialization.cs" />
     <Compile Include="Infrastructure\Epi.Find\EpiserverFindService.cs" />
     <Compile Include="Infrastructure\Epi.Find\IEpiserverFindService.cs" />
     <Compile Include="Infrastructure\Epi.Find\FilterBase.cs" />
+    <Compile Include="Infrastructure\Epi.Find\IProductIndexingService.cs" />
     <Compile Include="Infrastructure\Facades\CountryManagerFacade.cs" />
     <Compile Include="Infrastructure\Facades\CurrentContactFacade.cs" />
     <Compile Include="Infrastructure\Facades\CustomerContextFacade.cs" />

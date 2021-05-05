@@ -11,40 +11,34 @@
     string productLevelClass = hasDiscount ? "product has-discount" : "product";
     bool renderWishListButtons = Model.IsAvailable ? User.Identity.IsAuthenticated && ViewBag.IsWishList != null && ViewBag.IsWishList == true : false;
 }
-<div class="col col-lg-4 col-md-6 col-sm-12 col-12">
-    <div class="product-card">
-        <a href="@Model.Url" class="product-card_img">
-            <img src="@Model.ImageUrl" alt="@Model.Code">
-        </a>
-        <div class="product-card-bottom">
-            <p class="product-card_name">@Model.DisplayName</p>
-            <nav class="product-action">
-                <ul class="d-flex">
-                    <li>
-                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    </li>
-                    <li>
-                        <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                    </li>
-                    <li>
-                        <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                    </li>
-                    <li>
-                        <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <div class="product-card-tags">
-            <p class="tags on-sale">on sale!</p>
-            <p class="tags out-stock">out of stock</p>
-        </div>
-
-        <span class="price">@Helpers.RenderMoney(Model.PlacedPrice)</span>
+<div class="product-card">
+    <a href="@Model.Url" class="product-card_img">
+        <img src="@Model.ImageUrl" alt="@Model.Code">
+    </a>
+    <div class="product-card-bottom">
+        <p class="product-card_name">@Model.DisplayName</p>
+        <nav class="product-action">
+            <ul class="d-flex">
+                <li>
+                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                </li>
+                <li>
+                    <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                </li>
+                <li>
+                    <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
+                </li>
+                <li>
+                    <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+                </li>
+            </ul>
+        </nav>
     </div>
-</div>
 
-<div class="quick-view-btn-container">
-    <button type="button" data-toggle="modal" data-target="#ModalDialog" data-url="@Model.Url" class="btn btn-block btn-sm quickview-button">@Html.Translate("/Product/Quickview")</button>
+    <div class="product-card-tags">
+        <p class="tags on-sale">on sale!</p>
+        <p class="tags out-stock">out of stock</p>
+    </div>
+
+    <span class="price">@Helpers.RenderMoney(Model.PlacedPrice)</span>
 </div>

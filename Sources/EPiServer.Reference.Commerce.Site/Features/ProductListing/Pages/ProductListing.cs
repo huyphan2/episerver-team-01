@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using EPiServer.Reference.Commerce.Site.Features.ProductListing.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Start.Models;
 using EPiServer.Web;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages
 {
@@ -34,5 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages
         public virtual IList<double> PriceFilter { get; set; }
         [Ignore]
         public FilterParams FilterParams { get; set; }
+        [Ignore]
+        public List<ProductTileViewModel> Products { get; set; }
     }
 }
