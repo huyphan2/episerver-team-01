@@ -6,19 +6,3 @@
 }
 
 @Html.PropertyFor(x => x.StartPage.MainBody)
-
-<section id="promotion" class="promotion">
-    <div class="container">
-        <div class="row">
-            @foreach (var promotion in promotions)
-            {
-                <div class="col col-lg-4 col-md-6 col-sm-12 col-12">
-                    <a href="#" class="promotion-item">
-                        <img src="@Url.ContentUrl(promotion.BannerImage)" alt="promotion background" class="promotion-item_bg">
-                        <p class="promotion-item_text">@promotion.Name</p>
-                    </a>
-                </div>
-            } 
-        </div>
-    </div>
-</section>

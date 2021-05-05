@@ -909,7 +909,6 @@
     <Content Include="Views\Shared\Blocks\CopyrightBlock.cshtml" />
     <Content Include="Views\Shared\Blocks\ContactBlock.cshtml" />
     <Content Include="Views\Shared\Blocks\AboutUsBlock.cshtml" />
-    <Content Include="Views\Shared\Blocks\IconLinkBlock.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
