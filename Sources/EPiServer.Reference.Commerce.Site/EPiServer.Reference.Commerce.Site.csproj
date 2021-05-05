@@ -733,6 +733,8 @@
     <Compile Include="Infrastructure\WebApi\StructureMapResolver.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapDependencyScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\BaseApiController.cs" />
+    <Compile Include="WebApi\ProductListApiController.cs" />
     <Content Include="Views\Search\_QuickSearch.cshtml" />
     <Content Include="Views\OrderConfirmationMailPage\Index.cshtml" />
     <Content Include="Views\ResetPasswordMail\Index.cshtml" />
@@ -1112,6 +1114,7 @@
     <Folder Include="CSRExtensibility\react-app\static\" />
     <Folder Include="Features\ProductListing\Models\" />
     <Folder Include="Features\ProductListing\ViewModelFactories\" />
+    <Folder Include="Views\BaseApi\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
