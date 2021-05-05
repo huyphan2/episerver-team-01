@@ -20,7 +20,7 @@
         <nav class="product-action">
             <ul class="d-flex">
                 <li>
-                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <a href="@Model.Url"><i class="fa fa-eye" aria-hidden="true"></i></a>
                 </li>
                 <li>
                     <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
@@ -36,8 +36,14 @@
     </div>
 
     <div class="product-card-tags">
-        <p class="tags on-sale">on sale!</p>
-        <p class="tags out-stock">out of stock</p>
+        @if (hasDiscount)
+        {
+            <p class="tags on-sale">on sale!</p>
+        }
+        @if (!Model.IsAvailable)
+        {
+            <p class="tags out-stock">out of stock</p>
+        }
     </div>
 
     <span class="price">@Helpers.RenderMoney(Model.PlacedPrice)</span>

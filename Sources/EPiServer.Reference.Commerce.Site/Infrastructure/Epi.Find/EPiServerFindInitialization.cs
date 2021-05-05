@@ -12,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Find.ClientConventions;
+using EPiServer.Reference.Commerce.Site.Features.ProductListing.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
 {
@@ -22,7 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
         private IContentRepository _contentRepository = null;        
         //private IProductIndexingService _productIndexingService;
         private IProductService _productService;
-
+        private IProductListingService _productListingService;
         private IClient _client;
 
 
@@ -42,17 +45,20 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
             _contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
             _productService= ServiceLocator.Current.GetInstance<IProductService>();
             _client = EpiserverFind.Instance.Create();
+            _productListingService = ServiceLocator.Current.GetInstance<IProductListingService>();
 
             //_client.Conventions.ForInstancesOf<ElectroluxProduct>().ExcludeFieldMatching(x => x.HasMemberAttribute.Equals(nameof(ElectroluxProduct.SeoInformation)));
 
             var events = context.Locate.ContentEvents();
-            events.PublishedContent += Events_PublishedContent;
+            //events.PublishedContent += Events_PublishedContent;
             //
-            ContentIndexer.Instance.Conventions.ForInstancesOf<FashionProduct>().ShouldIndex(x=> true);
-           
+            ContentIndexer.Instance.Conventions.ForInstancesOf<FashionProduct>().ShouldIndex(ShouldIndexFashionProduct);
+            _client.Conventions.ForInstancesOf<FashionProduct>().IncludeField(p => p.Price);
+            _client.Conventions.ForInstancesOf<FashionProduct>().IncludeField(p => p.ListCategories);
+
             //_client.Conventions.NestedConventions.ForInstancesOf<PartProduct>().Add(p => p.AccessoryCategoryNames);                      
             //_client.Conventions.ForInstancesOf<PartProduct>().IncludeField(p => p.PartDetailedDescription.ToInternalString());            
-                      
+
 
         }
 
@@ -62,26 +68,13 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
             //events.PublishedContent -= Events_PublishedContent;
         }
 
-        private void Events_PublishedContent(object sender, ContentEventArgs e)
+        private bool ShouldIndexFashionProduct(FashionProduct theProduct)
         {
 
-            var saveEvent = e as SaveContentEventArgs;
-            if (saveEvent != null)
-            {
-                if (saveEvent.Action == (EPiServer.DataAccess.SaveAction.ForceCurrentVersion | EPiServer.DataAccess.SaveAction.Publish))
-                {
-                    return;
-                }
-            }
+            theProduct.Price = _productService.GetProductTileViewModel(theProduct).PlacedPrice;
+            theProduct.ListCategories = _productListingService.ProductCategories(theProduct.GetCategories());
 
-            if (e.Content is FashionProduct)
-            {
-                if (_contentLoader == null)
-                    _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
-                FashionProduct product = (FashionProduct)e.Content;
-                product.Price = _productService.GetProductTileViewModel(product).PlacedPrice;
-                _client.Index(product);                
-            }
+            return true;
         }
     }
 }

@@ -1,0 +1,15 @@
+/* Shop category */
+.shop-category {
+  background-color: #2e2e2e;
+  padding: 15px 0; }
+  .shop-category_title {
+    font-size: 22px;
+    color: #fff; }
+  .shop-category .custom-select {
+    background-color: var(--primary-3);
+    border-color: var(--primary-3);
+    color: #fff;
+    cursor: pointer; }
+  @media screen and (max-width: 768px) {
+    .shop-category .custom-select {
+      margin: 7px 0; } }

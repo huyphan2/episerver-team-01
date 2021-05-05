@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,6 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
     {
         ITypeSearch<T> CreateTypeSearch<T>() where  T: IContent;
         IClient EpiClient();
-        IContentResult<FashionVariant> GetFashionCurrentMarket();        
+        IContentResult<FashionVariant> GetFashionCurrentMarket();
     }
 }

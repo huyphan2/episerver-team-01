@@ -62,5 +62,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         
         [Ignore]
         public decimal Price { get; set; }
+        [Ignore]
+        public List<string> ListCategories{ get; set; }
     }
 }

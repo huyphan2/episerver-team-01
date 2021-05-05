@@ -1,7 +1,5 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages.ProductListing
 
-//
-
 <!-- Start banner -->
 @Html.PropertyFor(x => x.ProductListingContent)
 <!-- End banner -->
@@ -72,45 +70,10 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col col-lg-4 col-md-6 col-sm-12 col-12">
-                    <div class="product-card">
-                        <a href="#" class="product-card_img">
-                            <img src="assets/images/product-img.png" alt="product image">
-                        </a>
-                        <div class="product-card-bottom">
-                            <p class="product-card_name">Lorem</p>
-                            <nav class="product-action">
-                                <ul class="d-flex">
-                                    <li>
-                                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                    </li>
-                                    <li>
-                                        <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                    </li>
-                                    <li>
-                                        <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                                    </li>
-                                    <li>
-                                        <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-
-                        <div class="product-card-tags">
-                            <p class="tags on-sale">on sale!</p>
-                            <p class="tags out-stock">out of stock</p>
-                        </div>
-
-                        <span class="price">$68,68</span>
-                    </div>
-                </div>
-                @if (Model.Products.Count > 0)
-                {
-                    Html.RenderPartial("_ProductList", Model);
-                }                
-            </div>
+            @if (Model.Products.Count > 0)
+            {
+                Html.RenderPartial("_ProductList", Model.Products);
+            }  
         </div>
     </section>
     <!-- End product list -->

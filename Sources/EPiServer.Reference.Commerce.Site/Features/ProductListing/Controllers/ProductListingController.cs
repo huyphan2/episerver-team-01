@@ -21,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Controllers
 
         public ActionResult Index(Pages.ProductListing currentPage)
         {
-            var products = _productListingService.GetListProduct("Faded Glory", "abc", 155);
+            var products = _productListingService.GetListProduct("", 0, "Mens Shoes");
             currentPage.Products = products != null? products.ToList():new List<ProductTileViewModel>();
             currentPage.FilterParams = _productListingService.GetFilterParams(currentPage);
             return View(currentPage);
