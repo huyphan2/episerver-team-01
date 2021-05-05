@@ -9,6 +9,7 @@ using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
+using EPiServer.Reference.Commerce.Site.Features.News.Blocks;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 {
@@ -38,6 +39,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SystemTabNames.Content,
             Order = 4)]
         public virtual LinkItemCollection MainMenu { get; set; }
+
+        [CultureSpecific]
+        [Display(
+            Name = "Static News",
+            GroupName = SystemTabNames.Content,
+            Order = 10)]
+        [AllowedTypes(typeof(NewsBlock), typeof(BlogNewsBlock))]
+        public virtual ContentArea StaticNews { get; set; }
 
         [CultureSpecific]
         [Display(
@@ -105,7 +114,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SiteTabs.SiteStructure,
             Order = 6)]
         [AllowedTypes(typeof(ResetPasswordPage))]
-        public virtual ContentReference ResetPasswordPage { get; set; }        
+        public virtual ContentReference ResetPasswordPage { get; set; }
 
         [Display(
             Name = "Login registration page",
