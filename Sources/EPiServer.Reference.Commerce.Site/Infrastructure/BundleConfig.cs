@@ -20,21 +20,21 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 .Include("~/Static/libs/font-awesome.css")
                 .Include("~/Static/libs/slick.min.css")
                 .Include("~/Static/css/reset.css")
-                .Include("~/Static/css/font.css") 
+                .Include("~/Static/css/font.css")
                 .Include("~/Static/css/header.css")
                 .Include("~/Static/css/product-card.css")
                 .Include("~/Static/css/footer.css")
                 .Include("~/Static/css/styles.css")
                 .Include("~/Static/css/home.css")
             );
- 
+
 
             //js
             //bundles.Add(new StyleBundle("~/bundles/jquery").Include("~/Static/libs/jquery-3.6.0.min.js"));
             bundles.Add(new StyleBundle("~/bundles/javascript")
                 .Include("~/Static/libs/slick.min.js")
-                .Include("~/Static/script/index.js")); 
+                .Include("~/Static/script/index.js"));
 
         }
     }
-} 
+}
