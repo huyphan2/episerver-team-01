@@ -421,8 +421,13 @@
     <Content Include="Static\css\footer.css" />
     <Content Include="Static\css\header.css" />
     <Content Include="Static\css\home.css" />
+    <Content Include="Static\css\news-static.css" />
     <Content Include="Static\css\product-card.css" />
+    <Content Include="Static\css\product-detail.css" />
+    <Content Include="Static\css\product-list-component.css" />
+    <Content Include="Static\css\product-list-page.css" />
     <Content Include="Static\css\reset.css" />
+    <Content Include="Static\css\shop-category.css" />
     <Content Include="Static\css\styles.css" />
     <Content Include="Static\images\banner-bg.png" />
     <Content Include="Static\images\favicon.ico" />
