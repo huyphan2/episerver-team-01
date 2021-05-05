@@ -505,6 +505,12 @@
     <Compile Include="Features\Navigation\Models\IconLinkBlock.cs" />
     <Compile Include="Features\Navigation\Models\FooterBlock.cs" />
     <Compile Include="Features\Navigation\ViewModels\FooterViewModel.cs" />
+    <Compile Include="Features\News\Blocks\BlogNewsBlock.cs" />
+    <Compile Include="Features\News\Blocks\BlogNewsDetailBlock.cs" />
+    <Compile Include="Features\News\Blocks\NewsBlock.cs" />
+    <Compile Include="Features\News\Controllers\BlogNewsController.cs" />
+    <Compile Include="Features\News\Controllers\BlogNewsDetailController.cs" />
+    <Compile Include="Features\News\Controllers\NewsController.cs" />
     <Compile Include="Features\Payment\Controllers\PaymentController.cs" />
     <Compile Include="Features\Payment\PaymentMethods\AuthorizePaymentMethod.cs" />
     <Compile Include="Features\Payment\PaymentMethods\CashOnDeliveryPaymentMethod.cs" />
