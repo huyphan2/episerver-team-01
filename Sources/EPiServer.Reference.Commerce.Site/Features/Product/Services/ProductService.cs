@@ -1,9 +1,13 @@
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
+using EPiServer.Find;
+using EPiServer.Find.Cms;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
+using EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
@@ -14,22 +18,25 @@ using System.Linq;
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 {
     [ServiceConfiguration(typeof(IProductService), Lifecycle = ServiceInstanceScope.Singleton)]
-    public class ProductService : IProductService
+    public class ProductService : EpiserverFindService, IProductService
     {
         private readonly IContentLoader _contentLoader;
         private readonly IPricingService _pricingService;
         private readonly UrlResolver _urlResolver;
         private readonly CatalogContentService _catalogContentService;
+        private readonly CatalogEntryViewModelFactory _catalogEntryViewModelFactory;
 
         public ProductService(IContentLoader contentLoader,
             IPricingService pricingService,
             UrlResolver urlResolver,
+            CatalogEntryViewModelFactory catalogEntryViewModelFactory,
             CatalogContentService catalogContentService)
         {
             _contentLoader = contentLoader;
             _pricingService = pricingService;
             _urlResolver = urlResolver;
             _catalogContentService = catalogContentService;
+            _catalogEntryViewModelFactory = catalogEntryViewModelFactory;
         }
 
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
@@ -125,6 +132,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             }
 
             return null;
+        }
+        public List<ProductTileViewModel> GetBestSellerFasionProduct()
+        {
+            var result = FindClient.Search<FashionProduct>().OrderByDescending(x => x.Ranking).Skip(0).Take(3);
+            var list = result.GetContentResult().ToList();
+             var listProductView = list.Select(t => GetProductTileViewModel(t)).ToList();
+             
+            return listProductView;
+        }
+        public List<ProductTileViewModel> GetNewestFasionProduct()
+        {
+            var result = FindClient.Search<FashionProduct>().OrderByDescending(x => x.StartPublish).Skip(0).Take(3);
+            var list = result.GetContentResult().ToList();
+            var listProductView = list.Select(t => GetProductTileViewModel(t)).ToList();
+            return listProductView;
         }
     }
 }

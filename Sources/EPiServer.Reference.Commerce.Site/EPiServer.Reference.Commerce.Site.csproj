@@ -679,6 +679,7 @@
     <Compile Include="Infrastructure\Epi.Find\IEpiserverFindService.cs" />
     <Compile Include="Infrastructure\Epi.Find\FilterBase.cs" />
     <Compile Include="Infrastructure\Epi.Find\IProductIndexingService.cs" />
+    <Compile Include="Infrastructure\EPiServerFindInitialization.cs" />
     <Compile Include="Infrastructure\Facades\CountryManagerFacade.cs" />
     <Compile Include="Infrastructure\Facades\CurrentContactFacade.cs" />
     <Compile Include="Infrastructure\Facades\CustomerContextFacade.cs" />

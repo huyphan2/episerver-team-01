@@ -76,6 +76,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             services.AddSingleton<IRecommendationContext, RecommendationContext>();
 
             services.AddSingleton<ICurrentMarket, CurrentMarket>();
+            services.AddSingleton<IEpiserverFindService, EpiserverFindService>();
 
             services.AddSingleton<ITrackingResponseDataInterceptor, TrackingResponseDataInterceptor>();
 
