@@ -12,6 +12,7 @@ using EPiServer.ServiceLocation;
 using EPiServer.Framework.Serialization.Internal;
 using EPiServer.Framework.Serialization;
 using EPiServer.Web;
+using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
 {
@@ -72,6 +73,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         [Display(Name = "Product Specifications", Order = 20)]
         [BackingType(typeof(SpecificationListProperty))]
         public virtual IList<TechSpec> TechSpecs { get; set; }
+
+        [Ignore]
+        public decimal Price { get; set; }
+        [Ignore]
+        public List<string> ListCategories { get; set; }
+        [ScaffoldColumn(false)]
+        public virtual int Ranking { get; set; }
+        [Ignore]
+        [ScaffoldColumn(false)]
+        public virtual DateTime PublishedDate { get; set; }
     }
     #region Specification List Property
 

@@ -24,22 +24,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
         private readonly IPricingService _pricingService;
         private readonly UrlResolver _urlResolver;
         private readonly CatalogContentService _catalogContentService;
-        private readonly IProductService _productService;
 
         public CatalogEntryViewModelFactory(
             IContentLoader contentLoader,
             IPricingService pricingService,
             UrlResolver urlResolver,
-            CatalogContentService catalogContentService,
-            IProductService productService)
+            CatalogContentService catalogContentService)
         {
             _contentLoader = contentLoader;
             _pricingService = pricingService;
             _urlResolver = urlResolver;
             _catalogContentService = catalogContentService;
-            _productService = productService;
         }
-
         public virtual FashionProductViewModel Create(FashionProduct currentContent, string variationCode)
         {
             var variants = _catalogContentService.GetVariants<FashionVariant>(currentContent).ToList();
@@ -86,10 +82,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                     .ToList(),
                 Color = variant.Color,
                 Size = variant.Size,
-                //Images = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver),
-                Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver),
+                Images = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver),
                 IsAvailable = defaultPrice != null,
-                OtherProducts = GetOtherProductInTheSameCategories(currentContent),
             };
         }
 
@@ -151,14 +145,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                 (string.IsNullOrEmpty(size) || x.Size.Equals(size, StringComparison.OrdinalIgnoreCase)));
 
             return variant != null;
-        }
-
-        public IEnumerable<ProductTileViewModel> GetOtherProductInTheSameCategories(FashionProduct product, int size = 12)
-        {
-            return SearchClient.Instance.Search<FashionProduct>()
-                .Filter(p => p.ParentLink.Match(product.ParentLink))
-                .GetContentResult()
-                .Items.Take(size).Select(s => _productService.GetProductTileViewModel(s.ContentLink));
         }
 
         FashionVariant GetDefaultVariant(FashionProduct product) => _catalogContentService.GetVariants<FashionVariant>(product).FirstOrDefault();

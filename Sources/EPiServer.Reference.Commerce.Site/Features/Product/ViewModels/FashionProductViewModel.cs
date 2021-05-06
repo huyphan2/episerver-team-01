@@ -10,7 +10,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModels
     public class FashionProductViewModel : ProductViewModelBase
     {
         public FashionProduct Product { get; set; }
-        public IEnumerable<ProductTileViewModel> OtherProducts { get; set; }
+        public IEnumerable<ProductTileViewModel> RelatedProducts { get; set; }
+        public IEnumerable<ProductTileViewModel> MayLikeProducts { get; set; }
         public Money? DiscountedPrice { get; set; }
         public Money ListingPrice { get; set; }
         public FashionVariant Variant { get; set; }
