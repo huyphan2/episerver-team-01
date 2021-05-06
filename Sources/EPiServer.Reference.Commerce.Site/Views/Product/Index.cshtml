@@ -373,10 +373,11 @@
                                 for (int i = 0; i < Model.OtherProducts.Count(); i++)
                                 {
                                     var relatedProduct = Model.OtherProducts.ElementAt(i);
+                                    var isRelatedOnSale = relatedProduct.
                                     <div class='slick-item'>
                                         <div class="product-card">
                                             <a href="#" class="product-card_img">
-                                                <img src="@Model.GetImages(relatedProduct).ElementAt(0)" alt="product image">
+                                                <img src="@relatedProduct.ImageUrl" alt="product image">
                                             </a>
                                             <div class="product-card-bottom">
                                                 <p class="product-card_name">@relatedProduct.DisplayName</p>
@@ -399,11 +400,17 @@
                                             </div>
 
                                             <div class="product-card-tags">
-                                                <p class="tags on-sale">on sale!</p>
-                                                <p class="tags out-stock">out of stock</p>
+                                                @if (relatedProduct.IsAvailable)
+                                                {
+                                                    <p class="tags on-sale">on sale!</p>
+                                                }
+                                                @if (relatedProduct.DiscountedPrice.Value > 0)
+                                                {
+                                                    <p class="tags out-stock">out of stock</p>
+                                                }
                                             </div>
 
-                                            <span class="price">@Model.GetDefaultPrice(relatedProduct)</span>
+                                            <span class="price">@relatedProduct.PlacedPrice</span>
                                         </div>
                                     </div>
 

@@ -3,6 +3,7 @@ using EPiServer.Find;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Framework;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
@@ -23,17 +24,20 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
         private readonly IPricingService _pricingService;
         private readonly UrlResolver _urlResolver;
         private readonly CatalogContentService _catalogContentService;
+        private readonly IProductService _productService;
 
         public CatalogEntryViewModelFactory(
             IContentLoader contentLoader,
             IPricingService pricingService,
             UrlResolver urlResolver,
-            CatalogContentService catalogContentService)
+            CatalogContentService catalogContentService,
+            IProductService productService)
         {
             _contentLoader = contentLoader;
             _pricingService = pricingService;
             _urlResolver = urlResolver;
             _catalogContentService = catalogContentService;
+            _productService = productService;
         }
 
         public virtual FashionProductViewModel Create(FashionProduct currentContent, string variationCode)
@@ -86,8 +90,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                 Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver),
                 IsAvailable = defaultPrice != null,
                 OtherProducts = GetOtherProductInTheSameCategories(currentContent),
-                GetImages = (FashionProduct product) => product.GetAssets<IContentImage>(_contentLoader, _urlResolver),
-                GetDefaultPrice = (FashionProduct product) => (_pricingService.GetDefaultPrice(GetDefaultVariant(product).Code)?.UnitPrice ?? _pricingService.GetMoney(0))
             };
         }
 
@@ -151,12 +153,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             return variant != null;
         }
 
-        public IEnumerable<FashionProduct> GetOtherProductInTheSameCategories(FashionProduct product, int size = 12)
+        public IEnumerable<ProductTileViewModel> GetOtherProductInTheSameCategories(FashionProduct product, int size = 12)
         {
             return SearchClient.Instance.Search<FashionProduct>()
                 .Filter(p => p.ParentLink.Match(product.ParentLink))
                 .GetContentResult()
-                .Items.Take(size);
+                .Items.Take(size).Select(s => _productService.GetProductTileViewModel(s.ContentLink));
         }
 
         FashionVariant GetDefaultVariant(FashionProduct product) => _catalogContentService.GetVariants<FashionVariant>(product).FirstOrDefault();
