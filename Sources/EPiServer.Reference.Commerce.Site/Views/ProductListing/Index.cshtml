@@ -6,6 +6,9 @@
 <!-- Start shop category -->
 @if (Model != null)
 {
+    //string currentUrl ="https://"+ HttpContext.Current.Request.Url.Host;
+    string productListingUrl = StringConstants.Https+ StringConstants.CurrentHostName +StringConstants.ProductListingApiUrl;
+    <input id="productListingUrl" type="hidden" value="@productListingUrl">
     <section id="shop-category" class="shop-category">
         <div class="container">
             <div class="row align-items-center">
@@ -69,11 +72,12 @@
                     </div>
                 </div>
             </div>
-
-            @if (Model.Products.Count > 0)
-            {
-                Html.RenderPartial("_ProductList", Model.Products);
-            }  
+            <div class="row">
+                @if (Model.Products!=null && Model.Products.Any())
+                {
+                    Html.RenderPartial("_ProductList", Model.Products);
+                }
+            </div>
         </div>
     </section>
     <!-- End product list -->

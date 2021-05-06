@@ -1,13 +1,16 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
+﻿using System;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.ProductListing.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using EPiServer.Reference.Commerce.Site.Features.ProductListing.ViewModels;
+using EPiServer.Reference.Commerce.Site.Infrastructure;
 
 namespace EPiServer.Reference.Commerce.Site.WebApi
 {
     [RoutePrefix("api/productlist")]
-    public class ProductListApiController : BaseApiController
+    public class ProductListApiController : ApiController
     {
         private IProductListingService _productListingService;
 
@@ -15,15 +18,47 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
         {
             _productListingService = productListingService;
         }
-        public List<ProductTileViewModel> GetProductList(string brand, string category, decimal price,bool sortAlphabet=false)
+        [HttpGet]
+        [Route("GetProductList")]
+        public IHttpActionResult GetProductList(string brand, string category, decimal price, bool isSortDes = false, int pageNumber = 1)
         {
-            var result = _productListingService.GetListProduct(brand, price, category);
-            if (result != null)
+            try
             {
-                if (sortAlphabet) result = result.OrderBy(x => x.DisplayName);
-                return result.ToList();
+                var productlist = _productListingService.GetListProduct(brand, price, category, isSortDes, pageNumber);
+                var viewrenderer = new ViewRenderer();
+                var html = viewrenderer.RenderPartialViewToString("~/Views/Shared/_ProductList.cshtml", productlist.Products);
+                var response = new ProductListResponse()
+                {
+                    Html = html,
+                    HasMore = productlist.Products.Any()
+                };
+                return Ok(response);
             }
-            return new List<ProductTileViewModel>();
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
+        //[HttpGet]
+        //[Route("GetProductName")]
+        //public IHttpActionResult GetProductName(string text)
+        //{
+        //    try
+        //    {
+        //        var productlist = _productListingService.GetListProduct(brand, price, category, isSortDes, pageNumber);
+        //        var viewrenderer = new ViewRenderer();
+        //        var html = viewrenderer.RenderPartialViewToString("~/Views/Shared/_ProductList.cshtml", productlist.Products);
+        //        var response = new ProductListResponse()
+        //        {
+        //            Html = html,
+        //            HasMore = productlist.Products.Any()
+        //        };
+        //        return Ok(response);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
     }
 }

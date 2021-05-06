@@ -523,10 +523,12 @@
     <Compile Include="Features\Payment\ViewModels\PaymentMethodSelectionViewModel.cs" />
     <Compile Include="Features\Payment\ViewModels\PaymentMethodViewModel.cs" />
     <Compile Include="Features\ProductListing\Controllers\ProductListingController.cs" />
+    <Compile Include="Features\ProductListing\Pages\ListedPage.cs" />
     <Compile Include="Features\ProductListing\Pages\ProductListing.cs" />
     <Compile Include="Features\ProductListing\Services\IProductListingService.cs" />
     <Compile Include="Features\ProductListing\Services\ProductListingService.cs" />
     <Compile Include="Features\ProductListing\ViewModels\FilterParams.cs" />
+    <Compile Include="Features\ProductListing\ViewModels\ProductListViewModel.cs" />
     <Compile Include="Features\Product\Controllers\BundleController.cs" />
     <Compile Include="Features\Product\Controllers\PackageController.cs" />
     <Compile Include="Features\Product\Models\FashionBundle.cs" />
@@ -575,6 +577,7 @@
     <Compile Include="Features\Warehouse\ViewModelFactories\WarehouseViewModelFactory.cs" />
     <Compile Include="Features\Warehouse\ViewModels\WarehouseInventoryViewModel.cs" />
     <Compile Include="Features\Warehouse\ViewModels\WarehouseViewModel.cs" />
+    <Compile Include="Helpers\EmptyController.cs" />
     <Compile Include="Infrastructure\Attributes\AJAXLocalizationFilterAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\AllowDBWriteAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ReadOnlyFilter.cs" />
@@ -726,14 +729,15 @@
     <Compile Include="Features\Shared\Services\PricingService.cs" />
     <Compile Include="Infrastructure\SiteTabs.cs" />
     <Compile Include="Infrastructure\SiteViewEngine.cs" />
+    <Compile Include="Infrastructure\StringConstants.cs" />
     <Compile Include="Infrastructure\StructureMapDependencyResolver.cs" />
     <Compile Include="Infrastructure\ModelBinderProvider.cs" />
     <Compile Include="Infrastructure\Validation\LinkItemCollectionMaxItemsCount.cs" />
+    <Compile Include="Infrastructure\ViewRenderer.cs" />
     <Compile Include="Infrastructure\ViewTemplateModelRegistrator.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapResolver.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapDependencyScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebApi\BaseApiController.cs" />
     <Compile Include="WebApi\ProductListApiController.cs" />
     <Content Include="Views\Search\_QuickSearch.cshtml" />
     <Content Include="Views\OrderConfirmationMailPage\Index.cshtml" />
@@ -1115,6 +1119,7 @@
     <Folder Include="Features\ProductListing\Models\" />
     <Folder Include="Features\ProductListing\ViewModelFactories\" />
     <Folder Include="Views\BaseApi\" />
+    <Folder Include="Views\Empty\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -32,5 +32,10 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
             return FindClient.Search<FashionVariant>().FilterOnCurrentMarket()
                 .GetContentResult();
         }
+
+        public ITypeSearch<T> TextSearch<T>(string text) where T : IContent
+        {
+            return FindClient.Search<T>().For(text);
+        }
     }
 }

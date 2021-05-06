@@ -12,7 +12,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Controllers
 {
     public class ProductListingController : PageController<Pages.ProductListing>
     {
-        private IProductListingService _productListingService;
+        private readonly IProductListingService _productListingService;
 
         public ProductListingController(IProductListingService productListingService)
         {
@@ -21,8 +21,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Controllers
 
         public ActionResult Index(Pages.ProductListing currentPage)
         {
-            var products = _productListingService.GetListProduct("", 0, "Mens Shoes");
-            currentPage.Products = products != null? products.ToList():new List<ProductTileViewModel>();
+            var products = _productListingService.GetListProduct("", 0, "",false,1);
+            currentPage.Products = products != null && products.Products!=null? products.Products :new List<ProductTileViewModel>();
             currentPage.FilterParams = _productListingService.GetFilterParams(currentPage);
             return View(currentPage);
         }

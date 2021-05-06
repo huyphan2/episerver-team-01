@@ -21,22 +21,24 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
         private readonly IEpiserverFindService _episerverFindService;
         private readonly IProductService _productService;
         private readonly IContentLoader _contentLoader;
+        private const int PageSize = 10;
         public ProductListingService(IEpiserverFindService episerverFindService, IContentLoader contentLoader, IProductService productService)
         {
             _episerverFindService = episerverFindService;
             _contentLoader = contentLoader;
             _productService = productService;
         }
-        public IEnumerable<ProductTileViewModel> GetListProduct(string brand, decimal price, string category)
+        public ProductListViewModel  GetListProduct(string brand, decimal price, string category, bool isSortDes,int pageNumber)
         {
             try
             {
-                var result = new List<ProductTileViewModel>();
-                var products = MatchFilter(brand, price, category).GetContentResult();
+                var result = new ProductListViewModel();
+                var products = MatchFilter(brand, price, category, isSortDes).Skip(PageSize*(pageNumber-1)).Take(PageSize).GetContentResult();
+                //result.TotalProducts = products.TotalMatching;
                 foreach (var item in products)
                 {
                     var product = _productService.GetProductTileViewModel(item);
-                    if (product != null) result.Add(product);
+                    if (product != null) result.Products.Add(product);
                 }
                 return result;
             }
@@ -80,7 +82,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
             return categories.Select(contentReference => _contentLoader.Get<FashionNode>(contentReference).DisplayName)
                 .Distinct().ToList();
         }
-        public ITypeSearch<FashionProduct> MatchFilter(string brand, decimal price, string category)
+        public ITypeSearch<FashionProduct> MatchFilter(string brand, decimal price, string category, bool isSortDes)
         {
             var search = _episerverFindService.EpiClient().Search<FashionProduct>();
             var requiredFilter = new FilterBuilder<FashionProduct>(search.Client);
@@ -93,7 +95,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
             {
                 requiredFilter = requiredFilter.And(x => x.ListCategories.Match(category));
             }
+
+            search = isSortDes ? search.OrderByDescending(x => x.DisplayName) : search.OrderBy(x => x.DisplayName);
             return search.Filter(requiredFilter);
+        }
+
+        public List<string> GetProductNameByText(string text)
+        {
+            throw new NotImplementedException();
         }
     }
 }

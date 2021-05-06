@@ -3,6 +3,7 @@ using EPiServer.Reference.Commerce.Site.Infrastructure;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Attributes;
 using System;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -24,6 +25,7 @@ namespace EPiServer.Reference.Commerce.Site
 
         protected void Application_Start()
         {
+            GlobalConfiguration.Configure(WebApiRouteConfig.Register);
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(LocalizedRequiredAttribute), typeof(RequiredAttributeAdapter));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(LocalizedRegularExpressionAttribute), typeof(RegularExpressionAttributeAdapter));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(LocalizedEmailAttribute), typeof(RegularExpressionAttributeAdapter));
@@ -91,6 +93,18 @@ namespace EPiServer.Reference.Commerce.Site
                 && Context.Request.Path.ToString().ToLower().Contains("/api/"))
             {
                 Context.Response.StatusCode = 401;
+            }
+        }
+        public class WebApiRouteConfig
+        {
+            public static void Register(HttpConfiguration configuration)
+            {
+                //configuration.MapHttpAttributeRoutes();
+                configuration.Routes.MapHttpRoute(
+                    name: "ProductListing",
+                    routeTemplate: "api/productlist/{action}",
+                    defaults: new { Controller = "ProductListApi"}
+                );
             }
         }
     }

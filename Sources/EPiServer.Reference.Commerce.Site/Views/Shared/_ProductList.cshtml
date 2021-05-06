@@ -1,7 +1,5 @@
 ﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.ProductTileViewModel>
-<div class="row">
     @foreach (var productModel in Model)
     {
         Html.RenderPartial("_ProductTile", productModel);
     }
-</div>
