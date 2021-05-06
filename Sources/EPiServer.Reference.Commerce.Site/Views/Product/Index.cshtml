@@ -1,5 +1,4 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
-
 @section Styles{
     <link href="~/Static/css/product-detail.css" rel="stylesheet" />
 }
@@ -139,6 +138,10 @@
                                 </div>
                             }
                         }
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -153,6 +156,7 @@
                     <h2 class="prefer-title">You may alse like</h2>
                     <div class="prefer-carousel">
                         <div class="prefer-slick prefer-js-slick">
+
                             <div class='slick-item'>
                                 <div class="product-card">
                                     <a href="#" class="product-card_img">
@@ -364,204 +368,47 @@
                     <h2 class="prefer-title">Related Product</h2>
                     <div class="prefer-carousel">
                         <div class="prefer-slick prefer-js-slick">
-                            <div class='slick-item'>
-                                <div class="product-card">
-                                    <a href="#" class="product-card_img">
-                                        <img src="~/Static/images/product-img.png" alt="product image">
-                                    </a>
-                                    <div class="product-card-bottom">
-                                        <p class="product-card_name">Lorem</p>
-                                        <nav class="product-action">
-                                            <ul class="d-flex">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                                                </li>
-                                            </ul>
-                                        </nav>
+                            @if (!Equals(Model.OtherProducts, null) && Model.OtherProducts.Any())
+                            {
+                                for (int i = 0; i < Model.OtherProducts.Count(); i++)
+                                {
+                                    var relatedProduct = Model.OtherProducts.ElementAt(i);
+                                    <div class='slick-item'>
+                                        <div class="product-card">
+                                            <a href="#" class="product-card_img">
+                                                <img src="@Model.GetImages(relatedProduct).ElementAt(0)" alt="product image">
+                                            </a>
+                                            <div class="product-card-bottom">
+                                                <p class="product-card_name">@relatedProduct.DisplayName</p>
+                                                <nav class="product-action">
+                                                    <ul class="d-flex">
+                                                        <li>
+                                                            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
+                                                        </li>
+                                                        <li>
+                                                            <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+
+                                            <div class="product-card-tags">
+                                                <p class="tags on-sale">on sale!</p>
+                                                <p class="tags out-stock">out of stock</p>
+                                            </div>
+
+                                            <span class="price">@Model.GetDefaultPrice(relatedProduct)</span>
+                                        </div>
                                     </div>
 
-                                    <div class="product-card-tags">
-                                        <p class="tags on-sale">on sale!</p>
-                                        <p class="tags out-stock">out of stock</p>
-                                    </div>
-
-                                    <span class="price">$68,68</span>
-                                </div>
-                            </div>
-                            <div class='slick-item'>
-                                <div class="product-card">
-                                    <a href="#" class="product-card_img">
-                                        <img src="~/Static/images/product-img.png" alt="product image">
-                                    </a>
-                                    <div class="product-card-bottom">
-                                        <p class="product-card_name">Lorem</p>
-                                        <nav class="product-action">
-                                            <ul class="d-flex">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-
-                                    <div class="product-card-tags">
-                                        <p class="tags on-sale">on sale!</p>
-                                        <p class="tags out-stock">out of stock</p>
-                                    </div>
-
-                                    <span class="price">$68,68</span>
-                                </div>
-                            </div>
-                            <div class='slick-item'>
-                                <div class="product-card">
-                                    <a href="#" class="product-card_img">
-                                        <img src="~/Static/images/product-img.png" alt="product image">
-                                    </a>
-                                    <div class="product-card-bottom">
-                                        <p class="product-card_name">Lorem</p>
-                                        <nav class="product-action">
-                                            <ul class="d-flex">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-
-                                    <div class="product-card-tags">
-                                        <p class="tags on-sale">on sale!</p>
-                                        <p class="tags out-stock">out of stock</p>
-                                    </div>
-
-                                    <span class="price">$68,68</span>
-                                </div>
-                            </div>
-                            <div class='slick-item'>
-                                <div class="product-card">
-                                    <a href="#" class="product-card_img">
-                                        <img src="~/Static/images/product-img.png" alt="product image">
-                                    </a>
-                                    <div class="product-card-bottom">
-                                        <p class="product-card_name">Lorem</p>
-                                        <nav class="product-action">
-                                            <ul class="d-flex">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-
-                                    <div class="product-card-tags">
-                                        <p class="tags on-sale">on sale!</p>
-                                        <p class="tags out-stock">out of stock</p>
-                                    </div>
-
-                                    <span class="price">$68,68</span>
-                                </div>
-                            </div>
-                            <div class='slick-item'>
-                                <div class="product-card">
-                                    <a href="#" class="product-card_img">
-                                        <img src="~/Static/images/product-img.png" alt="product image">
-                                    </a>
-                                    <div class="product-card-bottom">
-                                        <p class="product-card_name">Lorem</p>
-                                        <nav class="product-action">
-                                            <ul class="d-flex">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-
-                                    <div class="product-card-tags">
-                                        <p class="tags on-sale">on sale!</p>
-                                        <p class="tags out-stock">out of stock</p>
-                                    </div>
-
-                                    <span class="price">$68,68</span>
-                                </div>
-                            </div>
-                            <div class='slick-item'>
-                                <div class="product-card">
-                                    <a href="#" class="product-card_img">
-                                        <img src="~/Static/images/product-img.png" alt="product image">
-                                    </a>
-                                    <div class="product-card-bottom">
-                                        <p class="product-card_name">Lorem</p>
-                                        <nav class="product-action">
-                                            <ul class="d-flex">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-star-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button><i class="fa fa-share-square-o" aria-hidden="true"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button class="add-to-cart"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-
-                                    <div class="product-card-tags">
-                                        <p class="tags on-sale">on sale!</p>
-                                        <p class="tags out-stock">out of stock</p>
-                                    </div>
-
-                                    <span class="price">$68,68</span>
-                                </div>
-                            </div>
+                                }
+                            }
                         </div>
                     </div>
                 </div>

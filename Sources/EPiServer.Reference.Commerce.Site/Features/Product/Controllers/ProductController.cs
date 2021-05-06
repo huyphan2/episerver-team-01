@@ -1,4 +1,5 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
 using EPiServer.Web.Mvc;

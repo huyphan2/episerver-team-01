@@ -1,4 +1,7 @@
 ﻿using EPiServer.Core;
+using EPiServer.Find;
+using EPiServer.Find.Cms;
+using EPiServer.Find.Framework;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
@@ -51,6 +54,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             var defaultPrice = _pricingService.GetDefaultPrice(variationCode);
             var discountedPrice = defaultPrice != null ? _pricingService.GetDiscountPrice(variationCode).UnitPrice : (Money?)null;
 
+
             return new FashionProductViewModel
             {
                 Product = currentContent,
@@ -80,7 +84,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                 Size = variant.Size,
                 //Images = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver),
                 Images = currentContent.GetAssets<IContentImage>(_contentLoader, _urlResolver),
-                IsAvailable = defaultPrice != null
+                IsAvailable = defaultPrice != null,
+                OtherProducts = GetOtherProductInTheSameCategories(currentContent),
+                GetImages = (FashionProduct product) => product.GetAssets<IContentImage>(_contentLoader, _urlResolver),
+                GetDefaultPrice = (FashionProduct product) => (_pricingService.GetDefaultPrice(GetDefaultVariant(product).Code)?.UnitPrice ?? _pricingService.GetMoney(0))
             };
         }
 
@@ -143,5 +150,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
 
             return variant != null;
         }
+
+        public IEnumerable<FashionProduct> GetOtherProductInTheSameCategories(FashionProduct product, int size = 12)
+        {
+            return SearchClient.Instance.Search<FashionProduct>()
+                .Filter(p => p.ParentLink.Match(product.ParentLink))
+                .GetContentResult()
+                .Items.Take(size);
+        }
+
+        FashionVariant GetDefaultVariant(FashionProduct product) => _catalogContentService.GetVariants<FashionVariant>(product).FirstOrDefault();
     }
+
 }
