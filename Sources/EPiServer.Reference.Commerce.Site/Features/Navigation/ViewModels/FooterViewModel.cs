@@ -7,6 +7,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.ViewModels
     public class FooterViewModel
     {
         public LinkItemCollection FooterLinks { get; set; }
-        public XhtmlString FooterBlock { get; set; }
+        public ContentArea FooterBlock { get; set; }
+       
     }
 }

@@ -51,10 +51,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 var rightMenuItems = startPage.RightMenu;
-                if (rightMenuItems != null)
-                {
-                    viewModel.UserLinks.AddRange(rightMenuItems);
-                }
+                //if (rightMenuItems != null)
+                //{
+                //    viewModel.UserLinks.AddRange(rightMenuItems);
+                //}
                 
                 viewModel.UserLinks.Add(new LinkItem 
                 {

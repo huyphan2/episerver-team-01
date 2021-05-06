@@ -68,6 +68,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Description = "",
             GroupName = SystemTabNames.Content,
             Order = 7)]
+ 
+        [Ignore]
+        [ScaffoldColumn(false)]
         public virtual XhtmlString MainBody { get; set; }
         [CultureSpecific]
         [Display(
@@ -75,6 +78,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
          Description = "",
          GroupName = SystemTabNames.Content,
          Order = 8)]
+        [ScaffoldColumn(false)]
+        [Ignore]
         public virtual XhtmlString FooterBlock { get; set; }
         [Display(
             Name = "Checkout page",
@@ -151,5 +156,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SiteTabs.MailTemplates,
             Order = 3)]
         public virtual ContentReference RegistrationConfirmationMail { get; set; }
+
+        [Display(
+          Name = "Main body",
+          Description = "",
+          GroupName = SystemTabNames.Content,
+          Order = 7)]
+        public virtual ContentArea MainContent { get; set; }
+        [Display(
+     Name = "Footer page display",
+     Description = "",
+     GroupName = SystemTabNames.Content,
+     Order = 8)]
+        public virtual ContentArea Footer { get; set; }
     }
 }

@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <languages>
   <language name="Swedish" id="sv">
+	  <Start>
+		  <BestSeller>Best seller product</BestSeller>
+		  <Newest>Newest product</Newest>
+	  </Start>
     <Header>
       <Cookie>
         <CookieUse>Vi använder cookies</CookieUse>

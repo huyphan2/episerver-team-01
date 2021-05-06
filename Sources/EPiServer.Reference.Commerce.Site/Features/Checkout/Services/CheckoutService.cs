@@ -1,4 +1,5 @@
-﻿using EPiServer.Commerce.Order;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.Framework.Localization;
@@ -9,8 +10,11 @@ using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Checkout.ViewModels;
+using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using EPiServer.ServiceLocation;
+using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
 using System;
@@ -154,6 +158,21 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 var orderReference = _orderRepository.SaveAsPurchaseOrder(cart);
                 var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
                 _orderRepository.Delete(cart.OrderLink);
+
+
+                var referenceConverter = ServiceLocator.Current.GetInstance<ReferenceConverter>();
+                var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+                var contentRepo = ServiceLocator.Current.GetInstance<IContentRepository>();
+                var list = purchaseOrder.Forms.ToList().First().GetAllLineItems().Select(x => x.Code);
+                foreach (var item in list)
+                {
+                    var variantLink = referenceConverter.GetContentLink(item);
+                    var variant = contentLoader.Get<FashionVariant>(variantLink);
+                    var parent = variant.GetParentProducts().First();
+                    var product = contentRepo.Get<FashionProduct>(parent).CreateWritableClone() as FashionProduct;
+                    product.Ranking++;
+                    contentRepo.Save(product, DataAccess.SaveAction.Publish, Security.AccessLevel.NoAccess);
+                }
 
                 return purchaseOrder;
             }
