@@ -35,7 +35,7 @@
                                     <span class="price">@productModel.PlacedPrice</span>
                                     @if (isProductListing)
                                     {
-                                        <a href="@UrlResolver.Current.GetUrl(item.Link.FirstOrDefault().Href)" target="@item.Link.FirstOrDefault().Target" class="slick-item_title">@item.Title</a>
+                                        <a href="@(UrlResolver.Current.GetUrl(item.Link != null && item.Link.FirstOrDefault()!=null?item.Link.FirstOrDefault().Href:""))" target="@(item.Link != null &&item.Link.FirstOrDefault() != null?item.Link.FirstOrDefault().Target:"")" class="slick-item_title">@item.Title</a>
                                         <p class="slick-item_desc">@item.Description</p>
                                     }
                                     else
@@ -45,7 +45,7 @@
                                         <nav class="product-action">
                                             <ul class="d-flex">
                                                 <li>
-                                                    <a href="@UrlResolver.Current.GetUrl(item.Link.FirstOrDefault().Href)" target="@item.Link.FirstOrDefault().Target"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                    <a href="@UrlResolver.Current.GetUrl(item.Link != null &&item.Link.FirstOrDefault() != null?item.Link.FirstOrDefault().Href : "")" target="@(item.Link != null &&item.Link.FirstOrDefault() != null?item.Link.FirstOrDefault().Target:"")"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 </li>
                                                 <li>
                                                     <button><i class="fa fa-star-o" aria-hidden="true"></i></button>

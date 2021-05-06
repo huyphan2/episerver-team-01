@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <languages>
   <language name="English" id="en">
+	  <Start>
+		  <BestSeller>Product best seller</BestSeller>
+		  <Newest>Newest product</Newest>
+	  </Start>
     <Header>
       <Cookie>
         <CookieUse>We use cookies</CookieUse>

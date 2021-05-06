@@ -18,7 +18,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Controllers
         [ChildActionOnly]
         public ActionResult Index()
         {
-            var footer = _contentLoader.Get<StartPage>(ContentReference.StartPage).FooterBlock;
+            var footer = _contentLoader.Get<StartPage>(ContentReference.StartPage).Footer;
             var viewModel = new FooterViewModel
             {
                 FooterLinks = _contentLoader.Get<StartPage>(ContentReference.StartPage).FooterLinks ?? new LinkItemCollection(),

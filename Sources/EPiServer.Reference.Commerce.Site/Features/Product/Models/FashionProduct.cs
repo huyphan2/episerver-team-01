@@ -5,6 +5,7 @@ using EPiServer.Core;
 using System.ComponentModel.DataAnnotations;
 using EPiServer.DataAnnotations;
 using System.Collections.Generic;
+using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
 {
@@ -64,5 +65,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         public decimal Price { get; set; }
         [Ignore]
         public List<string> ListCategories{ get; set; }
+        [ScaffoldColumn(false)]
+        public virtual int Ranking { get; set; }
+        [Ignore]
+        [ScaffoldColumn(false)]
+        public virtual DateTime PublishedDate { get; set; }
     }
 }

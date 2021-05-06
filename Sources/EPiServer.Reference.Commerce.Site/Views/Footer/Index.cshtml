@@ -3,7 +3,7 @@
     Layout = null;
 }
 
-@Html.PropertyFor(m => m.FooterBlock)
+@Html.PropertyFor(m => m.FooterBlock, new { HasContainer = false, HasItemContainer = false })
 @*<footer id="footer" class="footer">
     <div class="footer-about-us">
         <div class="container">
