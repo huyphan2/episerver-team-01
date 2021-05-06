@@ -528,6 +528,9 @@
     <Compile Include="Features\Payment\ViewModels\PaymentMethodViewModel.cs" />
     <Compile Include="Features\ProductListing\Controllers\ProductListingController.cs" />
     <Compile Include="Features\ProductListing\Pages\ProductListing.cs" />
+    <Compile Include="Features\ProductListing\Services\IProductListingService.cs" />
+    <Compile Include="Features\ProductListing\Services\ProductListingService.cs" />
+    <Compile Include="Features\ProductListing\ViewModels\FilterParams.cs" />
     <Compile Include="Features\Product\Controllers\BundleController.cs" />
     <Compile Include="Features\Product\Controllers\PackageController.cs" />
     <Compile Include="Features\Product\Models\FashionBundle.cs" />
@@ -673,6 +676,14 @@
     <Compile Include="Features\Cart\Controllers\WishListController.cs" />
     <Compile Include="Features\Cart\Pages\WishListPage.cs" />
     <Compile Include="Infrastructure\CustomRenderingInitialization.cs" />
+    <Compile Include="Infrastructure\DependencyResolverInitialization.cs" />
+    <Compile Include="Infrastructure\Epi.Find\EpiserverFind.cs" />
+    <Compile Include="Infrastructure\Epi.Find\EPiServerFindInitialization.cs" />
+    <Compile Include="Infrastructure\Epi.Find\EpiserverFindService.cs" />
+    <Compile Include="Infrastructure\Epi.Find\FilterBase.cs" />
+    <Compile Include="Infrastructure\Epi.Find\IEpiserverFindService.cs" />
+    <Compile Include="Infrastructure\Epi.Find\IProductIndexingService.cs" />
+    <Compile Include="Infrastructure\EPiServerFindInitialization.cs" />
     <Compile Include="Infrastructure\Facades\CountryManagerFacade.cs" />
     <Compile Include="Infrastructure\Facades\CurrentContactFacade.cs" />
     <Compile Include="Infrastructure\Facades\CustomerContextFacade.cs" />
@@ -722,6 +733,7 @@
     <Compile Include="Infrastructure\SiteViewEngine.cs" />
     <Compile Include="Infrastructure\StructureMapDependencyResolver.cs" />
     <Compile Include="Infrastructure\ModelBinderProvider.cs" />
+    <Compile Include="Infrastructure\Validation\LinkItemCollectionMaxItemsCount.cs" />
     <Compile Include="Infrastructure\ViewTemplateModelRegistrator.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapResolver.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapDependencyScope.cs" />
@@ -1107,9 +1119,7 @@
     <Folder Include="CSRExtensibility\react-app\build\" />
     <Folder Include="CSRExtensibility\react-app\static\" />
     <Folder Include="Features\ProductListing\Models\" />
-    <Folder Include="Features\ProductListing\Services\" />
     <Folder Include="Features\ProductListing\ViewModelFactories\" />
-    <Folder Include="Features\ProductListing\ViewModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

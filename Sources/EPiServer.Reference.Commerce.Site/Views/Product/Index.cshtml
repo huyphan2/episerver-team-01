@@ -370,7 +370,7 @@
                         <div class="prefer-slick prefer-js-slick">
                             @if (!Equals(Model.OtherProducts, null) && Model.OtherProducts.Any())
                             {
-                                for (int i = 0; i < Model.OtherProducts.Count(); i++)
+                                @*for (int i = 0; i < Model.OtherProducts.Count(); i++)
                                 {
                                     var relatedProduct = Model.OtherProducts.ElementAt(i);
                                     var isRelatedOnSale = relatedProduct.
@@ -414,7 +414,8 @@
                                         </div>
                                     </div>
 
-                                }
+                                }*@
+                                Html.RenderPartial("_ProductList", Model.OtherProducts);
                             }
                         </div>
                     </div>
