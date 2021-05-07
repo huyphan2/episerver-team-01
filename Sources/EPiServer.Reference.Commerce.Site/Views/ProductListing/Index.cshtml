@@ -16,29 +16,30 @@
                     <h2 class="shop-category_title text-center">Shop by</h2>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
-                    <select class="custom-select">
-                        <option selected value="">Brands</option>
+                    <select class="custom-select js-filter-brand">
+                        <option @( string.IsNullOrEmpty(Model.SelectedParams.Brand) ? "selected" : "") value="">Brands</option>
                         @foreach (var brand in Model.FilterParams.Brands)
                         {
-                            <option value="@brand">@brand</option>
+
+                            <option @(!string.IsNullOrEmpty(Model.SelectedParams.Brand) && Model.SelectedParams.Brand.Equals(brand)?"selected":"") value="@brand">@brand</option>
                         }
                     </select>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
-                    <select class="custom-select">
-                        <option selected value="">Categories</option>
+                    <select class="custom-select js-filter-category">
+                        <option @(string.IsNullOrEmpty(Model.SelectedParams.Category)?"selected":"") value="">Categories</option>
                         @foreach (var category in Model.FilterParams.Categories)
                         {
-                            <option value="@category">@category</option>
+                            <option @(!string.IsNullOrEmpty(Model.SelectedParams.Category) && Model.SelectedParams.Category.Equals(category)?"selected":"") value="@category">@category</option>
                         }
                     </select>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
-                    <select class="custom-select">
-                        <option selected value="">Price</option>
+                    <select class="custom-select js-filter-price">
+                        <option @(Model.SelectedParams.Price==0?"selected":"") value="0">Price</option>
                         @foreach (var price in Model.FilterParams.Price)
                         {
-                            <option value="@price">@price.ToString("C0")</option>
+                            <option @(Model.SelectedParams.Price==price?"selected":"") value="@price">@price.ToString("C0")</option>
                         }
                     </select>
                 </div>
@@ -52,7 +53,7 @@
     </section>
     <!-- End shop category -->
     <!-- Start product list -->
-    <section id="product-list" class="product-list">
+    <section id="product-list" class="product-list js-product-list-container " data-more="true">
         <div class="container">
             <div class="row">
                 <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
@@ -72,11 +73,21 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row js-product-list">
                 @if (Model.Products!=null && Model.Products.Any())
                 {
                     Html.RenderPartial("_ProductList", Model.Products);
                 }
+            </div>
+            <div class="product-list-loading" hidden>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
             </div>
         </div>
     </section>

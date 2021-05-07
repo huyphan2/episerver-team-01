@@ -446,6 +446,7 @@
     <Content Include="Static\libs\slick.min.css" />
     <Content Include="Static\libs\slick.min.js" />
     <Content Include="Static\script\index.js" />
+    <Content Include="Static\script\_product-list.js" />
     <Content Include="Styles\font-awesome\.gitignore" />
     <Content Include="Styles\font-awesome\css\font-awesome.css" />
     <Content Include="Styles\font-awesome\css\font-awesome.min.css" />
@@ -523,7 +524,6 @@
     <Compile Include="Features\Payment\ViewModels\PaymentMethodSelectionViewModel.cs" />
     <Compile Include="Features\Payment\ViewModels\PaymentMethodViewModel.cs" />
     <Compile Include="Features\ProductListing\Controllers\ProductListingController.cs" />
-    <Compile Include="Features\ProductListing\Pages\ListedPage.cs" />
     <Compile Include="Features\ProductListing\Pages\ProductListing.cs" />
     <Compile Include="Features\ProductListing\Services\IProductListingService.cs" />
     <Compile Include="Features\ProductListing\Services\ProductListingService.cs" />
@@ -578,6 +578,7 @@
     <Compile Include="Features\Warehouse\ViewModels\WarehouseInventoryViewModel.cs" />
     <Compile Include="Features\Warehouse\ViewModels\WarehouseViewModel.cs" />
     <Compile Include="Helpers\EmptyController.cs" />
+    <Compile Include="Helpers\PageHelper.cs" />
     <Compile Include="Infrastructure\Attributes\AJAXLocalizationFilterAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\AllowDBWriteAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ReadOnlyFilter.cs" />
@@ -682,6 +683,7 @@
     <Compile Include="Infrastructure\Epi.Find\IEpiserverFindService.cs" />
     <Compile Include="Infrastructure\Epi.Find\FilterBase.cs" />
     <Compile Include="Infrastructure\Epi.Find\IProductIndexingService.cs" />
+    <Compile Include="Infrastructure\Epi.Find\WildCardExtensions.cs" />
     <Compile Include="Infrastructure\EPiServerFindInitialization.cs" />
     <Compile Include="Infrastructure\Facades\CountryManagerFacade.cs" />
     <Compile Include="Infrastructure\Facades\CurrentContactFacade.cs" />

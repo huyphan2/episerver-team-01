@@ -16,5 +16,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
         List<string> ProductCategories(IEnumerable<ContentReference> categories);
         ITypeSearch<FashionProduct> MatchFilter(string brand, decimal price, string category, bool isSortDes);
         List<string> GetProductNameByText(string text);
+        List<string> SearchWildcardProduct(string query);
     }
 }

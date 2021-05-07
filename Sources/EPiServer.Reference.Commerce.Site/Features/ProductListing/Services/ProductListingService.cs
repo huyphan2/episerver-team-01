@@ -21,7 +21,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
         private readonly IEpiserverFindService _episerverFindService;
         private readonly IProductService _productService;
         private readonly IContentLoader _contentLoader;
-        private const int PageSize = 10;
+        private const int PageSize = 9;
         public ProductListingService(IEpiserverFindService episerverFindService, IContentLoader contentLoader, IProductService productService)
         {
             _episerverFindService = episerverFindService;
@@ -33,8 +33,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
             try
             {
                 var result = new ProductListViewModel();
+                result.TotalProducts = MatchFilter(brand, price, category, isSortDes).GetContentResult().TotalMatching;
+                result.PageSize = PageSize;
                 var products = MatchFilter(brand, price, category, isSortDes).Skip(PageSize*(pageNumber-1)).Take(PageSize).GetContentResult();
-                //result.TotalProducts = products.TotalMatching;
                 foreach (var item in products)
                 {
                     var product = _productService.GetProductTileViewModel(item);
@@ -88,8 +89,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
             var requiredFilter = new FilterBuilder<FashionProduct>(search.Client);
 
             if (!string.IsNullOrEmpty(brand)) requiredFilter = requiredFilter.And(x => x.Brand.Match(brand));
-            decimal low = price < 500 ? 0 : price - 500;
-            decimal hight = price + 500;
+            decimal low = price < 10 ? 0 : price - 10;
+            decimal hight = price + 10;
             if (price != 0) requiredFilter = requiredFilter.And(x => x.Price.InRange(low, hight));
             if (!string.IsNullOrEmpty(category))
             {
@@ -103,6 +104,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
         public List<string> GetProductNameByText(string text)
         {
             throw new NotImplementedException();
+        }
+
+        public List<string> SearchWildcardProduct(string query)
+        {
+            string wholeWordWildCards = WildCardExtensions.WrapInAsterisks(query);
+
+            var words = query.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(WildCardExtensions.WrapInAsterisks)
+                .ToList();
+            var search = _episerverFindService.EpiClient().Search<FashionProduct>();
+
+            search=search.WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.DisplayName, 1000)
+                .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.Brand, 900)
+                .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.ListCategories.FirstOrDefault(), 800);
+            foreach (var word in words)
+            {
+                search = search.WildcardSearch(word, x => x.DisplayName, 700)
+                    .WildcardSearch(word, x => x.Brand, 600)
+                    .WildcardSearch(word, x => x.ListCategories.FirstOrDefault(), 500);
+            }
+            //search.GetContentResult()
+            return new List<string>();
         }
     }
 }

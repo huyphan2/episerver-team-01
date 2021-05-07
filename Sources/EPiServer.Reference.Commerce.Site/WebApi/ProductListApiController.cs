@@ -20,7 +20,7 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
         }
         [HttpGet]
         [Route("GetProductList")]
-        public IHttpActionResult GetProductList(string brand, string category, decimal price, bool isSortDes = false, int pageNumber = 1)
+        public IHttpActionResult GetProductList(string brand, string category, decimal price=0, bool isSortDes = false, int pageNumber = 1)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
                 var response = new ProductListResponse()
                 {
                     Html = html,
-                    HasMore = productlist.Products.Any()
+                    HasMore = (pageNumber*productlist.PageSize)<productlist.TotalProducts
                 };
                 return Ok(response);
             }

@@ -5,6 +5,7 @@
 @using EPiServer.Security
 @using EPiServer.Web.Routing
 @using System.Web.Optimization
+@using EPiServer.Reference.Commerce.Site.Helpers
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,10 +43,10 @@
     <div class="wrapper">
 
         @*@Html.RenderReadonlyMessage()
-        <div id="ModalDialog" class="modal fade" role="dialog"><div class="modal-dialog modal-lg"></div></div>
-        <div class="cookies jsCookies" style="display: none">
-            @Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn-primary jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button>
-        </div>*@
+            <div id="ModalDialog" class="modal fade" role="dialog"><div class="modal-dialog modal-lg"></div></div>
+            <div class="cookies jsCookies" style="display: none">
+                @Html.Translate("/Header/Cookie/CookieUse") <button type="button" class="btn btn-xs btn-primary jsCookiesBtn" href="#">@Html.Translate("/Header/Cookie/Ok")</button>
+            </div>*@
 
         @{ Html.RenderAction("Index", "Navigation"); }
 
@@ -57,23 +58,27 @@
 
 
         @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/mustache")
-        @Scripts.Render("~/bundles/js")*@
+            @Scripts.Render("~/bundles/bootstrap")
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/mustache")
+            @Scripts.Render("~/bundles/js")*@
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/javascript")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/mustache")
         @Scripts.Render("~/bundles/bootstrap")
         @Scripts.Render("~/bundles/js")
+        @if (PageHelper.CheckIsCurrentPage(StringConstants.PageType.ProductListing))
+        {
+            <script src="~/Static/script/_product-list.js"></script>
+        }
         @*@Html.RequiredClientResources("Footer")
 
-        @if (Functions.ShouldRenderTrackingSection())
-        {
+            @if (Functions.ShouldRenderTrackingSection())
+            {
             @Html.Partial("_RecommendationsTemplates")
             @RenderSection("Tracking", false)
-        }*@
+            }*@
     </div>
 </body>
 </html>

@@ -11,12 +11,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.ViewModels
             Products = new List<ProductTileViewModel>();
         }
         public int TotalProducts { get; set; }
+        public int PageSize{ get; set; }
         public List<ProductTileViewModel> Products { get; set; }
     }
 
     public class ProductListResponse
     {
-        [JsonProperty("html")]
         public string Html { get; set; }
 
         public bool HasMore { get; set; }

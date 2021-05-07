@@ -37,5 +37,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages
         public FilterParams FilterParams { get; set; }
         [Ignore]
         public List<ProductTileViewModel> Products { get; set; }
+        [Ignore]
+        public FilterParam SelectedParams { get; set; }
     }
 }

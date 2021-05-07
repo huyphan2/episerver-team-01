@@ -36,8 +36,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             //bundles.Add(new StyleBundle("~/bundles/jquery").Include("~/Static/libs/jquery-3.6.0.min.js"));
             bundles.Add(new StyleBundle("~/bundles/javascript")
                 .Include("~/Static/libs/slick.min.js")
-                .Include("~/Static/script/index.js")); 
-
+                .Include("~/Static/script/index.js"));
+            bundles.Add(new StyleBundle("~/bundles/product-list").Include("~/Static/script/_product-list.js"));
         }
     }
 } 
