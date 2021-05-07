@@ -527,7 +527,6 @@
     <Compile Include="Features\Payment\ViewModels\PaymentMethodSelectionViewModel.cs" />
     <Compile Include="Features\Payment\ViewModels\PaymentMethodViewModel.cs" />
     <Compile Include="Features\ProductListing\Controllers\ProductListingController.cs" />
-    <Compile Include="Features\ProductListing\Pages\ListedPage.cs" />
     <Compile Include="Features\ProductListing\Pages\ProductListing.cs" />
     <Compile Include="Features\ProductListing\Services\IProductListingService.cs" />
     <Compile Include="Features\ProductListing\Services\ProductListingService.cs" />
