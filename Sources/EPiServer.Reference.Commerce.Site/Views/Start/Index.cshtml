@@ -4,6 +4,9 @@
 @{
     IEnumerable<PromotionViewModel> promotions = Model.Promotions;
 }
+@section Scripts{ 
+    <link href="~/Static/css/news-static.css" rel="stylesheet" />
+}
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
@@ -59,7 +62,7 @@
     <div class="container">
         <div class="news-content">
             <div class="row">
-                @Html.PropertyFor(x => x.StaticNews)
+                @Html.PropertyFor(x => x.StaticNews, new { HasContainer = false, HasItemContainer = false })
             </div>
         </div>
     </div>

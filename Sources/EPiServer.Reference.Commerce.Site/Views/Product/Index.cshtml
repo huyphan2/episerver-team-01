@@ -153,10 +153,9 @@
         <div class="container">
             <div class="row">
                 <div class="col col-12">
-                    <h2 class="prefer-title">You may alse like</h2>
+                    <h2 class="prefer-title">You may also like</h2>
                     <div class="prefer-carousel">
                         <div class="prefer-slick prefer-js-slick">
-                            <div class='slick-item'>
                                 @if (!Equals(Model.MayLikeProducts, null) && Model.MayLikeProducts.Any())
                                 {
                                     var mayLikeCount = Model.MayLikeProducts.Count();
@@ -167,7 +166,6 @@
                                         </div>
                                     }
                                 }
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -186,7 +184,6 @@
                                 var relatedCount = Model.RelatedProducts.Count();
                                 for (int j = 0; j < relatedCount; j++)
                                 {
-                                    var t = 0;
                                     <div class='slick-item'>
                                         @Html.Partial("_Product", Model.RelatedProducts.ElementAt(j))
                                     </div>

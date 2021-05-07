@@ -33,6 +33,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         private readonly CatalogContentService _catalogContentService;
         private readonly CatalogEntryViewModelFactory _catalogEntryViewModelFactory;
         private readonly IRelationRepository _relationRepository;
+        private readonly IContentRepository _contentRepository;
         private readonly ReferenceConverter _referenceConverter;
         public ProductService(IContentLoader contentLoader,
             IPricingService pricingService,
@@ -40,7 +41,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             CatalogEntryViewModelFactory catalogEntryViewModelFactory,
             CatalogContentService catalogContentService,
             IRelationRepository relationRepository,
-            ReferenceConverter referenceConverter)
+            ReferenceConverter referenceConverter,
+            IContentRepository contentRepository)
         {
             _contentLoader = contentLoader;
             _pricingService = pricingService;
@@ -49,6 +51,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             _catalogEntryViewModelFactory = catalogEntryViewModelFactory;
             _relationRepository = relationRepository;
             _referenceConverter = referenceConverter;
+            _contentRepository = contentRepository;
         }
 
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
@@ -161,12 +164,17 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             return listProductView;
         }
 
-        public IEnumerable<ProductTileViewModel> GetRelatedProducts(FashionProduct product, int size = 12)
+        private IEnumerable<FashionProduct> GetRelatedProductItems(FashionProduct product)
         {
-            var query = FindClient.Search<FashionProduct>()
+            return FindClient.Search<FashionProduct>()
                 .Filter(p => p.ParentLink.Match(product.ParentLink))
+                .Filter(p => !p.Code.Match(product.Code))
                 .GetContentResult()
                 .Items;
+        }
+        public IEnumerable<ProductTileViewModel> GetRelatedProducts(FashionProduct product, int size = 12)
+        {
+            var query = GetRelatedProductItems(product);
             if (size > 0)
                 return query.Take(size).Select(s => GetProductTileViewModel(s));
             else
@@ -176,19 +184,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         public IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, IEnumerable<ILineItem> lineItems, int size = 12)
         {
             var skuCodes = lineItems.Select(s => s.Code);
-            List<ProductTileViewModel> allCartProducts = new List<ProductTileViewModel>();
+            List<FashionProduct> allCartProducts = new List<FashionProduct>();
             skuCodes.ForEach(code =>
             {
-                var cartProducts = _relationRepository
-                    .GetParents<ProductVariation>(_referenceConverter.GetContentLink(code))
-                    .Select(s => GetProductTileViewModel(s.Parent));
-                allCartProducts.AddRange(cartProducts);
+                var variantLink = _referenceConverter.GetContentLink(code);
+                FashionVariant variant;
+                if (_contentLoader.TryGet<FashionVariant>(variantLink, out variant))
+                {
+                    var parent = variant.GetParentProducts().FirstOrDefault();
+                    var cartProduct = _contentRepository.Get<FashionProduct>(parent) as FashionProduct;
+                    var relatedCartProducts = GetRelatedProductItems(cartProduct);
+                    allCartProducts.AddRange(relatedCartProducts);
+                }
+
             });
-            var relatedProducts = GetRelatedProducts(product, 0);
-            var result = allCartProducts.Intersect(relatedProducts)
+
+            return allCartProducts
+                .Where(w => w.Code != product.Code)
                 .DistinctBy(d => d.Code)
-                .Where(w => w.Code != product.Code).Take(size);
-            return result;
+                .Take(size)
+                .Select(s => GetProductTileViewModel(s));
         }
     }
 }
