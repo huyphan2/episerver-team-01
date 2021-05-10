@@ -8,10 +8,14 @@ $(document).ready(function () {
     let isLoading = false;
     let pageNumber = 1;
     let isSortDes = false;
+    let prices = filterPrice.find(':selected').data('price').trim().split(':');
+    let fromPrice = parseFloat(prices[0].trim());
+    let toPrice = parseFloat(prices[1].trim());
     const filterVal = {
         brand: filterBrand.find(':selected').val() || filterBrand.val(),
         category: filterCategory.find(':selected').val() || filterCategory.val(),
-        price: filterPrice.find(':selected').val()|| filterPrice.val()||0,
+        priceFrom: fromPrice||0,
+        priceTo: toPrice || 0,
     }
 
     // init change value select
@@ -63,7 +67,12 @@ $(document).ready(function () {
 // function change value select
 function selectValueChange(ele, param, filterVal, callback) {
     ele.change(() => {
-        filterVal[param] = ele.val();
+        if (param == "price") {
+            filterVal["priceFrom"] = parseFloat(ele.find(':selected').data('price').trim().split(':')[0].trim());
+            filterVal["priceTo"] = parseFloat(ele.find(':selected').data('price').trim().split(':')[1].trim());
+        } else {
+            filterVal[param] = ele.val();
+        }
         changeUrl(filterVal);
         callback();
     });

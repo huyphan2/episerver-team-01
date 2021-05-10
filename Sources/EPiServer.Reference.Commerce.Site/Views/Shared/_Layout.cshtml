@@ -13,7 +13,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
 
-    <title> @{ Html.RenderAction("Title", "Head"); }</title>
+    <title>
+
+        @{ Html.RenderAction("Title", "Head"); }
+    </title>
     @RenderSection("Meta", false)
     @*@Styles.Render("~/styles/bundled")*@
     @Styles.Render("~/bundles/style")

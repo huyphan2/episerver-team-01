@@ -1,45 +1,48 @@
-﻿@model EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages.ProductListing
+﻿@using EPiServer.Reference.Commerce.Site.Features.ProductListing.Models
+@model EPiServer.Reference.Commerce.Site.Features.ProductListing.Blocks.ProductListBlock
 
-<!-- Start banner -->
-@Html.PropertyFor(x => x.ProductListingContent)
-<!-- End banner -->
-<!-- Start shop category -->
 @if (Model != null)
 {
     //string currentUrl ="https://"+ HttpContext.Current.Request.Url.Host;
-    string productListingUrl = StringConstants.Https+ StringConstants.CurrentHostName +StringConstants.ProductListingApiUrl;
+    string productListingUrl = StringConstants.Https + StringConstants.CurrentHostName + StringConstants.ProductListingApiUrl;
     <input id="productListingUrl" type="hidden" value="@productListingUrl">
     <section id="shop-category" class="shop-category">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col col-md-3 col-sm-6 col-12">
-                    <h2 class="shop-category_title text-center">Shop by</h2>
+                    <h2 class="shop-category_title text-center">@Html.DisplayFor(x=>x.FilterTitle)</h2>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-brand">
-                        <option @( string.IsNullOrEmpty(Model.SelectedParams.Brand) ? "selected" : "") value="">Brands</option>
+                        <option @(string.IsNullOrEmpty(Model.SelectedParams.Brand) ? "selected" : "") value="">Brands</option>
                         @foreach (var brand in Model.FilterParams.Brands)
                         {
 
-                            <option @(!string.IsNullOrEmpty(Model.SelectedParams.Brand) && Model.SelectedParams.Brand.Equals(brand)?"selected":"") value="@brand">@brand</option>
+                            <option @(!string.IsNullOrEmpty(Model.SelectedParams.Brand) && Model.SelectedParams.Brand.Equals(brand) ? "selected" : "") value="@brand">@brand</option>
                         }
                     </select>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-category">
-                        <option @(string.IsNullOrEmpty(Model.SelectedParams.Category)?"selected":"") value="">Categories</option>
+                        <option @(string.IsNullOrEmpty(Model.SelectedParams.Category) ? "selected" : "") value="">Categories</option>
                         @foreach (var category in Model.FilterParams.Categories)
                         {
-                            <option @(!string.IsNullOrEmpty(Model.SelectedParams.Category) && Model.SelectedParams.Category.Equals(category)?"selected":"") value="@category">@category</option>
+                            <option @(!string.IsNullOrEmpty(Model.SelectedParams.Category) && Model.SelectedParams.Category.Equals(category) ? "selected" : "") value="@category">@category</option>
                         }
                     </select>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-price">
-                        <option @(Model.SelectedParams.Price==0?"selected":"") value="0">Price</option>
-                        @foreach (var price in Model.FilterParams.Price)
+                        <option @(Model.SelectedParams.PriceFrom == 0 && Model.SelectedParams.PriceTo == 0 ? "selected" : "") data-price="0:0" value="all">Price</option>
+                        @{
+                            int priceValueCount = 0;
+                        }
+                        @foreach (PriceRange price in Model.FilterParams.Price)
                         {
-                            <option @(Model.SelectedParams.Price==price?"selected":"") value="@price">@price.ToString("C0")</option>
+                            priceValueCount++;
+                            var fromPrice = Convert.ToDecimal(Model.SelectedParams.PriceFrom);
+                            var toPrice = Convert.ToDecimal(Model.SelectedParams.PriceTo);
+                            <option @(fromPrice == price.From && toPrice == price.To ? "selected" : "") data-price="@price.From:@price.To" value="@priceValueCount">@price.ToString()</option>
                         }
                     </select>
                 </div>
@@ -57,24 +60,28 @@
         <div class="container">
             <div class="row">
                 <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
-                    <h2 class="product-list_title">All Products</h2>
+                    <h2 class="product-list_title">@Html.DisplayFor(x=>x.ProductListText)</h2>
                 </div>
                 <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="d-flex align-items-center product-list-filter">
                         <div class="product-list-filter_view d-flex align-items-center">
-                            <span>View as</span>
+                            <span>
+                                @Html.DisplayFor(x => x.ViewAsText)
+                            </span>
                             <span class="item-view current"><i class="fa fa-th" aria-hidden="true"></i></span>
                             <span class="list-view"><i class="fa fa-th-list" aria-hidden="true"></i></span>
                         </div>
                         <button class="btn btn-outline-primary btn-sort d-flex align-items-center degrease">
-                            <span>Sort alphabetically</span>
+                            <span>
+                                @Html.DisplayFor(x => x.SortText)
+                            </span>
                             <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
             </div>
             <div class="row js-product-list">
-                @if (Model.Products!=null && Model.Products.Any())
+                @if (Model.Products != null && Model.Products.Any())
                 {
                     Html.RenderPartial("_ProductList", Model.Products);
                 }

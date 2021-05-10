@@ -523,8 +523,12 @@
     <Compile Include="Features\Payment\ViewModelFactories\PaymentMethodViewModelFactory.cs" />
     <Compile Include="Features\Payment\ViewModels\PaymentMethodSelectionViewModel.cs" />
     <Compile Include="Features\Payment\ViewModels\PaymentMethodViewModel.cs" />
-    <Compile Include="Features\ProductListing\Controllers\ProductListingController.cs" />
-    <Compile Include="Features\ProductListing\Pages\ProductListing.cs" />
+    <Compile Include="Features\ProductListing\Blocks\ProductListBlock.cs" />
+    <Compile Include="Features\ProductListing\Controllers\ProductListBlockController.cs" />
+    <Compile Include="Features\ProductListing\Controllers\ProductListingPageController.cs" />
+    <Compile Include="Features\ProductListing\Models\PriceRange.cs" />
+    <Compile Include="Features\ProductListing\Pages\PriceRangeProperty.cs" />
+    <Compile Include="Features\ProductListing\Pages\ProductListingPage.cs" />
     <Compile Include="Features\ProductListing\Services\IProductListingService.cs" />
     <Compile Include="Features\ProductListing\Services\ProductListingService.cs" />
     <Compile Include="Features\ProductListing\ViewModels\FilterParams.cs" />
@@ -577,6 +581,7 @@
     <Compile Include="Features\Warehouse\ViewModelFactories\WarehouseViewModelFactory.cs" />
     <Compile Include="Features\Warehouse\ViewModels\WarehouseInventoryViewModel.cs" />
     <Compile Include="Features\Warehouse\ViewModels\WarehouseViewModel.cs" />
+    <Compile Include="Helpers\CategoryHelper.cs" />
     <Compile Include="Helpers\EmptyController.cs" />
     <Compile Include="Helpers\PageHelper.cs" />
     <Compile Include="Infrastructure\Attributes\AJAXLocalizationFilterAttribute.cs" />
@@ -969,8 +974,9 @@
     <Content Include="Views\Shared\Blocks\AboutUsBlock.cshtml" />
     <Content Include="Views\Shared\Blocks\ProductBannerBlock.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Images.cshtml" />
-    <Content Include="Views\ProductListing\Index.cshtml" />
+    <Content Include="Views\ProductListingPage\Index.cshtml" />
     <Content Include="Views\Shared\Blocks\IconLinkBlock.cshtml" />
+    <Content Include="Views\ProductListBlock\Index.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -1119,7 +1125,6 @@
   <ItemGroup>
     <Folder Include="CSRExtensibility\react-app\build\" />
     <Folder Include="CSRExtensibility\react-app\static\" />
-    <Folder Include="Features\ProductListing\Models\" />
     <Folder Include="Features\ProductListing\ViewModelFactories\" />
     <Folder Include="Views\BaseApi\" />
     <Folder Include="Views\Empty\" />

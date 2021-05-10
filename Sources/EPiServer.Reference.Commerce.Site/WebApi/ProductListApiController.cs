@@ -20,11 +20,11 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
         }
         [HttpGet]
         [Route("GetProductList")]
-        public IHttpActionResult GetProductList(string brand, string category, decimal price=0, bool isSortDes = false, int pageNumber = 1)
+        public IHttpActionResult GetProductList(string brand, string category, decimal priceFrom=0,decimal priceTo=0, bool isSortDes = false, int pageNumber = 1)
         {
             try
             {
-                var productlist = _productListingService.GetListProduct(brand, price, category, isSortDes, pageNumber);
+                var productlist = _productListingService.GetListProduct(brand, priceFrom,priceTo, category, isSortDes, pageNumber);
                 var viewrenderer = new ViewRenderer();
                 var html = viewrenderer.RenderPartialViewToString("~/Views/Shared/_ProductList.cshtml", productlist.Products);
                 var response = new ProductListResponse()
@@ -39,26 +39,19 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
                 return BadRequest();
             }
         }
-        //[HttpGet]
-        //[Route("GetProductName")]
-        //public IHttpActionResult GetProductName(string text)
-        //{
-        //    try
-        //    {
-        //        var productlist = _productListingService.GetListProduct(brand, price, category, isSortDes, pageNumber);
-        //        var viewrenderer = new ViewRenderer();
-        //        var html = viewrenderer.RenderPartialViewToString("~/Views/Shared/_ProductList.cshtml", productlist.Products);
-        //        var response = new ProductListResponse()
-        //        {
-        //            Html = html,
-        //            HasMore = productlist.Products.Any()
-        //        };
-        //        return Ok(response);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+        [HttpGet]
+        [Route("GlobalSearchProduct")]
+        public IHttpActionResult GlobalSearchProduct(string query)
+        {
+            try
+            {
+                var productlist = _productListingService.SearchWildcardProduct(query);
+                return Ok(productlist);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
