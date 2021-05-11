@@ -28,5 +28,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Navigation.Models
           GroupName = SystemTabNames.Content,
           Order = 0)]
         public virtual Url Url { get; set; }
+        public virtual string Text { get; set; }
+        public virtual bool IsTargetBlank { get; set; }
     }
 }
