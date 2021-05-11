@@ -20,7 +20,7 @@
     @RenderSection("Meta", false)
     @*@Styles.Render("~/styles/bundled")*@
     @Styles.Render("~/bundles/style")
-    @Styles.Render("~/bundles/reset")
+    @RenderSection("Styles", false)
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -75,12 +75,13 @@
         {
             <script src="~/Static/script/_product-list.js"></script>
         }
+        @RenderSection("Scripts", false)
         @*@Html.RequiredClientResources("Footer")
 
             @if (Functions.ShouldRenderTrackingSection())
             {
-            @Html.Partial("_RecommendationsTemplates")
-            @RenderSection("Tracking", false)
+                @Html.Partial("_RecommendationsTemplates")
+                @RenderSection("Tracking", false)
             }*@
     </div>
 </body>

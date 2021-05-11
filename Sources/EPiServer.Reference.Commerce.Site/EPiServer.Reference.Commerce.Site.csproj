@@ -427,12 +427,10 @@
     <Content Include="Static\css\product-list-component.css" />
     <Content Include="Static\css\product-list-page.css" />
     <Content Include="Static\css\reset.css" />
-    <Content Include="Static\css\search.css" />
     <Content Include="Static\css\shop-category.css" />
     <Content Include="Static\css\styles.css" />
     <Content Include="Static\images\banner-bg.png" />
     <Content Include="Static\images\favicon.ico" />
-    <Content Include="Static\images\favicons.ico" />
     <Content Include="Static\images\gallery.jpg" />
     <Content Include="Static\images\logo.png" />
     <Content Include="Static\images\product-img.png" />
@@ -513,6 +511,12 @@
     <Compile Include="Features\Navigation\Models\IconLinkBlock.cs" />
     <Compile Include="Features\Navigation\Models\FooterBlock.cs" />
     <Compile Include="Features\Navigation\ViewModels\FooterViewModel.cs" />
+    <Compile Include="Features\News\Blocks\BlogNewsBlock.cs" />
+    <Compile Include="Features\News\Blocks\BlogNewsDetailBlock.cs" />
+    <Compile Include="Features\News\Blocks\NewsBlock.cs" />
+    <Compile Include="Features\News\Controllers\BlogNewsController.cs" />
+    <Compile Include="Features\News\Controllers\BlogNewsDetailController.cs" />
+    <Compile Include="Features\News\Controllers\NewsController.cs" />
     <Compile Include="Features\Payment\Controllers\PaymentController.cs" />
     <Compile Include="Features\Payment\PaymentMethods\AuthorizePaymentMethod.cs" />
     <Compile Include="Features\Payment\PaymentMethods\CashOnDeliveryPaymentMethod.cs" />
@@ -685,8 +689,8 @@
     <Compile Include="Infrastructure\Epi.Find\EpiserverFind.cs" />
     <Compile Include="Infrastructure\Epi.Find\EPiServerFindInitialization.cs" />
     <Compile Include="Infrastructure\Epi.Find\EpiserverFindService.cs" />
-    <Compile Include="Infrastructure\Epi.Find\IEpiserverFindService.cs" />
     <Compile Include="Infrastructure\Epi.Find\FilterBase.cs" />
+    <Compile Include="Infrastructure\Epi.Find\IEpiserverFindService.cs" />
     <Compile Include="Infrastructure\Epi.Find\IProductIndexingService.cs" />
     <Compile Include="Infrastructure\Epi.Find\WildCardExtensions.cs" />
     <Compile Include="Infrastructure\EPiServerFindInitialization.cs" />
@@ -976,6 +980,9 @@
     <Content Include="Views\Shared\DisplayTemplates\Images.cshtml" />
     <Content Include="Views\ProductListingPage\Index.cshtml" />
     <Content Include="Views\Shared\Blocks\IconLinkBlock.cshtml" />
+    <Content Include="Views\News\BlogNews.cshtml" />
+    <Content Include="Views\News\BlogNewsDetail.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\ProductListBlock\Index.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

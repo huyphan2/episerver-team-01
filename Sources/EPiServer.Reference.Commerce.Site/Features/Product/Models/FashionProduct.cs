@@ -4,15 +4,22 @@ using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
 using System.ComponentModel.DataAnnotations;
 using EPiServer.DataAnnotations;
+using EPiServer.Shell.ObjectEditing;
+using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors;
+using EPiServer.PlugIn;
 using System.Collections.Generic;
+using EPiServer.ServiceLocation;
+using EPiServer.Framework.Serialization.Internal;
+using EPiServer.Framework.Serialization;
+using EPiServer.Web;
 using System;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
 {
     [CatalogContentType(
-        GUID = "550ebcfc-c989-4272-8f94-c6d079f56181", 
-        MetaClassName = "FashionProduct", 
-        DisplayName = "Fashion product", 
+        GUID = "550ebcfc-c989-4272-8f94-c6d079f56181",
+        MetaClassName = "FashionProduct",
+        DisplayName = "Fashion product",
         Description = "Display fashion product")]
     public class FashionProduct : ProductContent
     {
@@ -60,15 +67,39 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Models
         [BackingType(typeof(PropertyDictionaryMultiple))]
         [Display(Name = "Available Colors", Order = 6)]
         public virtual ItemCollection<string> AvailableColors { get; set; }
-        
+
+        [EditorDescriptor(EditorDescriptorType = typeof(CollectionEditorDescriptor<TechSpec>))]
+        [CultureSpecific]
+        [Display(Name = "Product Specifications", Order = 20)]
+        [BackingType(typeof(SpecificationListProperty))]
+        public virtual IList<TechSpec> TechSpecs { get; set; }
+
         [Ignore]
         public decimal Price { get; set; }
         [Ignore]
-        public List<string> ListCategories{ get; set; }
+        public List<string> ListCategories { get; set; }
         [ScaffoldColumn(false)]
         public virtual int Ranking { get; set; }
         [Ignore]
         [ScaffoldColumn(false)]
         public virtual DateTime PublishedDate { get; set; }
     }
+    #region Specification List Property
+
+    [PropertyDefinitionTypePlugIn]
+    public class SpecificationListProperty : PropertyList<TechSpec>
+    {
+    }
+
+    public class TechSpec
+    {
+        [Display(Name = "Group Name")]
+        public virtual string GroupName { get; set; }
+        [Display(Name = "Name")]
+        public virtual string Name { get; set; }
+        [Display(Name = "Description")]
+        [UIHint(UIHint.Textarea)]
+        public virtual string Description { get; set; }
+    }
+    #endregion
 }

@@ -1,7 +1,17 @@
-﻿using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+﻿using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Order;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
+using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
+using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Facades;
+using EPiServer.Security;
 using EPiServer.Web.Mvc;
+using Mediachase.Commerce.Security;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
@@ -10,11 +20,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
     {
         private readonly bool _isInEditMode;
         private readonly CatalogEntryViewModelFactory _viewModelFactory;
+        private readonly IProductService _productService;
+        private readonly IOrderRepository _orderRepository;
 
-        public ProductController(IsInEditModeAccessor isInEditModeAccessor, CatalogEntryViewModelFactory viewModelFactory)
+        public ProductController(IsInEditModeAccessor isInEditModeAccessor, CatalogEntryViewModelFactory viewModelFactory, IProductService productService, IOrderRepository orderRepository)
         {
             _isInEditMode = isInEditModeAccessor();
             _viewModelFactory = viewModelFactory;
+            _productService = productService;
+            _orderRepository = orderRepository;
         }
 
         [HttpGet]
@@ -22,7 +36,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         {
             var viewModel = _viewModelFactory.Create(currentContent, entryCode);
             viewModel.SkipTracking = skipTracking;
-
+            viewModel.RelatedProducts = _productService.GetRelatedProducts(currentContent);
+            viewModel.MayLikeProducts = _productService.GetMayLikeProducts(currentContent, GetCurrentLineItems());
+            var test = viewModel.MayLikeProducts.Count();
             if (_isInEditMode && viewModel.Variant == null)
             {
                 var emptyViewName = "ProductWithoutEntries";
@@ -51,6 +67,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             }
 
             return HttpNotFound();
+        }
+
+        private IEnumerable<ILineItem> GetCurrentLineItems()
+        {
+            var customerId = PrincipalInfo.CurrentPrincipal.GetContactId();
+            var cart = _orderRepository.LoadCart<ICart>(customerId, "Default");
+            return cart.GetAllLineItems();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IRecommendationService _recommendationService;
         private readonly CartViewModelFactory _cartViewModelFactory;
-        
+
 
         public CartController(
             ICartService cartService,
@@ -48,7 +48,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddToCart(string code)
+        public async Task<ActionResult> AddToCart(string code, int quantity = 1)
         {
             ModelState.Clear();
 
@@ -57,15 +57,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
                 _cart = _cartService.LoadOrCreateCart(_cartService.DefaultCartName);
             }
 
-            var result = _cartService.AddToCart(Cart, code, 1);
+            var result = _cartService.AddToCart(Cart, code, quantity);
             if (result.EntriesAddedToCart)
             {
                 _orderRepository.Save(Cart);
                 var change = new CartChangeData(CartChangeType.ItemAdded, code);
-                await _recommendationService.TrackCartAsync(HttpContext, new List<CartChangeData>{ change });
+                await _recommendationService.TrackCartAsync(HttpContext, new List<CartChangeData> { change });
                 return MiniCartDetails();
             }
-            
+
             return new HttpStatusCodeResult(500, result.GetComposedValidationMessage());
         }
 
@@ -82,7 +82,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
             {
                 changes.Add(cartChange);
             }
-            
+
             await _recommendationService.TrackCartAsync(HttpContext, changes);
             return MiniCartDetails();
         }

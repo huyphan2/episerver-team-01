@@ -4,66 +4,67 @@
 @{
     IEnumerable<PromotionViewModel> promotions = Model.Promotions;
 }
-
-@Html.PropertyFor(x => x.StartPage.MainContent, new { HasContainer = false, HasItemContainer = false })
-
-<section id="promotion" class="promotion">
-    <div class="container">
-        <div class="row">
-            @foreach (var promotion in promotions)
+@section Scripts{ 
+    <link href="~/Static/css/news-static.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            @if (promotions.Any())
             {
-                <div class="col col-lg-4 col-md-6 col-sm-12 col-12">
-                    <a href="#" class="promotion-item">
-                        <img src="@Url.ContentUrl(promotion.BannerImage)" alt="promotion background" class="promotion-item_bg">
-                        <p class="promotion-item_text">@promotion.Name</p>
-                    </a>
+                <div id="promotion-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        @for (var i = 0; i < promotions.Count(); i++)
+                        {
+                            <div class="item" data-slide-number="@i">
+                                <img src="@Url.ContentUrl(promotions.ElementAt(i).BannerImage)" />
+                            </div>
+                        }
+                    </div>
                 </div>
             }
+            @Html.PropertyFor(x => x.StartPage.MainBody)
+        </div>
+    </div>
+</div>
+@foreach (var promotion in promotions)
+{
+    <div class="container-fluid product-row">
+        <div class="row">
+            <div>
+                <h2>@promotion.Name</h2>
+                @if (promotion.SelectionType == CatalogItemSelectionType.All)
+                {
+                    <span class="product-brand">@Html.Translate("/StartPage/Promotion/AllItems")</span><br />
+                }
+                @foreach (var promotionItem in promotion.Items)
+                {
+                    <div class="jsProductTile product-row__tile col-xs-12 col-sm-6 col-lg-4">@{Html.RenderContentData(promotionItem, false);}</div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (Functions.ShouldRenderTrackingSection())
+{
+    @section Tracking{
+        <script>
+            $(document).ready(function () {
+                var homeTrackingData = TrackingDataFactory.createHomeTrackingData();
+                epiRecommendations.track(homeTrackingData, null, 'web', Recommendations.render, { sectionMappings: [{ area: "homeWidget", selector: ".recommendations-right", numberOfItemsToRender: 6 }] })
+            });
+        </script>
+    }
+}
+    <!-- Start news -->
+<section id="news" class="news">
+    <div class="container">
+        <div class="news-content">
+            <div class="row">
+                @Html.PropertyFor(x => x.StaticNews, new { HasContainer = false, HasItemContainer = false })
+            </div>
         </div>
     </div>
 </section>
-@if (Model.NewestProduct != null && Model.NewestProduct.Count() > 0)
-{
-    <section id="new-product" class="product-group new-product">
-        <div class="container">
-            <div class="row">
-                <div class="col col-sm-10 col-12">
-                    <h2 class="title">@Html.Translate(@"/Start/Newest")</h2>
-                </div>
-                @*<div class="col col-sm-2 col-12 text-right">
-                        <button class="btn btn-outline-primary" disabled>Show All</button>
-                    </div>*@
-            </div>
-            <div class="row">
-                @foreach (var item in Model.NewestProduct)
-                {
-                    @Html.Partial("_Product", item)
-
-                }
-            </div>
-        </div>
-    </section>
-}
-
-@if (Model.BestSeller != null && Model.BestSeller.Count() > 0)
-{
-    <section id="best-seller" class="product-group best-seller">
-        <div class="container">
-            <div class="row">
-                <div class="col col-sm-10 col-12">
-                    <h2 class="title">@Html.Translate(@"/Start/BestSeller")</h2>
-                </div>
-                @*<div class="col col-sm-2 col-12 text-right">
-                        <button class="btn btn-outline-primary">Show All</button>
-                    </div>*@
-            </div>
-            <div class="row">
-                @foreach (var item in Model.BestSeller)
-                {
-                    @Html.Partial("_Product", item)
-                }
-
-            </div>
-        </div>
-    </section>
-}
+<!-- End news -->
