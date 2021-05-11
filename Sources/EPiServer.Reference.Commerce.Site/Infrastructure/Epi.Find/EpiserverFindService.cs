@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Find;
+using EPiServer.Find.Api.Querying.Queries;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Commerce;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
@@ -32,6 +34,5 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
             return FindClient.Search<FashionVariant>().FilterOnCurrentMarket()
                 .GetContentResult();
         }
-     
     }
 }

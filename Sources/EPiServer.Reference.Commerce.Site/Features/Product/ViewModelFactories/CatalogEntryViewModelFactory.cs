@@ -1,5 +1,9 @@
 ﻿using EPiServer.Core;
+using EPiServer.Find;
+using EPiServer.Find.Cms;
+using EPiServer.Find.Framework;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
+using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
@@ -32,7 +36,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             _urlResolver = urlResolver;
             _catalogContentService = catalogContentService;
         }
-
         public virtual FashionProductViewModel Create(FashionProduct currentContent, string variationCode)
         {
             var variants = _catalogContentService.GetVariants<FashionVariant>(currentContent).ToList();
@@ -50,6 +53,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
             variationCode = variant.Code;
             var defaultPrice = _pricingService.GetDefaultPrice(variationCode);
             var discountedPrice = defaultPrice != null ? _pricingService.GetDiscountPrice(variationCode).UnitPrice : (Money?)null;
+
 
             return new FashionProductViewModel
             {
@@ -79,7 +83,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
                 Color = variant.Color,
                 Size = variant.Size,
                 Images = variant.GetAssets<IContentImage>(_contentLoader, _urlResolver),
-                IsAvailable = defaultPrice != null
+                IsAvailable = defaultPrice != null,
             };
         }
 
@@ -142,5 +146,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories
 
             return variant != null;
         }
+
+        FashionVariant GetDefaultVariant(FashionProduct product) => _catalogContentService.GetVariants<FashionVariant>(product).FirstOrDefault();
     }
+
 }

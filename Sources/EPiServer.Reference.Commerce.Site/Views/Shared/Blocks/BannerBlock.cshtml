@@ -3,14 +3,13 @@
 @using EPiServer.Reference.Commerce.Site.Features.Start.Models;
 @using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 @using EPiServer.Reference.Commerce.Site.Features.Product.Services
+@using EPiServer.Reference.Commerce.Site.Helpers
 @using EPiServer.Web.Routing
 @model BannerBlock
 
 @{
-    var pageRouteHelper = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IPageRouteHelper>();
-    var currentPageType = pageRouteHelper.Page.PageTypeName;
     var productService= EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IProductService>();
-    bool isProductListing = currentPageType.Equals("ProductListing", StringComparison.OrdinalIgnoreCase);
+    bool isProductListing = PageHelper.CheckIsCurrentPage(StringConstants.PageType.ProductListing);
 }
 <section id="banner" class="banner">
     @{

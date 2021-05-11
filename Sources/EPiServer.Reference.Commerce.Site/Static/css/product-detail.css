@@ -16,6 +16,7 @@
         border-color: var(--primary-1); }
 
 .product-detail-info {
+    color:#fff;
   padding: 50px 0 30px; }
   .product-detail-info .price {
     margin-bottom: 18px; }

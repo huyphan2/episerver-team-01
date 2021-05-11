@@ -1,147 +1,146 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.FashionProductViewModel
-
-<div class="row jsProductDetails">
-
-    <div class="col-xs-12 col-sm-4 col--leading">
-        <div id="product-carousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner" role="listbox">
-                @for (var i = 0; i < Model.Images.Count; i++)
-                {
-                    <div class="item" data-slide-number="@i">
-                        <img src="@Model.Images.ElementAt(i)" alt="@Model.Product.Code" />
-                    </div>
-                }
-            </div>
-        </div>
-        <div class="row" id="carousel-thumbs">
-            <ul class="carousel-thumbs js-carousel-thumbs">
-                @for (var i = 0; i < Model.Images.Count; i++)
-                {
-                    <li class="col-xs-3">
-                        <a href="#" class="thumbnail js-thumbnail" id="@i"><img src="@Model.Images.ElementAt(i)" /></a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-8 product-info">
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <link href="~/Static/css/product-detail.css" rel="stylesheet" />
+}
+<section id="product-detail" class="product-detail">
+    <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                <h1>@Html.PropertyFor(x => x.Product.DisplayName)</h1>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-                <h2 class="product-brand">@Html.PropertyFor(x => x.Product.Brand)</h2>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-                @if (Model.IsAvailable)
-                {
-                    if (Model.DiscountedPrice.HasValue && Model.DiscountedPrice.Value < Model.ListingPrice)
-                    {
-                        <h4 class="product-price">@Helpers.RenderMoney(Model.ListingPrice)</h4>
-                        <h4 class="product-price--discount">@Helpers.RenderMoney(Model.DiscountedPrice.Value)</h4>
-                    }
-                    else
-                    {
-                        <h4 class="product-price">@Helpers.RenderMoney(Model.ListingPrice)</h4>
-                    }
-                }
-                else
-                {
-                    <h4 class="product-price">@Html.Translate("/Product/NotAvailable")</h4>
-                }
-            </div>
-        </div>
-        <div class="row">
-            @using (Html.BeginForm("SelectVariant", "Product", FormMethod.Post, new { @class = "product-details__form clearfix" }))
-            {
-                <div class="col-xs-12 col-sm-6">
-                    <label for="Color">@Html.Translate("/ProductPage/VariationSelection/Color")</label>
-                    @Html.DropDownListFor(x => x.Color, Model.Colors, new { @class = "form-control jsVariationSwitch" })
-                </div>
-                <div class="col-xs-12 col-sm-6">
-                    <label for="Size">@Html.Translate("/ProductPage/VariationSelection/Size")</label>
-                    @Html.DropDownListFor(x => x.Size, Model.Sizes, new { @class = "form-control jsVariationSwitch" })
-                </div>
-            }
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                @Html.PropertyFor(x => x.Product.LongDescription)
-                <p>
-                    @Html.PropertyFor(x => x.Product.Description)
-                </p>
-                <p>
-                    <strong>SKU:</strong> @Html.PropertyFor(x => x.Variant.Code)
-                </p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-7">
-                @if (Model.IsAvailable)
-                {
-                    using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new { @class = "form-inline", data_container = "MiniCart" }))
-                    {
-                        @Html.Hidden("code", Model.Variant.Code)
-                        <button type="submit" role="button" class="btn btn-primary jsAddToCart" data-container="MiniCart"><span class="glyphicon glyphicon-shopping-cart"></span> @Html.Translate("/Product/Button/AddToCart")</button>
-                    }
-                    if (User.Identity.IsAuthenticated && !(bool)ViewData["IsReadOnly"])
-                    {
-                        using (Html.BeginForm("AddToCart", "WishList", FormMethod.Post, new { @class = "form-inline jsAddToWishList", data_container = "WishListMiniCart" }))
+            <div class="col col-lg-5 col-md-12 col-sm-12 col-12">
+                <div class="product-detail-carousel">
+                    <div id="slick" class="slick">
+                        @for (var i = 0; i < Model.Images.Count; i++)
                         {
-                            @Html.Hidden("code", Model.Variant.Code)
-                            <button type="submit" role="button" class="btn btn-default btn--blue jsAddToCart" data-container="WishListMiniCart"><span class="glyphicon glyphicon-heart"></span> @Html.Translate("/Product/Button/AddToWishList")</button>
+                            <div class='slick-item'>
+                                <img src="@Model.Images.ElementAt(i)" alt="@Model.Product.Code" class="slick-item_img">
+                            </div>
+                        }
+                    </div>
+                    <div class="extra-dots">
+                        <div class="d-flex justify-content-center">
+                            @for (var i = 0; i < Model.Images.Count; i++)
+                            {
+                                string active = i == 0 ? "active" : string.Empty;
+                                <div class="extra-dots-item @active" data-extra="@i">
+                                    <img src="@Model.Images.ElementAt(i)" alt="@Model.Product.Code" class="slick-item_img">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-lg-7 col-md-12 col-sm-12 col-12">
+                <div class="product-detail-info">
+                    <span class="price">@string.Format("{0}", Model.ListingPrice)</span>
+                    <h1 class="product-detail-info_title">@Model.Product.DisplayName</h1>
+                    <p class="product-detail-info_desc">@Html.Raw(Model.Product.LongDescription)</p>
+                    <form action="" class="form-add-to-cart d-flex">
+                        <div class="input-group">
+                            <input id="product-count" type="number" value="0" min="0" class="form-control" placeholder="amount" aria-label="amount" aria-describedby="amount">
+                        </div>
+                        <button type="button" data-url="@Url.Action("AddToCart","Cart")" data-code="@Model.Variant.Code" data-quantity-target="#product-count" class="btn btn-primary add-to-cart ml-2">Add to cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-12">
+                <div class="product-detail-paragraph">
+                    @if (!Equals(Model.Product.TechSpecs, null) && Model.Product.TechSpecs.Any())
+                    {
+                        foreach (var specification in Model.Product.TechSpecs)
+                        {
+                            <div class="product-tech-spec">
+                                <p class="title">@specification.Name</p>
+                                <p class="text">@Html.Raw(specification.Description)</p>
+                            </div>
                         }
                     }
-                }
-            </div>
-            <div id="CartWarningMessage" class="col-md-5 col-xs-12 alert alert-danger pull-right" hidden>
-                <button type="button" class="close" data-hide="alert">&times;</button>
-                <span class="warning-message"></span>
+
+
+
+
+                </div>
             </div>
         </div>
-        <div class="warehouse-availability-container"
-             data-url="@Url.Action("GetAvailability", "Warehouse")"
-             data-sku-code="@Model.Variant.Code"></div>
     </div>
-</div>
+</section>
+<section class="prefer">
+    <div class="container">
+        <div class="row">
+            <div class="col col-12">
+                <h2 class="prefer-title">You may also like</h2>
+                <div class="prefer-carousel">
+                    <div class="prefer-slick prefer-js-slick">
+                        @if (!Equals(Model.MayLikeProducts, null) && Model.MayLikeProducts.Any())
+                        {
+                            var mayLikeCount = Model.MayLikeProducts.Count();
+                            for (int i = 0; i < mayLikeCount; i++)
+                            {
+                                <div class='slick-item'>
+                                    @Html.Partial("_Product", Model.MayLikeProducts.ElementAt(i))
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="prefer pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col col-12">
+                <h2 class="prefer-title">Related Product</h2>
+                <div class="prefer-carousel">
+                    <div class="prefer-slick prefer-js-slick">
+                        @if (!Equals(Model.RelatedProducts, null) && Model.RelatedProducts.Any())
+                        {
+                            var relatedCount = Model.RelatedProducts.Count();
+                            for (int j = 0; j < relatedCount; j++)
+                            {
+                                <div class='slick-item'>
+                                    @Html.Partial("_Product", Model.RelatedProducts.ElementAt(j))
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-@section Meta {
-    @{
-        if (!String.IsNullOrEmpty(Model.Product.SeoInformation.Description))
-        {
-            <meta property="description" content="@Html.AttributeEncode(Model.Product.SeoInformation.Description)" />
-        }
-        else if (Model.Product.Description != null && !Model.Product.Description.IsEmpty)
-        {
-            <meta property="description" content="@Html.AttributeEncode(Model.Product.Description)" />
-        }
-        if (!String.IsNullOrEmpty(Model.Product.SeoInformation.Keywords))
-        {
-            <meta property="keywords" content="@Html.AttributeEncode(Model.Product.SeoInformation.Keywords)" />
-        }
-    }
-}
+@section Scripts{
 
-@if (Functions.ShouldRenderTrackingSection() && !Model.SkipTracking)
-{
-    @section Tracking{
-    <script>
+    <script type="text/javascript">
+
         $(document).ready(function () {
-            var refCode = '@Model.Product.Code';
-            var productName = '@Model.Product.Name';
-            var productTrackingData = TrackingDataFactory.createProductTrackingData(refCode, productName);
+            $('.add-to-cart').on('click', function () {
+                _this = $(this);
+                var { code, quantityTarget, url } = _this.data();
+                var quantity = parseInt($(quantityTarget).val() ?? '0');
+                if (quantity <= 0) {
+                    alert("You have to add at least 1 product into Cart");
+                    return;
+                }
+                var data = {
+                    code: code,
+                    quantity: quantity
+                }
+                $.post(url, data, function () {
 
-            var recommendationId = parseInt(isNaN('@Request.QueryString["recommendationId"]') ? '0' : '@Request.QueryString["recommendationId"]');
-            if (recommendationId > 0) {
-                productTrackingData["recommendationId"] = recommendationId;
-            }
+                }).done(function (response) {
+                    let productText = quantity > 1 ? "products" : 'product';
+                    alert("You added " + quantity + " " + productText + " into Cart");
+                });
+            });
 
-            productTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
-
-            epiRecommendations.track(productTrackingData, null, 'web', Recommendations.render, { sectionMappings: [{ area: "productAlternativesWidget", selector: ".recommendations-right", numberOfItemsToRender: 3 }, { area: "productCrossSellsWidget", selector: ".recommendations-bottom" }] })
         });
+
     </script>
-    }
 }

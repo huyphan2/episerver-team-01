@@ -1,9 +1,15 @@
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Catalog.Linking;
+using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Api;
 using EPiServer.Find.Api.Querying;
 using EPiServer.Find.Cms;
+using EPiServer.Find.Commerce;
+using EPiServer.Find.Framework;
+using EPiServer.Find.Helpers;
+using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
@@ -13,6 +19,8 @@ using EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
+using Mediachase.Commerce.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,18 +36,26 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         private readonly UrlResolver _urlResolver;
         private readonly CatalogContentService _catalogContentService;
         private readonly CatalogEntryViewModelFactory _catalogEntryViewModelFactory;
-
+        private readonly IRelationRepository _relationRepository;
+        private readonly IContentRepository _contentRepository;
+        private readonly ReferenceConverter _referenceConverter;
         public ProductService(IContentLoader contentLoader,
             IPricingService pricingService,
             UrlResolver urlResolver,
             CatalogEntryViewModelFactory catalogEntryViewModelFactory,
-            CatalogContentService catalogContentService)
+            CatalogContentService catalogContentService,
+            IRelationRepository relationRepository,
+            ReferenceConverter referenceConverter,
+            IContentRepository contentRepository)
         {
             _contentLoader = contentLoader;
             _pricingService = pricingService;
             _urlResolver = urlResolver;
             _catalogContentService = catalogContentService;
             _catalogEntryViewModelFactory = catalogEntryViewModelFactory;
+            _relationRepository = relationRepository;
+            _referenceConverter = referenceConverter;
+            _contentRepository = contentRepository;
         }
 
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
@@ -151,7 +167,57 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             var listProductView = list.Select(t => GetProductTileViewModel(t)).ToList();
             return listProductView;
         }
-        public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string category, string orderField, int numberOfItem)
+
+        private IEnumerable<FashionProduct> GetRelatedProductItems(FashionProduct product)
+        {
+            var categories = product.GetCategories();
+            List<FashionProduct> result = new List<FashionProduct>();
+            var query = FindClient.Search<FashionProduct>()
+               .Filter(p => !p.Code.Match(product.Code));
+
+            categories.ForEach(category =>
+            {
+                query = query.Filter(p => p.ParentNodeRelations().MatchContained(item => item.ID, category.ID));
+                var items = query.GetContentResult().Items;
+                result.AddRange(items);
+            });
+
+            return result.DistinctBy(d => d.Code);
+        }
+        public IEnumerable<ProductTileViewModel> GetRelatedProducts(FashionProduct product, int size = 12)
+        {
+            var query = GetRelatedProductItems(product);
+            if (size > 0)
+                return query.Take(size).Select(s => GetProductTileViewModel(s));
+            else
+                return query.Select(s => GetProductTileViewModel(s));
+        }
+
+        public IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, IEnumerable<ILineItem> lineItems, int size = 12)
+        {
+            var skuCodes = lineItems.Select(s => s.Code);
+            List<FashionProduct> allCartProducts = new List<FashionProduct>();
+            skuCodes.ForEach(code =>
+            {
+                var variantLink = _referenceConverter.GetContentLink(code);
+                FashionVariant variant;
+                if (_contentLoader.TryGet<FashionVariant>(variantLink, out variant))
+                {
+                    var parent = variant.GetParentProducts().FirstOrDefault();
+                    var cartProduct = _contentRepository.Get<FashionProduct>(parent) as FashionProduct;
+                    var relatedCartProducts = GetRelatedProductItems(cartProduct);
+                    allCartProducts.AddRange(relatedCartProducts);
+                }
+
+            });
+
+            return allCartProducts
+                .Where(w => w.Code != product.Code)
+                .DistinctBy(d => d.Code)
+                .Take(size)
+                .Select(s => GetProductTileViewModel(s));
+        }
+         public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string category, string orderField, int numberOfItem)
         {
 
             var search = FindClient.Search<FashionProduct>();
@@ -210,5 +276,4 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         //    //});
         //}
     }
-
 }

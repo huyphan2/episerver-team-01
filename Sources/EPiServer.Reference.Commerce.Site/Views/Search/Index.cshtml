@@ -1,44 +1,38 @@
-﻿@using Newtonsoft.Json
-@model EPiServer.Reference.Commerce.Site.Features.Search.ViewModels.SearchViewModel<EPiServer.Reference.Commerce.Site.Features.Search.Pages.SearchPage>
-@{
-    if (Request.IsAjaxRequest())
-    {
-        Layout = null;
-    }
-}
-
-<div class="row category-page">
-    @if (Model.HasError)
-    {
-        <div class="col-md-12 text-danger">@Model.ErrorMessage</div>
-    }
-    else
-    {
-        @Html.Partial("_Facet", Model.FilterOption)
-        using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @class = "jsSearchForm" }))
-        {
-            <div class="col-md-9">
-                @Html.Partial("_ProductList", Model.ProductViewModels)
-            </div>
-            <input class="jsSearchPage" id="FilterOption_Page" name="FilterOption.Page" type="hidden" value="@(Model.FilterOption.Page + 1)" />
-        }
-    }
-</div>
-
-@if (Functions.ShouldRenderTrackingSection())
+﻿@model IEnumerable<EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.ProductTileViewModel>
+@if (Model != null)
 {
-    @section Tracking{
-        <script>
-                $(document).ready(function () {
-                    var term = '@Model.FilterOption.Q';
-                    var productCodes = @Html.Raw(JsonConvert.SerializeObject(Model.ProductViewModels.Select(x => x.Code)));
-                    var totalResultCount = @Html.Raw(Model.TotalResultCount);
-                    var searchResultTrackingData = TrackingDataFactory.createSearchResultTrackingData(term, productCodes, totalResultCount);
-
-                    searchResultTrackingData["customAttributes"] = { 'marketId': Market.getSelectedMarketId() };
-
-                    epiRecommendations.track(searchResultTrackingData, null, 'web', Recommendations.render, { sectionMappings: [{ area: "searchWidget", selector: ".recommendations-bottom" }] });
-                });
-        </script>
-    }
+<section id="product-list" class="product-list js-product-list-container " data-more="true">
+    <div class="container">
+        <h2 style="margin-bottom: 15px">Search Results: </h2>
+        <div class="row">
+            <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                <h2 class="product-list_title">Products</h2>
+            </div>
+            <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="d-flex align-items-center product-list-filter">
+                    <div class="product-list-filter_view d-flex align-items-center">
+                        <span>
+                            View as
+                        </span>
+                        <span class="item-view current"><i class="fa fa-th" aria-hidden="true"></i></span>
+                        <span class="list-view"><i class="fa fa-th-list" aria-hidden="true"></i></span>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sort d-flex align-items-center degrease">
+                        <span>
+                            A-Z
+                        </span>
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row js-product-list">
+            @foreach (var productModel in Model)
+            {
+                Html.RenderPartial("_ProductTile", productModel);
+            }
+        </div>
+    </div>
+</section>
 }
+

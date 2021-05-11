@@ -1,10 +1,8 @@
 ﻿using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Reference.Commerce.Site.Features.Market.Services;
-using EPiServer.Reference.Commerce.Site.Features.Product.Services;
 using EPiServer.Reference.Commerce.Site.Features.Start.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Start.ViewModels;
-using EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce;
 using System.Collections.Generic;
@@ -18,35 +16,25 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Controllers
         private readonly IContentLoader _contentLoader;
         private readonly ICurrentMarket _currentMarket;
         private readonly MarketContentLoader _marketContentFilter;
-        private readonly IProductService _productService;
 
         public StartController(
             IContentLoader contentLoader,
             ICurrentMarket currentMarket,
-            IProductService productService,
             MarketContentLoader marketContentFilter)
         {
             _contentLoader = contentLoader;
             _currentMarket = currentMarket;
             _marketContentFilter = marketContentFilter;
-            _productService = productService;
         }
 
         public ViewResult Index(StartPage currentPage)
         {
-            var best = _productService.GetBestSellerFasionProduct();
-            var newest = _productService.GetNewestFasionProduct();
-
             var viewModel = new StartPageViewModel()
             {
                 StartPage = currentPage,
                 Promotions = GetActivePromotions(),
-                BestSeller = best,
-                NewestProduct = newest
-            };
-        
-
-
+                StaticNews = currentPage.StaticNews
+            };            
 
             return View(viewModel);
         }

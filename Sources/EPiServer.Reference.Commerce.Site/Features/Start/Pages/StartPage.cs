@@ -9,6 +9,7 @@ using EPiServer.Reference.Commerce.Site.Features.AddressBook.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Pages;
 using EPiServer.Reference.Commerce.Site.Features.ResetPassword.Pages;
 using EPiServer.Reference.Commerce.Site.Features.Search.Pages;
+using EPiServer.Reference.Commerce.Site.Features.News.Blocks;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 {
@@ -41,6 +42,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
 
         [CultureSpecific]
         [Display(
+            Name = "Static News",
+            GroupName = SystemTabNames.Content,
+            Order = 10)]
+        [AllowedTypes(typeof(NewsBlock), typeof(BlogNewsBlock))]
+        public virtual ContentArea StaticNews { get; set; }
+
+        [CultureSpecific]
+        [Display(
             Name = "Right menu",
             Description = "",
             GroupName = SystemTabNames.Content,
@@ -59,7 +68,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Description = "",
             GroupName = SystemTabNames.Content,
             Order = 7)]
- 
+
         [Ignore]
         [ScaffoldColumn(false)]
         public virtual XhtmlString MainBody { get; set; }
@@ -110,7 +119,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SiteTabs.SiteStructure,
             Order = 6)]
         [AllowedTypes(typeof(ResetPasswordPage))]
-        public virtual ContentReference ResetPasswordPage { get; set; }        
+        public virtual ContentReference ResetPasswordPage { get; set; }
 
         [Display(
             Name = "Login registration page",
@@ -155,10 +164,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
           Order = 7)]
         public virtual ContentArea MainContent { get; set; }
         [Display(
-     Name = "Footer page display",
-     Description = "",
-     GroupName = SystemTabNames.Content,
-     Order = 8)]
+        Name = "Footer page display",
+        Description = "",
+        GroupName = SystemTabNames.Content,
+        Order = 8)]
         public virtual ContentArea Footer { get; set; }
     }
 }
