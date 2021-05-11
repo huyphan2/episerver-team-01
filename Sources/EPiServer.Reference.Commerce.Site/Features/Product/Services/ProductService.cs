@@ -167,25 +167,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 
         private IEnumerable<FashionProduct> GetRelatedProductItems(FashionProduct product)
         {
-            var queries = FindClient.Search<FashionProduct>()
+            var categories = product.GetCategories();
+            List<FashionProduct> result = new List<FashionProduct>();
+            var query = FindClient.Search<FashionProduct>()
                .Filter(p => !p.Code.Match(product.Code));
 
-            var categories = product.GetCategories();
-            List<ITypeSearch<FashionProduct>> filterQueries = new List<ITypeSearch<FashionProduct>>();
-            for (int i = 0; i < categories.Count(); i++)
+            categories.ForEach(category =>
             {
-                var category = categories.ElementAt(i);
-                if (i > 0)
-                {
-                    queries = queries.OrFilter(p => p.ParentNodeRelations().MatchContained(item => item.ID, category.ID));
-                }
-                else
-                {
-                    queries = queries.Filter(p => p.ParentNodeRelations().MatchContained(item => item.ID, category.ID));
-                }
-            }
-         
-            return queries.GetContentResult().Items;
+                query = query.Filter(p => p.ParentNodeRelations().MatchContained(item => item.ID, category.ID));
+                var items = query.GetContentResult().Items;
+                result.AddRange(items);
+            });
+
+            return result.DistinctBy(d => d.Code);
         }
         public IEnumerable<ProductTileViewModel> GetRelatedProducts(FashionProduct product, int size = 12)
         {
