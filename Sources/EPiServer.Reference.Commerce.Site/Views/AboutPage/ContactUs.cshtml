@@ -1,0 +1,31 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.About.ViewModels.ContactUsViewModel
+<div class="contact_right">
+    <div class="contact-form">
+        <h3>Contact Us</h3>
+        @using (Html.BeginForm("Save", "AboutPage", FormMethod.Post))
+        {
+            <div>
+                <span>@Html.LabelFor(m => m.Name)</span>
+                <span>@Html.TextBoxFor(x => x.Name, new { @class = "form-control" })</span>
+                <span>@Html.ValidationMessageFor(x => x.Name)</span>
+            </div>
+            <div>
+                <span>@Html.LabelFor(m => m.Email)</span>
+                <span>@Html.TextBoxFor(x => x.Email, new { @class = "form-control" })</span>
+                <span>@Html.ValidationMessageFor(x => x.Email)</span>
+            </div>
+            <div>
+                <span>@Html.LabelFor(m => m.Mobile)</span>
+                <span>@Html.TextBoxFor(x => x.Mobile, new { @class = "form-control" })</span>
+                <span>@Html.ValidationMessageFor(x => x.Mobile)</span>
+            </div>
+            <div>
+                <span>@Html.LabelFor(m => m.Subject)</span>
+                <span>@Html.TextBoxFor(x => x.Subject, new { @class = "form-control" })</span>
+                <span>@Html.ValidationMessageFor(x => x.Subject)</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn--blue">Submit</button>
+        }
+
+    </div>
+</div>

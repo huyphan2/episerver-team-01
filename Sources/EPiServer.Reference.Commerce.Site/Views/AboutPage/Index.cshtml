@@ -1,0 +1,42 @@
+﻿@using EPiServer.Reference.Commerce.Site.Features.About.Pages;
+@using EPiServer.Reference.Commerce.Site.Features.About.ViewModels;
+@model AboutPage
+
+<style>
+    .contact_left {
+        float: left;
+        margin-right: 3.3333%;
+        width: 32.3333%;
+    }
+
+    .contact_right {
+        float: left;
+        width: 63.3333%;
+    }
+
+    .main_bg {
+        background: #EBE7DF;
+        min-height: 700px;
+    }
+</style>
+<div class="main_bg">
+    <div class="wrap">
+        <!---728x90--->
+
+
+        <div class="main">
+            <div class="contact">
+                <div class="contact_left">
+                    @Html.PropertyFor(m => m.Content)
+
+                </div>
+                <div class="contact_right">
+                    <div class="contact-form"> 
+                        @Html.PropertyFor(m => m.ContactUsForm)
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>

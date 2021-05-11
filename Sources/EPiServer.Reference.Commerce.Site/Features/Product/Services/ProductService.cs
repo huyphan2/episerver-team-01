@@ -3,6 +3,8 @@ using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Find;
+using EPiServer.Find.Api;
+using EPiServer.Find.Api.Querying;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Commerce;
 using EPiServer.Find.Framework;
@@ -22,6 +24,7 @@ using Mediachase.Commerce.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 {
@@ -151,7 +154,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         }
         public List<ProductTileViewModel> GetBestSellerFasionProduct()
         {
-            var result = FindClient.Search<FashionProduct>().OrderByDescending(x => x.Ranking).Skip(0).Take(3);
+            var result = FindClient.Search<FashionProduct>().OrderByDescending(x => x.Ranking).Skip(0).Take(6);
             var list = result.GetContentResult().ToList();
             var listProductView = list.Select(t => GetProductTileViewModel(t)).ToList();
 
@@ -159,7 +162,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         }
         public List<ProductTileViewModel> GetNewestFasionProduct()
         {
-            var result = FindClient.Search<FashionProduct>().OrderByDescending(x => x.StartPublish).Skip(0).Take(3);
+            var result = FindClient.Search<FashionProduct>().OrderByDescending(x => x.StartPublish).Skip(0).Take(6);
             var list = result.GetContentResult().ToList();
             var listProductView = list.Select(t => GetProductTileViewModel(t)).ToList();
             return listProductView;
@@ -214,5 +217,66 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 .Take(size)
                 .Select(s => GetProductTileViewModel(s));
         }
+         public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string language,string category, string orderField, int numberOfItem)
+        {
+
+            var search = FindClient.Search<FashionProduct>();
+            var requiredFilter = new FilterBuilder<FashionProduct>(search.Client);
+            requiredFilter = requiredFilter.FilterOnCurrentMarket().And(x => x.Language.Name.MatchCaseInsensitive(language));
+     
+            if (!string.IsNullOrEmpty(category))
+            {
+                requiredFilter = requiredFilter.And(x => x.Ancestors().Match(category));
+            }
+            var list = new List<FashionProduct>();
+            switch (orderField)
+            {
+                case nameof(FashionProduct.StartPublish):
+                    list = search.Filter(requiredFilter).OrderByDescending(t => t.StartPublish).Skip(0).Take(numberOfItem).GetContentResult().ToList();
+                    break;
+                case nameof(FashionProduct.Ranking):
+                    list = search.Filter(requiredFilter).OrderByDescending(t => t.Ranking).Skip(0).Take(numberOfItem).GetContentResult().ToList();
+                    break;
+                default:
+                    list = search.Filter(requiredFilter).OrderByDescending(t => t.Ranking).Skip(0).Take(numberOfItem).GetContentResult().ToList();
+                    break;
+            }
+            
+            var listProductView = list.Select(t => GetProductTileViewModel(t)).ToList();
+            return listProductView;
+
+        }
+    }
+
+    public static class Extension
+    {
+
+
+        //public static ITypeSearch<TSource> OrderByDynamics<TSource>(this ITypeSearch<TSource> search, string columnName)
+        //{
+        //    ParameterExpression parameter = Expression.Parameter(typeof(TSource), "d");
+        //    MemberExpression memberExpression = Expression.Property(parameter, typeof(TSource).GetProperty(columnName));
+        //    LambdaExpression lambda = Expression.Lambda(memberExpression, parameter);
+        //    //Expression<Func<TSource, EPiServer.Find.GeoLocation>> lambda =  Expression.Lambda<Func<TSource, EPiServer.Find.GeoLocation>>(memberExpression, parameter);
+        //    //var res = search.OrderByDescending(t => Expression.Property(parameter, typeof(TSource).GetProperty(columnName)));
+        //    //var res2 = search.OrderByDescending(lambda);
+
+        //    switch (columnName)
+        //    {
+        //        case nameof(FashionProduct.PublishedDate):
+        //            return search.OrderByDescending(t => (t as FashionProduct).PublishedDate); 
+        //        case nameof(FashionProduct.PublishedDate):
+        //            return search.OrderByDescending(t => (t as FashionProduct).PublishedDate); 
+        //        default:
+        //            return search;
+        //    }
+
+            
+
+        //    //return new Search<TSource, IQuery>(search, context =>
+        //    //{
+        //    //    context.RequestBody.Sort.Add(new Sorting(columnName));
+        //    //});
+        //}
     }
 }
