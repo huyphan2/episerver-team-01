@@ -217,25 +217,28 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 .Take(size)
                 .Select(s => GetProductTileViewModel(s));
         }
-         public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string category, string orderField, int numberOfItem)
+         public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string language,string category, string orderField, int numberOfItem)
         {
 
             var search = FindClient.Search<FashionProduct>();
+            var requiredFilter = new FilterBuilder<FashionProduct>(search.Client);
+            requiredFilter = requiredFilter.FilterOnCurrentMarket().And(x => x.Language.Name.MatchCaseInsensitive(language));
+     
             if (!string.IsNullOrEmpty(category))
             {
-                search = search.Filter(x => x.Ancestors().Match(category));
+                requiredFilter = requiredFilter.And(x => x.Ancestors().Match(category));
             }
             var list = new List<FashionProduct>();
             switch (orderField)
             {
                 case nameof(FashionProduct.StartPublish):
-                    list = search.OrderByDescending(t => t.StartPublish).Skip(0).Take(numberOfItem).GetContentResult().ToList();
+                    list = search.Filter(requiredFilter).OrderByDescending(t => t.StartPublish).Skip(0).Take(numberOfItem).GetContentResult().ToList();
                     break;
                 case nameof(FashionProduct.Ranking):
-                    list = search.OrderByDescending(t => t.Ranking).Skip(0).Take(numberOfItem).GetContentResult().ToList();
+                    list = search.Filter(requiredFilter).OrderByDescending(t => t.Ranking).Skip(0).Take(numberOfItem).GetContentResult().ToList();
                     break;
                 default:
-                    list = search.OrderByDescending(t => t.Ranking).Skip(0).Take(numberOfItem).GetContentResult().ToList();
+                    list = search.Filter(requiredFilter).OrderByDescending(t => t.Ranking).Skip(0).Take(numberOfItem).GetContentResult().ToList();
                     break;
             }
             

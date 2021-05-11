@@ -11,6 +11,7 @@ using EPiServer.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -48,7 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
                     }
                 }
                 var listProduct = _contentLoader.GetDescendents(currentBlock.ReferContent);
-                model.productTileViewModels = _productService.GetFasionProductByCategoryAndSorting(contentRefLink, currentBlock.OrderByAttribute, currentBlock.NumberOfItem);
+                model.productTileViewModels = _productService.GetFasionProductByCategoryAndSorting(Thread.CurrentThread.CurrentUICulture.Name, contentRefLink, currentBlock.OrderByAttribute, currentBlock.NumberOfItem);
                 model.Title = currentBlock.Title;
             }
             catch(Exception ex)

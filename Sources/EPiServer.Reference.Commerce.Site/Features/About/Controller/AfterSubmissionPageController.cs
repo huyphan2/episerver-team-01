@@ -52,13 +52,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.About.Controller
                 DateTime.Now.AddDays(-100),
                 DateTime.Now).FirstOrDefault(t => t.Id == formSubmissionId);
 
-                var currentForm = _contentRepository.Get<ContactUsBlock>(new Guid(formGuid));
+                //var currentForm = _contentRepository.Get<ContactUsBlock>(new Guid(formGuid));
 
-                if (currentForm != null)
-                {
-                    model.ContactUsBlock = currentForm;
-                    model.CurrentPage = currentPage;
-                }
+                //if (currentForm != null)
+                //{
+                //    model.ContactUsBlock = currentForm;
+                //    model.CurrentPage = currentPage;
+                //}
             }
 
 
