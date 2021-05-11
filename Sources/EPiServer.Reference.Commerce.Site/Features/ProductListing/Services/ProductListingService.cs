@@ -115,16 +115,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
                 .ToList();
             var search = _episerverFindService.EpiClient().Search<FashionProduct>();
             search = search.Filter(x => x.Language.Name.Match(language));
-            search = search.WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.DisplayName, 1000)
-                .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.Brand, 900)
-                .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.ListCategories.FirstOrDefault(), 800);
+            search = search.WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.DisplayName, 1000);
             foreach (var word in words)
             {
                 if (!word.Equals(wholeWordWildCards))
                 {
-                    search = search.WildcardSearch(word, x => x.DisplayName, 700)
-                        .WildcardSearch(word, x => x.Brand, 600)
-                        .WildcardSearch(word, x => x.ListCategories.FirstOrDefault(), 500);
+                    search = search.WildcardSearch(word, x => x.DisplayName, 700);
                 }
             }
 
