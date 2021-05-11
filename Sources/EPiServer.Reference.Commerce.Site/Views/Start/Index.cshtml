@@ -5,6 +5,21 @@
     IEnumerable<PromotionViewModel> promotions = Model.Promotions;
 }
 
+
 @Html.PropertyFor(x => x.StartPage.MainContent, new { HasContainer = false, HasItemContainer = false })
 
- 
+
+@section Scripts{
+    <link href="~/Static/css/news-static.css" rel="stylesheet" />
+}
+<!-- Start news -->
+<section id="news" class="news">
+    <div class="container">
+        <div class="news-content">
+            <div class="row">
+                @Html.PropertyFor(x => x.StaticNews, new { HasContainer = false, HasItemContainer = false })
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End news -->
