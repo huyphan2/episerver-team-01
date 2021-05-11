@@ -15,35 +15,43 @@
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-brand">
                         <option @(string.IsNullOrEmpty(Model.SelectedParams.Brand) ? "selected" : "") value="">Brands</option>
-                        @foreach (var brand in Model.FilterParams.Brands)
+                        @if (Model.FilterParams.Brands !=null)
                         {
+                            foreach (var brand in Model.FilterParams.Brands)
+                            {
 
-                            <option @(!string.IsNullOrEmpty(Model.SelectedParams.Brand) && Model.SelectedParams.Brand.Equals(brand) ? "selected" : "") value="@brand">@brand</option>
+                                <option @(!string.IsNullOrEmpty(Model.SelectedParams.Brand) && Model.SelectedParams.Brand.Equals(brand) ? "selected" : "") value="@brand">@brand</option>
+                            }
                         }
                     </select>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-category">
                         <option @(string.IsNullOrEmpty(Model.SelectedParams.Category) ? "selected" : "") value="">Categories</option>
-                        @foreach (var category in Model.FilterParams.Categories)
+                        @if (Model.FilterParams.Categories !=null)
                         {
-                            <option @(!string.IsNullOrEmpty(Model.SelectedParams.Category) && Model.SelectedParams.Category.Equals(category) ? "selected" : "") value="@category">@category</option>
+                            foreach (var category in Model.FilterParams.Categories)
+                            {
+                                <option @(!string.IsNullOrEmpty(Model.SelectedParams.Category) && Model.SelectedParams.Category.Equals(category) ? "selected" : "") value="@category">@category</option>
+                            }
                         }
                     </select>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-price">
                         <option @(Model.SelectedParams.PriceFrom == 0 && Model.SelectedParams.PriceTo == 0 ? "selected" : "") data-price="0:0" value="all">Price</option>
-                        @{
-                            int priceValueCount = 0;
-                        }
-                        @foreach (PriceRange price in Model.FilterParams.Price)
+                        @if (Model.FilterParams.Price !=null)
                         {
-                            priceValueCount++;
-                            var fromPrice = Convert.ToDecimal(Model.SelectedParams.PriceFrom);
-                            var toPrice = Convert.ToDecimal(Model.SelectedParams.PriceTo);
-                            <option @(fromPrice == price.From && toPrice == price.To ? "selected" : "") data-price="@price.From:@price.To" value="@priceValueCount">@price.ToString()</option>
+                            int priceValueCount = 0;
+                            foreach (PriceRange price in Model.FilterParams.Price)
+                            {
+                                priceValueCount++;
+                                var fromPrice = Convert.ToDecimal(Model.SelectedParams.PriceFrom);
+                                var toPrice = Convert.ToDecimal(Model.SelectedParams.PriceTo);
+                                <option @(fromPrice == price.From && toPrice == price.To ? "selected" : "") data-price="@price.From:@price.To" value="@priceValueCount">@price.ToString()</option>
+                            }
                         }
+                       
                     </select>
                 </div>
                 <div class="col col-md-9 col-sm-6 col-12">

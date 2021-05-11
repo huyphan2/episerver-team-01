@@ -39,19 +39,19 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
                 return BadRequest();
             }
         }
-        [HttpGet]
-        [Route("GlobalSearchProduct")]
-        public IHttpActionResult GlobalSearchProduct(string query)
-        {
-            try
-            {
-                var productlist = _productListingService.SearchWildcardProduct(query);
-                return Ok(productlist);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+        //[HttpGet]
+        //[Route("GlobalSearchProduct")]
+        //public IHttpActionResult GlobalSearchProduct(string query)
+        //{
+        //    try
+        //    {
+        //        var productlist = _productListingService.SearchWildcardProduct(query);
+        //        return Ok(productlist);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
     }
 }

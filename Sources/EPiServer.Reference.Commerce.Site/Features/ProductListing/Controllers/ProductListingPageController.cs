@@ -33,19 +33,5 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Controllers
             };
             return View(currentPage);
         }
-        //public ActionResult Index(Pages.ProductListingPage currentPage,string brand,string category, double priceFrom = 0, double priceTo = 0, bool isSortDes=false,int pageNumber=1)
-        //{
-        //    var products = _productListingService.GetListProduct(brand, (decimal)priceFrom, (decimal)priceTo, category, isSortDes, pageNumber);
-        //    currentPage.Products = products != null && products.Products != null ? products.Products : new List<ProductTileViewModel>();
-        //    currentPage.FilterParams = _productListingService.GetFilterParams(currentPage);
-        //    currentPage.SelectedParams = new FilterParam()
-        //    {
-        //        Brand = brand,
-        //        Category = category,
-        //        PriceFrom = priceFrom,
-        //        PriceTo = priceTo,
-        //    };
-        //    return View(currentPage);
-        //}
     }
 }

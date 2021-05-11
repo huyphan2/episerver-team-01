@@ -10,14 +10,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
 {
     public interface IProductListingService
     {
-        ProductListViewModel GetListProduct(string brand, decimal priceFrom, decimal priceTo, string category, bool isSortDes,int pageNumber);
+        ProductListViewModel GetListProduct(string brand, decimal priceFrom, decimal priceTo, string category, bool isSortDes, int pageNumber);
         FilterParams GetFilterParams(ProductListBlock currentBlock);
         List<string> GetCategories(ContentArea categoryArea);
         List<string> GetBrands(ContentArea brandArea);
         List<string> ProductCategories(IEnumerable<ContentReference> categories);
-
-        ITypeSearch<FashionProduct> MatchFilter(string brand, decimal priceFrom, decimal priceTo, string category,
-            bool isSortDes);
-        List<string> SearchWildcardProduct(string query);
+        ITypeSearch<FashionProduct> MatchFilter(string brand, decimal priceFrom, decimal priceTo, string category, bool isSortDes, string language);
+        List<ProductTileViewModel> SearchWildcardProduct(string query, string language);
     }
 }

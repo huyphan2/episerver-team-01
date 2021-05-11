@@ -10,7 +10,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
         public static ITypeSearch<T> WildcardSearch<T>(this ITypeSearch<T> search,
             string query, Expression<Func<T, string>> fieldSelector, double? boost = null)
         {
-             if (string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(query))
                 return search;
             query = query?.ToLowerInvariant();
             query = WrapInAsterisks(query);

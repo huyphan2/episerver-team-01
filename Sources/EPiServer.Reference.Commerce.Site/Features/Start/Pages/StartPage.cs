@@ -59,7 +59,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             Description = "",
             GroupName = SystemTabNames.Content,
             Order = 7)]
- 
+
         [Ignore]
         [ScaffoldColumn(false)]
         public virtual XhtmlString MainBody { get; set; }
@@ -110,7 +110,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
             GroupName = SiteTabs.SiteStructure,
             Order = 6)]
         [AllowedTypes(typeof(ResetPasswordPage))]
-        public virtual ContentReference ResetPasswordPage { get; set; }        
+        public virtual ContentReference ResetPasswordPage { get; set; }
 
         [Display(
             Name = "Login registration page",
@@ -155,10 +155,10 @@ namespace EPiServer.Reference.Commerce.Site.Features.Start.Pages
           Order = 7)]
         public virtual ContentArea MainContent { get; set; }
         [Display(
-     Name = "Footer page display",
-     Description = "",
-     GroupName = SystemTabNames.Content,
-     Order = 8)]
+        Name = "Footer page display",
+        Description = "",
+        GroupName = SystemTabNames.Content,
+        Order = 8)]
         public virtual ContentArea Footer { get; set; }
     }
 }
