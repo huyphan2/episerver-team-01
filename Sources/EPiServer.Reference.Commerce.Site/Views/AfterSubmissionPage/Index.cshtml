@@ -1,0 +1,10 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.About.ViewModels.AfterSubmissionViewModel
+
+@if (Model != null && Model.ContactUsBlock != null)
+{
+    <h2>Thanks for submission @Model.ContactUsBlock.Email</h2>
+}
+else 
+{
+    <h2>Thanks for submission</h2>
+}

@@ -42,6 +42,11 @@
         }
         @Html.RequiredClientResources("Header")
         @Html.LoadTrackingAPI()*@
+    <style>
+        .myBody{
+            min-height:500px;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper">
@@ -55,12 +60,12 @@
         @{ Html.RenderAction("Index", "Navigation"); }
 
 
+        <div class="myBody">
+            @RenderBody()
+        </div>
+            @{ Html.RenderAction("Index", "Footer"); }
 
-        @RenderBody()
-
-        @{ Html.RenderAction("Index", "Footer"); }
-
-
+    
         @*@Scripts.Render("~/bundles/jquery")
             @Scripts.Render("~/bundles/bootstrap")
             @Scripts.Render("~/bundles/jqueryval")

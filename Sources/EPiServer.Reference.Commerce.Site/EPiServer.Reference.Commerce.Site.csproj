@@ -70,6 +70,9 @@
     <Reference Include="EPiServer, Version=11.17.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.Core.11.17.0\lib\net461\EPiServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPiServer.AddOns.Helpers, Version=0.4.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.AddOns.Helpers.0.4.0.0\lib\EPiServer.AddOns.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.ApplicationModules, Version=11.17.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Framework.11.17.0\lib\net461\EPiServer.ApplicationModules.dll</HintPath>
     </Reference>
@@ -126,6 +129,15 @@
     </Reference>
     <Reference Include="EPiServer.Find.UI, Version=13.4.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Find.Cms.13.4.3\lib\net461\EPiServer.Find.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Forms, Version=4.30.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Forms.4.30.3\lib\EPiServer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Forms.Core, Version=4.30.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Forms.Core.4.30.3\lib\EPiServer.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Forms.UI, Version=4.30.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Forms.UI.4.30.3\lib\EPiServer.Forms.UI.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Framework, Version=11.17.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Framework.11.17.0\lib\net461\EPiServer.Framework.dll</HintPath>
@@ -472,6 +484,15 @@
     </Compile>
     <Compile Include="CSRExtensibility\Controllers\DemoApiController.cs" />
     <Compile Include="CSRExtensibility\CSRCustomUI.cs" />
+    <Compile Include="Features\About\Blocks\CompanyInfomationBlock.cs" />
+    <Compile Include="Features\About\Blocks\ContactUsBlock.cs" />
+    <Compile Include="Features\About\Blocks\FindUsBlock.cs" />
+    <Compile Include="Features\About\Controller\AboutPageController.cs" />
+    <Compile Include="Features\About\Controller\AfterSubmissionPageController.cs" />
+    <Compile Include="Features\About\Pages\AboutPage.cs" />
+    <Compile Include="Features\About\Pages\AfterSubmissionPage.cs" />
+    <Compile Include="Features\About\ViewModels\AfterSubmissionViewModel.cs" />
+    <Compile Include="Features\About\ViewModels\ContactUsViewModel.cs" />
     <Compile Include="Features\AddressBook\ViewModels\AddressCollectionViewModel.cs" />
     <Compile Include="Features\AddressBook\ViewModels\AddressViewModel.cs" />
     <Compile Include="Features\Cart\Services\AddToCartResult.cs" />
@@ -536,14 +557,20 @@
     <Compile Include="Features\ProductListing\Services\IProductListingService.cs" />
     <Compile Include="Features\ProductListing\Services\ProductListingService.cs" />
     <Compile Include="Features\ProductListing\ViewModels\FilterParams.cs" />
-    <Compile Include="Features\ProductListing\ViewModels\ProductListViewModel.cs" />
+ <Compile Include="Features\ProductListing\ViewModels\ProductListViewModel.cs" />
+    
+    <Compile Include="Features\Product\Blocks\ListingTileProductBlock.cs" />
+    <Compile Include="Features\Product\Blocks\PromotionBlock.cs" />
     <Compile Include="Features\Product\Controllers\BundleController.cs" />
+    <Compile Include="Features\Product\Controllers\ListingTileProductBlockController.cs" />
     <Compile Include="Features\Product\Controllers\PackageController.cs" />
+    <Compile Include="Features\Product\Controllers\PromotionBlockController.cs" />
     <Compile Include="Features\Product\Models\FashionBundle.cs" />
     <Compile Include="Features\Product\Models\FashionPackage.cs" />
     <Compile Include="Features\Product\ViewModelFactories\CatalogEntryViewModelFactory.cs" />
     <Compile Include="Features\Product\ViewModels\FashionBundleViewModel.cs" />
     <Compile Include="Features\Product\ViewModels\FashionPackageViewModel.cs" />
+    <Compile Include="Features\Product\ViewModels\ListTileProductViewModel.cs" />
     <Compile Include="Features\Recommendations\Controllers\RecommendationsController.cs" />
     <Compile Include="Features\Recommendations\Extensions\RecommendationsExtensions.cs" />
     <Compile Include="Features\Recommendations\Services\RecommendationService.cs" />
@@ -950,6 +977,11 @@
     <Content Include="modules\_protected\Shell\Shell.zip" />
     <Content Include="modules\_protected\CMS\web.config" />
     <Content Include="modules\_protected\CMS\CMS.zip" />
+    <Content Include="modules\_protected\EPiServer.Forms.UI\module.config" />
+    <Content Include="modules\_protected\EPiServer.Forms.UI\EPiServer.Forms.UI.zip" />
+    <Content Include="modules\_protected\EPiServer.Forms\Views\ElementBlocks\Web.config" />
+    <Content Include="modules\_protected\EPiServer.Forms\Forms.config" />
+    <Content Include="modules\_protected\EPiServer.Forms\EPiServer.Forms.zip" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -980,6 +1012,13 @@
     <Content Include="Views\Shared\DisplayTemplates\Images.cshtml" />
     <Content Include="Views\ProductListingPage\Index.cshtml" />
     <Content Include="Views\Shared\Blocks\IconLinkBlock.cshtml" />
+    <Content Include="Views\AboutPage\Index.cshtml" />
+    <Content Include="Views\AboutPage\ContactUs.cshtml" />
+    <Content Include="Views\Shared\Blocks\CompanyInfomationBlock.cshtml" />
+    <Content Include="Views\Shared\Blocks\FindUsBlock.cshtml" />
+    <Content Include="Views\ListingTileProductBlock\Index.cshtml" />
+    <Content Include="Views\PromotionBlock\Index.cshtml" />
+    <Content Include="Views\AfterSubmissionPage\Index.cshtml" />
     <Content Include="Views\News\BlogNews.cshtml" />
     <Content Include="Views\News\BlogNewsDetail.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
@@ -1148,7 +1187,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

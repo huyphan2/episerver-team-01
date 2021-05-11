@@ -48,12 +48,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
                 var product = _contentLoader.Get<FashionProduct>(e.ContentLink);
                 product.PublishedDate = DateTime.Now;
-               var res =  _client.Index(product);
+                var res = _client.Index(product);
             }
         }
         public void Uninitialize(InitializationEngine context)
         {
-            
+
         }
     }
 }

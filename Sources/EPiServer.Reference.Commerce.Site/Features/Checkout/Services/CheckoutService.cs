@@ -163,14 +163,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Checkout.Services
                 var referenceConverter = ServiceLocator.Current.GetInstance<ReferenceConverter>();
                 var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
                 var contentRepo = ServiceLocator.Current.GetInstance<IContentRepository>();
-                var list = purchaseOrder.Forms.ToList().First().GetAllLineItems().Select(x => x.Code);
+                var list = purchaseOrder.Forms.ToList().First().GetAllLineItems();
                 foreach (var item in list)
                 {
-                    var variantLink = referenceConverter.GetContentLink(item);
+                    var variantLink = referenceConverter.GetContentLink(item.Code);
                     var variant = contentLoader.Get<FashionVariant>(variantLink);
                     var parent = variant.GetParentProducts().First();
                     var product = contentRepo.Get<FashionProduct>(parent).CreateWritableClone() as FashionProduct;
-                    product.Ranking++;
+                    product.Ranking += Convert.ToInt32( item.Quantity);
                     contentRepo.Save(product, DataAccess.SaveAction.Publish, Security.AccessLevel.NoAccess);
                 }
 
