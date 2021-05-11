@@ -1,0 +1,57 @@
+:root {
+  --primary-1: #57c5a0;
+  --primary-2: #f27e4b;
+  --primary-3: #242424;
+  --primary-4: #2e2e2e;
+}
+
+.wrapper {
+  width: 100%;
+  position: relative;
+  padding-top: 105px;
+}
+
+body, style {
+	font-family: Aller;
+}
+
+.price {
+	width: 68px;
+	height: 68px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-size: 13px;
+	background-color: var(--primary-1);
+}
+
+.product-action {
+	li i {
+		color: #adadad;
+	}
+
+	.add-to-cart i {
+		color: var(--primary-1);
+	}
+
+	a,
+	button {
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 2px;
+		background-color: #fff;
+		cursor: pointer;
+		transition: all 0.35s ease;
+
+		&:hover {
+			background-color: var(--primary-1);
+			i {
+				color: #fff;
+			}
+		}
+	}
+}

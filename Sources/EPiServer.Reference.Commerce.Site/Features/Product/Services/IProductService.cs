@@ -14,5 +14,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         string GetSiblingVariantCodeBySize(string siblingCode, string size);
         List<ProductTileViewModel> GetBestSellerFasionProduct();
         List<ProductTileViewModel> GetNewestFasionProduct();
+        List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string category, string orderField, int numberOfItem);
     }
 }

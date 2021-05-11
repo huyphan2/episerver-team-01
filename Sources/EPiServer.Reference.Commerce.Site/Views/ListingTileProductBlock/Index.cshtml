@@ -1,0 +1,25 @@
+﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.ListTileProductViewModel
+
+ 
+@if (Model != null)
+{
+    <section id="new-product" class="product-group new-product">
+        <div class="container">
+            <div class="row">
+                <div class="col col-sm-10 col-12">
+                    <h2 class="title">@Model.Title</h2>
+                </div>
+                @*<div class="col col-sm-2 col-12 text-right">
+                        <button class="btn btn-outline-primary" disabled>Show All</button>
+                    </div>*@
+            </div>
+            <div class="row">
+                @foreach (var item in Model.productTileViewModels)
+                {
+                    @Html.Partial("_ProductTile", item)
+
+                }
+            </div>
+        </div>
+    </section>
+}
