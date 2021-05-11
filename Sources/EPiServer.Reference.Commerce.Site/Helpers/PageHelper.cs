@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Infrastructure;
@@ -55,31 +56,40 @@ namespace EPiServer.Reference.Commerce.Site.Helpers
             }
             return pages.Distinct().ToList();
         }
-        public static void GetDescendantsOfBrand<T>(ContentReference contentLink, ICollection<T> descendants) where T: class
+        public static void GetDescendantsOfType<T>(ContentReference contentLink, ICollection<T> descendants,CultureInfo language, IContentLoader contentLoader) where T : class
         {
-            var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
-            var children = contentLoader.GetChildren<FashionProduct>(contentLink);
-            foreach (var child in children)
+            var children = contentLoader.GetChildren<NodeContent>(contentLink,language);
+            if (children.Any())
             {
-                if (child is T)
+                foreach (var child in children)
                 {
-                    descendants.Add(child as T);
+                    if (child is T)
+                    {
+                        descendants.Add(child as T);
+                    }
+                    GetDescendantsOfType(child.ContentLink, descendants, language, contentLoader);
                 }
-                GetDescendantsOfBrand(child.ContentLink, descendants);
             }
         }
-        public static void GetDescendantsOfCategory<T>(ContentReference contentLink, ICollection<T> descendants, CultureInfo language) where T : class
+        public static List<FashionProduct> GetProductsFromContentArea(ContentArea contentArea, IContentLoader contentLoader)
         {
-            var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
-            var children = contentRepository.GetChildren<FashionNode>(contentLink, language);
-            foreach (var child in children)
+            var products = new List<FashionProduct>();
+            foreach (var contentAreaItem in contentArea.Items)
             {
-                if (child is T)
+                IContentData item;
+                if (!contentLoader.TryGet(contentAreaItem.ContentLink, out item))
                 {
-                    descendants.Add(child as T);
+                    continue;
                 }
-                GetDescendantsOfCategory(child.ContentLink, descendants, language);
+                var descendentReferences = contentLoader.GetDescendents(contentAreaItem.ContentLink);
+                foreach (var reference in descendentReferences)
+                {
+                    var getItem = contentLoader.Get<IContent>(reference);
+                    var fashionProduct = getItem as FashionProduct;
+                    if (fashionProduct != null) products.Add(fashionProduct);
+                }
             }
+            return products;
         }
     }
 }

@@ -17,6 +17,7 @@ using EPiServer.Reference.Commerce.Site.Features.ProductListing.Blocks;
 using EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages;
 using EPiServer.Reference.Commerce.Site.Helpers;
 using EPiServer.Web.Routing;
+using FashionNode = EPiServer.Reference.Commerce.Site.Features.Product.Models.FashionNode;
 
 namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
 {
@@ -55,7 +56,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
                 throw e;
             }
         }
-
         public FilterParams GetFilterParams(ProductListBlock currentBlock)
         {
             var model = new FilterParams()
@@ -67,42 +67,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
             return model;
         }
 
-        public List<string> GetBrands(ContentArea brandArea)
+        public List<string> GetBrands(ContentArea contentArea)
         {
-            var decendants = new List<FashionProduct>();
-            foreach (var contentAreaItem in brandArea.Items)
-            {
-                IContentData item;
-                if (!_contentLoader.TryGet(contentAreaItem.ContentLink, out item))
-                {
-                    continue;
-                }
-                var fashionNodeContent = item as FashionNode;
-                var catalogNodeContent = item as CatalogContent;
-                if (fashionNodeContent != null ) PageHelper.GetDescendantsOfBrand<FashionProduct>(fashionNodeContent.ContentLink,decendants);
-                else if(catalogNodeContent != null) PageHelper.GetDescendantsOfBrand<FashionProduct>(catalogNodeContent.ContentLink, decendants);
-            }
-
-            var result = decendants.Select(x => x.Brand).Distinct().ToList();
+            var products = PageHelper.GetProductsFromContentArea(contentArea, _contentLoader);
+            var result = products.Select(x => x.Brand).Distinct().OrderBy(x=>x).ToList();
             return result;
         }
 
         public List<string> GetCategories(ContentArea categoryArea)
         {
             var result = new List<string>();
-            foreach (var contentAreaItem in categoryArea.Items)
-            {
-                IContentData item;
-                if (!_contentLoader.TryGet(contentAreaItem.ContentLink, out item))
-                {
-                    continue;
-                }
-                var nodeContent = item as FashionNode;
-                if (nodeContent == null) continue;
-                result.Add(_contentLoader.Get<FashionNode>(nodeContent.ContentLink).DisplayName);
-                result.AddRange(_contentLoader.GetChildren<FashionNode>(nodeContent.ContentLink).Select(x => x.DisplayName));
-            }
-            return result.Distinct().ToList();
+            var decendants = CategoryHelper.GetCategoriesFromContentArea(categoryArea, _contentLoader);
+            return decendants.Select(x => x.DisplayName).Distinct().OrderBy(x=>x).ToList();
         }
         public List<string> ProductCategories(IEnumerable<ContentReference> categories)
         {
@@ -114,7 +90,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
         {
             var search = _episerverFindService.EpiClient().Search<FashionProduct>();
             var requiredFilter = new FilterBuilder<FashionProduct>(search.Client);
-
+            requiredFilter=requiredFilter.FilterOnCurrentMarket();
             if (!string.IsNullOrEmpty(brand)) requiredFilter = requiredFilter.And(x => x.Brand.Match(brand));
             if(priceTo!=0) requiredFilter = requiredFilter.And(x => x.Price.InRange(priceFrom, priceTo));
             if (!string.IsNullOrEmpty(category))

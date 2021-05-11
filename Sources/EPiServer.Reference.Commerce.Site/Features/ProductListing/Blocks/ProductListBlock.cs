@@ -57,7 +57,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Blocks
             Name = "Categories",
             GroupName = SiteTabs.Products,
             Order = 2)]
-        [AllowedTypes(typeof(FashionNode))]
         public virtual ContentArea CategoryCollection { get; set; }
         [Display(
             Name = "Brands",
