@@ -4,6 +4,7 @@ using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Cms;
+using EPiServer.Find.Commerce;
 using EPiServer.Find.Framework;
 using EPiServer.Find.Helpers;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
@@ -166,11 +167,25 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
 
         private IEnumerable<FashionProduct> GetRelatedProductItems(FashionProduct product)
         {
-            return FindClient.Search<FashionProduct>()
-                .Filter(p => p.ParentLink.Match(product.ParentLink))
-                .Filter(p => !p.Code.Match(product.Code))
-                .GetContentResult()
-                .Items;
+            var queries = FindClient.Search<FashionProduct>()
+               .Filter(p => !p.Code.Match(product.Code));
+
+            var categories = product.GetCategories();
+            List<ITypeSearch<FashionProduct>> filterQueries = new List<ITypeSearch<FashionProduct>>();
+            for (int i = 0; i < categories.Count(); i++)
+            {
+                var category = categories.ElementAt(i);
+                if (i > 0)
+                {
+                    queries = queries.OrFilter(p => p.ParentNodeRelations().MatchContained(item => item.ID, category.ID));
+                }
+                else
+                {
+                    queries = queries.Filter(p => p.ParentNodeRelations().MatchContained(item => item.ID, category.ID));
+                }
+            }
+         
+            return queries.GetContentResult().Items;
         }
         public IEnumerable<ProductTileViewModel> GetRelatedProducts(FashionProduct product, int size = 12)
         {
