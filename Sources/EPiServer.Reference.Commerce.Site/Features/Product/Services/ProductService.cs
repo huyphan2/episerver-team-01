@@ -188,11 +188,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         }
         public IEnumerable<ProductTileViewModel> GetRelatedProducts(FashionProduct product, int size = 12)
         {
-            var query = GetRelatedProductItems(product);
+            var items = GetRelatedProductItems(product).OrderBy(o => o.Ranking);
             if (size > 0)
-                return query.Take(size).Select(s => GetProductTileViewModel(s));
+                return items.Take(size).Select(s => GetProductTileViewModel(s));
             else
-                return query.Select(s => GetProductTileViewModel(s));
+                return items.Select(s => GetProductTileViewModel(s));
         }
 
         public IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, IEnumerable<ILineItem> lineItems, int size = 12)
@@ -217,6 +217,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 .Where(w => w.Code != product.Code)
                 .DistinctBy(d => d.Code)
                 .Take(size)
+                .OrderBy(o => o.Ranking)
                 .Select(s => GetProductTileViewModel(s));
         }
         public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string language, string category, string orderField, int numberOfItem)
