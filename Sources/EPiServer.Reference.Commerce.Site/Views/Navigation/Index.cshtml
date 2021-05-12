@@ -19,16 +19,16 @@
                             <img src="~/Static/images/logo.png" alt="logo">
                         </a>
                         <div class="d-flex align-items-center">
-                            @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "header-search d-flex align-items-center" }))
+                            @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "header-search d-flex align-items-center product-search-wrap" ,autocomplete="off"}))
                             {
 
                                 <div class="input-group">
-                                    <input aria-label="Search..." placeholder="Search..." type="text" class="form-control form-inline search-input jsQuickSearch" id="q2" name="query" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
-
+                                    <input autocomplete="off" aria-label="Search..." placeholder="Search..." type="text" class="form-control form-inline search-input jsQuickSearch" id="q2" name="query" data-url="@Url.Action("quicksearch", null, new { node = Model.StartPage.SearchPage })" />
+                                    <button class="header-search-btn" type="button">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
                                 </div>
-                                <button class="header-search-btn" type="button">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </button>
+                                <div class="jsQuickSearchResult product-dropdown-container product-search-result" style="display: none;"></div>
                             }
 
                             @*<a href="#" class="header-login">

@@ -3,22 +3,34 @@
     Layout = null;
 }
 
-<ul class="product-dropdown product-row list-unstyled">
-    @foreach (var product in Model)
+<ul class="product-dropdown product-row list-unstyled product-search-list-item">
+    @if (Model != null && Model.Any())
     {
-        <li class="list-group-item product-item">
-            <a href="@product.Url" class="link--black">
-                <div class="media">
-                    <div class="media-left">
-                        <img src="@product.ImageUrl" alt="@product.DisplayName" class="media-object product-row__item__image" />
+        foreach (var product in Model)
+        {
+            <li class="list-group-item product-item product-quicksearch-item">
+                <a href="@product.Url" class="link--black">
+                    <div class="media">
+                        <div class="media-left product-media-left">
+                            <img src="@product.ImageUrl" alt="@product.DisplayName" class="media-object product-row__item__image"/>
+                        </div>
+                        <div class="media-body product-media-body">
+                            <div class="product-item-wrap">
+                                <h3 class="product-row__item__title product-search-item-title">@product.DisplayName</h3>
+                                <h4 class="product-row__item__price product-price product-item-price">@Helpers.RenderMoney(product.PlacedPrice)</h4>
+                            </div>
+                            <span class="product-row__item__brand product-brand text-muted">@product.Brand</span>
+                        </div>
                     </div>
-                    <div class="media-body">
-                        <h3 class="product-row__item__title">@product.DisplayName</h3>
-                        <h4 class="product-row__item__price product-price">@Helpers.RenderMoney(product.PlacedPrice)</h4>
-                        <span class="product-row__item__brand product-brand text-muted">@product.Brand</span>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="list-group-item product-item product-quicksearch-item">
+            <h3 class="product-row__item__title product-search-item-title">Product Not Found</h3>
         </li>
     }
+   
 </ul>

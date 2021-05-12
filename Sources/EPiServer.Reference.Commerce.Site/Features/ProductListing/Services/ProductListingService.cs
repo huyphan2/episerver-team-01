@@ -106,30 +106,31 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
             return search.Filter(requiredFilter);
         }
 
-        public List<ProductTileViewModel> SearchWildcardProduct(string query, Language language)
+        public List<ProductTileViewModel> SearchWildcardProduct(string query,int itemNumber, string language)
         {
             string wholeWordWildCards = WildCardExtensions.WrapInAsterisks(query);
-
-            var words = query.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(WildCardExtensions.WrapInAsterisks)
-                .ToList();
-            var search = _episerverFindService.EpiClient().Search<FashionProduct>(language);
-            search = search.FilterOnCurrentMarket();
-            search = search.WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.DisplayName, 1000)
-                .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.Brand, 900)
-                .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.ListCategories.FirstOrDefault(), 800);
-            int priorityBoost = 700;
-            foreach (var word in words)
+            var search = _episerverFindService.EpiClient().Search<FashionProduct>();
+            search = search.WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.DisplayName, 100)
+                .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.Brand, 99)
+                .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.ListCategories.FirstOrDefault(), 98);
+            int priorityBoost = 97;
+            if (!string.IsNullOrEmpty(query))
             {
-                if (!word.Equals(wholeWordWildCards))
+                var words = query.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(WildCardExtensions.WrapInAsterisks)
+                    .ToList();
+                foreach (var word in words)
                 {
-                    if (priorityBoost == 0) break;
-                    search = search.WildcardSearch(word, x => x.DisplayName, --priorityBoost);
+                    if (!word.Equals(wholeWordWildCards))
+                    {
+                        if (priorityBoost == 0) break;
+                        search = search.WildcardSearch(word, x => x.DisplayName, --priorityBoost);
+                    }
                 }
             }
-
+            search = search.FilterOnCurrentMarket().Filter(x => x.Language.Name.Match(language));
             var result = new List<ProductTileViewModel>();
-            foreach (var fashionProduct in search.GetContentResult())
+            foreach (var fashionProduct in search.Take(itemNumber).GetContentResult())
             {
                 var productViewModel = _productService.GetProductTileViewModel(fashionProduct);
                 if (productViewModel != null) result.Add(productViewModel);

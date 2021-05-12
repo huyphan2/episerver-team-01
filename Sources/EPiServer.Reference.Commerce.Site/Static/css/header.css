@@ -22,12 +22,9 @@
         color: #fff; }
     .header-search input {
       padding: 3px 12px;
-      opacity: 0;
-      width: 0;
-      transition: all .35s ease; }
-    .header-search .input-group.open input {
-      width: 100%;
-      opacity: 1; }
+      opacity: 1;
+      width: 100%;}
+
   .header-login {
     color: #7e7e7e;
     padding: 8px 22px;
