@@ -40,7 +40,7 @@
                         <div class="input-group">
                             <input id="product-count" type="number" value="0" min="0" class="form-control" placeholder="amount" aria-label="amount" aria-describedby="amount">
                         </div>
-                        <button type="button" data-url="@Url.Action("AddToCart","Cart")" data-code="@Model.Variant.Code" data-quantity-target="#product-count" class="btn btn-primary add-to-cart ml-2">Add to cart</button>
+                        <button type="button" data-target="#navbar-cart-info" data-url="@Url.Action("AddToCart","Cart")" data-code="@Model.Variant.Code" data-quantity-target="#product-count" class="btn btn-primary add-to-cart ml-2">Add to cart</button>
                     </form>
                 </div>
             </div>
@@ -122,7 +122,7 @@
         $(document).ready(function () {
             $('.add-to-cart').on('click', function () {
                 _this = $(this);
-                var { code, quantityTarget, url } = _this.data();
+                var { code, quantityTarget, url, target } = _this.data();
                 var quantity = parseInt($(quantityTarget).val() ?? '0');
                 if (quantity <= 0) {
                     alert("You have to add at least 1 product into Cart");
@@ -137,6 +137,7 @@
                 }).done(function (response) {
                     let productText = quantity > 1 ? "products" : 'product';
                     alert("You added " + quantity + " " + productText + " into Cart");
+                    $(target).html(response);
                 });
             });
 

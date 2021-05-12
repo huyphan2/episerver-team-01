@@ -173,9 +173,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             var categories = product.GetCategories();
             List<FashionProduct> result = new List<FashionProduct>();
             var query = FindClient.Search<FashionProduct>()
-               .Filter(p => !p.Code.Match(product.Code))
                .FilterOnCurrentMarket()
-               .FilterOnLanguages(new string[] { product.Language.Name });
+               .FilterOnLanguages(new string[] { product.Language.Name })
+               .Filter(p => !p.Code.Match(product.Code));
 
             categories.ForEach(category =>
             {
