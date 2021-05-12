@@ -173,7 +173,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             var categories = product.GetCategories();
             List<FashionProduct> result = new List<FashionProduct>();
             var query = FindClient.Search<FashionProduct>()
-               .Filter(p => !p.Code.Match(product.Code));
+               .Filter(p => !p.Code.Match(product.Code))
+               .FilterOnCurrentMarket()
+               .FilterOnLanguages(new string[] { product.Language.Name });
 
             categories.ForEach(category =>
             {
@@ -217,13 +219,13 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 .Take(size)
                 .Select(s => GetProductTileViewModel(s));
         }
-         public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string language,string category, string orderField, int numberOfItem)
+        public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string language, string category, string orderField, int numberOfItem)
         {
 
             var search = FindClient.Search<FashionProduct>();
             var requiredFilter = new FilterBuilder<FashionProduct>(search.Client);
             requiredFilter = requiredFilter.FilterOnCurrentMarket().And(x => x.Language.Name.MatchCaseInsensitive(language));
-     
+
             if (!string.IsNullOrEmpty(category))
             {
                 requiredFilter = requiredFilter.And(x => x.Ancestors().Match(category));
@@ -241,7 +243,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                     list = search.Filter(requiredFilter).OrderByDescending(t => t.Ranking).Skip(0).Take(numberOfItem).GetContentResult().ToList();
                     break;
             }
-            
+
             var listProductView = list.Select(t => GetProductTileViewModel(t)).ToList();
             return listProductView;
 
@@ -271,7 +273,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         //            return search;
         //    }
 
-            
+
 
         //    //return new Search<TSource, IQuery>(search, context =>
         //    //{
