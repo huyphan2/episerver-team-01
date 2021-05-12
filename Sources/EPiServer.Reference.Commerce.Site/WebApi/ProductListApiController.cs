@@ -20,11 +20,11 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
         }
         [HttpGet]
         [Route("GetProductList")]
-        public IHttpActionResult GetProductList(string brand, string category, decimal priceFrom=0,decimal priceTo=0, bool isSortDes = false, int pageNumber = 1)
+        public IHttpActionResult GetProductList(string language,string brand, string category, decimal priceFrom=0,decimal priceTo=0, bool isSortDes = false, int pageNumber = 1)
         {
             try
             {
-                var productlist = _productListingService.GetListProduct(brand, priceFrom,priceTo, category, isSortDes, pageNumber);
+                var productlist = _productListingService.GetListProduct(brand, priceFrom,priceTo, category, isSortDes, pageNumber,language);
                 var viewrenderer = new ViewRenderer();
                 var html = viewrenderer.RenderPartialViewToString("~/Views/Shared/_ProductList.cshtml", productlist.Products);
                 var response = new ProductListResponse()

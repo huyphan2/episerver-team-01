@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.ProductListing.Blocks;
 using EPiServer.Reference.Commerce.Site.Features.ProductListing.Models;
 using EPiServer.Reference.Commerce.Site.Features.ProductListing.Pages;
@@ -38,13 +39,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
             _productService = productService;
             this.pageRouteHelper = pageRouteHelper;
         }
-        public ProductListViewModel GetListProduct(string brand, decimal priceFrom, decimal priceTo, string category, bool isSortDes, int pageNumber)
+        public ProductListViewModel GetListProduct(string brand, decimal priceFrom, decimal priceTo, string category, bool isSortDes, int pageNumber,string language)
         {
             try
             {
                 var result = new ProductListViewModel();
-                //var uiCurrentCulture = EPiServer.Globalization.GlobalizationSettings.UICultureLanguageCode;
-                var uiCurrentCulture = Thread.CurrentThread.CurrentUICulture.Name;
+                var uiCurrentCulture = language;
                 result.TotalProducts = MatchFilter(brand, priceFrom, priceTo, category, isSortDes, uiCurrentCulture).GetContentResult().TotalMatching;
                 result.PageSize = PageSize;
                 var products = MatchFilter(brand, priceFrom, priceTo, category, isSortDes, uiCurrentCulture).Skip(PageSize * (pageNumber - 1)).Take(PageSize).GetContentResult();
@@ -106,15 +106,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
             return search.Filter(requiredFilter);
         }
 
-        public List<ProductTileViewModel> SearchWildcardProduct(string query, string language)
+        public List<ProductTileViewModel> SearchWildcardProduct(string query, Language language)
         {
             string wholeWordWildCards = WildCardExtensions.WrapInAsterisks(query);
 
             var words = query.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(WildCardExtensions.WrapInAsterisks)
                 .ToList();
-            var search = _episerverFindService.EpiClient().Search<FashionProduct>();
-            search = search.Filter(x => x.Language.Name.Match(language));
+            var search = _episerverFindService.EpiClient().Search<FashionProduct>(language);
+            search = search.FilterOnCurrentMarket();
             search = search.WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.DisplayName, 1000)
                 .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.Brand, 900)
                 .WildcardSearch<FashionProduct>(wholeWordWildCards, x => x.ListCategories.FirstOrDefault(), 800);

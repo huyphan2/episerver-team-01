@@ -5,6 +5,7 @@ $(document).ready(function () {
     const btnLoadMore = $('.js-product-list-container .btn-loadmore');
     const productListContainer = $('#product-list');
     const urlApi = $('#productListingUrl').val() || '';
+    const currentLanguage = $('#currentLanguage').val() || 'en';
     let isLoading = false;
     let pageNumber = 1;
     let isSortDes = false;
@@ -16,6 +17,7 @@ $(document).ready(function () {
         category: filterCategory.find(':selected').val() || filterCategory.val(),
         priceFrom: fromPrice||0,
         priceTo: toPrice || 0,
+        language: currentLanguage
     }
 
     // init change value select
@@ -34,7 +36,7 @@ $(document).ready(function () {
         if (isInit) {
             pageNumber = 1;
         }
-        const url = genUrl(urlApi, { ...filterVal, isSortDes, pageNumber });
+        const url = genUrl(urlApi, { ...filterVal, isSortDes, pageNumber});
         $.get(url, function (res) {
             if (res) {
                 productListContainer.data('more', res.HasMore);

@@ -1,4 +1,5 @@
-﻿@using EPiServer.Reference.Commerce.Site.Features.ProductListing.Models
+﻿@using System.Threading
+@using EPiServer.Reference.Commerce.Site.Features.ProductListing.Models
 @model EPiServer.Reference.Commerce.Site.Features.ProductListing.Blocks.ProductListBlock
 
 @if (Model != null)
@@ -6,16 +7,17 @@
     //string currentUrl ="https://"+ HttpContext.Current.Request.Url.Host;
     string productListingUrl = StringConstants.Https + StringConstants.CurrentHostName + StringConstants.ProductListingApiUrl;
     <input id="productListingUrl" type="hidden" value="@productListingUrl">
+    <input id="currentLanguage" type="hidden" value="@Thread.CurrentThread.CurrentUICulture.Name">
     <section id="shop-category" class="shop-category">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col col-md-3 col-sm-6 col-12">
-                    <h2 class="shop-category_title text-center">@Html.DisplayFor(x=>x.FilterTitle)</h2>
+                    <h2 class="shop-category_title text-center">@Html.DisplayFor(x => x.FilterTitle)</h2>
                 </div>
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-brand">
                         <option @(string.IsNullOrEmpty(Model.SelectedParams.Brand) ? "selected" : "") value="">Brands</option>
-                        @if (Model.FilterParams.Brands !=null)
+                        @if (Model.FilterParams.Brands != null)
                         {
                             foreach (var brand in Model.FilterParams.Brands)
                             {
@@ -28,7 +30,7 @@
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-category">
                         <option @(string.IsNullOrEmpty(Model.SelectedParams.Category) ? "selected" : "") value="">Categories</option>
-                        @if (Model.FilterParams.Categories !=null)
+                        @if (Model.FilterParams.Categories != null)
                         {
                             foreach (var category in Model.FilterParams.Categories)
                             {
@@ -40,7 +42,7 @@
                 <div class="col col-md-3 col-sm-6 col-12">
                     <select class="custom-select js-filter-price">
                         <option @(Model.SelectedParams.PriceFrom == 0 && Model.SelectedParams.PriceTo == 0 ? "selected" : "") data-price="0:0" value="all">Price</option>
-                        @if (Model.FilterParams.Price !=null)
+                        @if (Model.FilterParams.Price != null)
                         {
                             int priceValueCount = 0;
                             foreach (PriceRange price in Model.FilterParams.Price)
@@ -51,7 +53,7 @@
                                 <option @(fromPrice == price.From && toPrice == price.To ? "selected" : "") data-price="@price.From:@price.To" value="@priceValueCount">@price.ToString()</option>
                             }
                         }
-                       
+
                     </select>
                 </div>
                 <div class="col col-md-9 col-sm-6 col-12">
@@ -68,7 +70,7 @@
         <div class="container">
             <div class="row">
                 <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
-                    <h2 class="product-list_title">@Html.DisplayFor(x=>x.ProductListText)</h2>
+                    <h2 class="product-list_title">@Html.DisplayFor(x => x.ProductListText)</h2>
                 </div>
                 <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="d-flex align-items-center product-list-filter">
