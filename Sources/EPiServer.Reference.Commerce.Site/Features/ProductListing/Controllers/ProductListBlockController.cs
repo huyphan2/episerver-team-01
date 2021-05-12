@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
@@ -36,7 +37,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Controllers
             var isSortDes = ControllerContext.ParentActionViewContext.ViewData["isSortDes"] != null ? (bool)ControllerContext.ParentActionViewContext.ViewData["isSortDes"] : false;
             var pageNumber = Number != null ? int.Parse(Number.ToString()) : 1;
             //
-            var products = _productListingService.GetListProduct(brand, (decimal)priceFrom, (decimal)priceTo, category, isSortDes, pageNumber);
+            var currentLanguage = Thread.CurrentThread.CurrentUICulture.Name;
+            var products = _productListingService.GetListProduct(brand, (decimal)priceFrom, (decimal)priceTo, category, isSortDes, pageNumber, currentLanguage);
             currentBlock.Products = products != null && products.Products != null ? products.Products : new List<ProductTileViewModel>();
             currentBlock.FilterParams = _productListingService.GetFilterParams(currentBlock);
             currentBlock.SelectedParams = new FilterParam()

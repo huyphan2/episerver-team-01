@@ -7,6 +7,8 @@ using EPiServer.Reference.Commerce.Site.Features.Search.ViewModelFactories;
 using EPiServer.Reference.Commerce.Site.Features.Search.ViewModels;
 using EPiServer.Web.Mvc;
 using System.Web.Mvc;
+using EPiServer.Find;
+using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.ProductListing.Services;
 
@@ -17,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         private readonly SearchViewModelFactory _viewModelFactory;
         private readonly ISearchService _searchService;
         private readonly IProductListingService _productListingService;
-        private string currentLanguage;
+        private Language currentLanguage;
         public SearchController(
             SearchViewModelFactory viewModelFactory, 
             ISearchService searchService, IProductListingService productListingService)
@@ -25,7 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
             _viewModelFactory = viewModelFactory;
             _searchService = searchService;
             _productListingService = productListingService;
-            currentLanguage= Thread.CurrentThread.CurrentUICulture.Name;
+            currentLanguage = ContentLanguage.PreferredCulture.GetLanguage();
         }
 
         [ValidateInput(false)]
