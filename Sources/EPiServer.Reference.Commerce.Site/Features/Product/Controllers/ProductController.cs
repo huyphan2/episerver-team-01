@@ -73,7 +73,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         {
             var customerId = PrincipalInfo.CurrentPrincipal.GetContactId();
             var cart = _orderRepository.LoadCart<ICart>(customerId, "Default");
-            return cart.GetAllLineItems();
+            return cart?.GetAllLineItems() ?? new List<ILineItem>();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Cart.Controllers
         public ActionResult MiniCartDetails()
         {
             var viewModel = _cartViewModelFactory.CreateMiniCartViewModel(Cart);
-            return PartialView("_MiniCartDetails", viewModel);
+            return PartialView("_NavbarCartInfo", viewModel);
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]

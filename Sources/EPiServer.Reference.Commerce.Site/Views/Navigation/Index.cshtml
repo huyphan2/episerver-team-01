@@ -48,21 +48,8 @@
                     <div class="d-flex justify-content-between">
                         @Html.Partial("MainMenu", Model.StartPage.MainMenu)
                         <nav class="navbar navbar-expand-lg navbar-light header-menu">
-                            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                                <div class="navbar-nav">
-                                    <a class="nav-item nav-link header-favorite" href="#">
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        <span>30</span>
-                                    </a>
-
-                                    <a class="nav-item nav-link header-cart" href="@Url.ContentUrl(Model.MiniCart.CheckoutPage)">
-                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                        <span class="counter counter--small cartItemCountLabel">@Model.MiniCart.ItemCount.ToString("F0")</span>
-                                        &nbsp; &nbsp; <b class="cartTotalAmountLabel">@Model.MiniCart.Total.ToString()</b>
-                                    </a>
-
-                                    <span id="MiniCart" class="dropdown-menu product-dropdown-container cart-dropdown-container jsCartDropdown">@{ Html.RenderPartial("_MiniCartDetails", Model.MiniCart); }</span>
-                                </div>
+                            <div class="collapse navbar-collapse" id="navbar-cart-info">
+                                @Html.Partial("_NavbarCartInfo", Model.MiniCart)
                             </div>
                         </nav>
                     </div>

@@ -1,0 +1,15 @@
+﻿@model  EPiServer.Reference.Commerce.Site.Features.Cart.ViewModels.MiniCartViewModel
+<div class="navbar-nav">
+    <a class="nav-item nav-link header-favorite" href="#">
+        <i class="fa fa-star-o" aria-hidden="true"></i>
+        <span>30</span>
+    </a>
+
+    <a class="nav-item nav-link header-cart" href="@Url.ContentUrl(Model.CheckoutPage)">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <span data-cart-count="@Model.ItemCount.ToString("F0")" class="counter counter--small cartItemCountLabel">@Model.ItemCount.ToString("F0")</span>
+        &nbsp; &nbsp; <b data-cart-total="@Model.Total.ToString()" class="cartTotalAmountLabel">@Model.Total.ToString()</b>
+    </a>
+
+    <span id="MiniCart" class="dropdown-menu product-dropdown-container cart-dropdown-container jsCartDropdown">@{ Html.RenderPartial("_MiniCartDetails", Model); }</span>
+</div>
