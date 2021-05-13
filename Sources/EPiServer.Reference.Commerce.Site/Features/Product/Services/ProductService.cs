@@ -190,9 +190,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         {
             var items = GetRelatedProductItems(product).OrderBy(o => o.Ranking);
             if (size > 0)
-                return items.Take(size).Select(s => GetProductTileViewModel(s));
+                return items.Take(size).Select(GetProductTileViewModel);
             else
-                return items.Select(s => GetProductTileViewModel(s));
+                return items.Select(GetProductTileViewModel);
         }
 
         public IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, IEnumerable<ILineItem> lineItems, int size = 12)
@@ -218,7 +218,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 .DistinctBy(d => d.Code)
                 .Take(size)
                 .OrderBy(o => o.Ranking)
-                .Select(s => GetProductTileViewModel(s));
+                .Select(GetProductTileViewModel);
         }
         public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string language, string category, string orderField, int numberOfItem)
         {
