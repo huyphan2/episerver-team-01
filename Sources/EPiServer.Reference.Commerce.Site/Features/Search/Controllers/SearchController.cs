@@ -19,7 +19,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         private readonly SearchViewModelFactory _viewModelFactory;
         private readonly ISearchService _searchService;
         private readonly IProductListingService _productListingService;
-        private Language currentLanguage;
+        private string currentLanguage;
         public SearchController(
             SearchViewModelFactory viewModelFactory, 
             ISearchService searchService, IProductListingService productListingService)
@@ -27,7 +27,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
             _viewModelFactory = viewModelFactory;
             _searchService = searchService;
             _productListingService = productListingService;
-            currentLanguage = ContentLanguage.PreferredCulture.GetLanguage();
+            currentLanguage = Thread.CurrentThread.CurrentUICulture.Name;
         }
 
         [ValidateInput(false)]
@@ -35,7 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         public ActionResult Index(SearchPage currentPage, string query)
         {
             if (currentPage == null) currentPage = new SearchPage();
-            currentPage.Products = _productListingService.SearchWildcardProduct(query, currentLanguage);
+            currentPage.Products = _productListingService.SearchWildcardProduct(query,15, currentLanguage);
 
             return View("Index",currentPage.Products);
         }
@@ -45,7 +45,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Search.Controllers
         public ActionResult QuickSearch(string query = "")
         {
             //var result = _searchService.QuickSearch(query);
-            var result = _productListingService.SearchWildcardProduct(query, currentLanguage);
+            var result = _productListingService.SearchWildcardProduct(query,5, currentLanguage);
             return View("_QuickSearch", result);
         }
     }

@@ -429,6 +429,7 @@
     <Content Include="Scripts\js\Search.js" />
     <Content Include="Scripts\js\Warehouse.js" />
     <Content Include="Scripts\mustache.min.js" />
+    <Content Include="Static\css\quick-search-component.css" />
     <Content Include="Static\css\font.css" />
     <Content Include="Static\css\footer.css" />
     <Content Include="Static\css\header.css" />
@@ -557,8 +558,7 @@
     <Compile Include="Features\ProductListing\Services\IProductListingService.cs" />
     <Compile Include="Features\ProductListing\Services\ProductListingService.cs" />
     <Compile Include="Features\ProductListing\ViewModels\FilterParams.cs" />
- <Compile Include="Features\ProductListing\ViewModels\ProductListViewModel.cs" />
-    
+    <Compile Include="Features\ProductListing\ViewModels\ProductListViewModel.cs" />
     <Compile Include="Features\Product\Blocks\ListingTileProductBlock.cs" />
     <Compile Include="Features\Product\Blocks\PromotionBlock.cs" />
     <Compile Include="Features\Product\Controllers\BundleController.cs" />

@@ -30,6 +30,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 .Include("~/Static/css/styles.css")
                 .Include("~/Static/css/product-list-page.css")
                 .Include("~/Static/css/home.css")
+                .Include("~/Static/css/quick-search-component.css")
 
             );
 

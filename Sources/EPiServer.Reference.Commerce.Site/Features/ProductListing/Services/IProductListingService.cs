@@ -16,6 +16,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.ProductListing.Services
         List<string> GetBrands(ContentArea brandArea);
         List<string> ProductCategories(IEnumerable<ContentReference> categories);
         ITypeSearch<FashionProduct> MatchFilter(string brand, decimal priceFrom, decimal priceTo, string category, bool isSortDes, string language);
-        List<ProductTileViewModel> SearchWildcardProduct(string query, Language language);
+        List<ProductTileViewModel> SearchWildcardProduct(string query, int itemNumber, string language);
     }
 }
