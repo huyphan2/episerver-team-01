@@ -21,14 +21,12 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
         private readonly bool _isInEditMode;
         private readonly CatalogEntryViewModelFactory _viewModelFactory;
         private readonly IProductService _productService;
-        private readonly IOrderRepository _orderRepository;
 
         public ProductController(IsInEditModeAccessor isInEditModeAccessor, CatalogEntryViewModelFactory viewModelFactory, IProductService productService, IOrderRepository orderRepository)
         {
             _isInEditMode = isInEditModeAccessor();
             _viewModelFactory = viewModelFactory;
             _productService = productService;
-            _orderRepository = orderRepository;
         }
 
         [HttpGet]
@@ -37,7 +35,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             var viewModel = _viewModelFactory.Create(currentContent, entryCode);
             viewModel.SkipTracking = skipTracking;
             viewModel.RelatedProducts = _productService.GetRelatedProducts(currentContent);
-            viewModel.MayLikeProducts = _productService.GetMayLikeProducts(currentContent, GetCurrentLineItems());
+            viewModel.MayLikeProducts = _productService.GetMayLikeProducts(currentContent);
             var test = viewModel.MayLikeProducts.Count();
             if (_isInEditMode && viewModel.Variant == null)
             {
@@ -67,13 +65,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Controllers
             }
 
             return HttpNotFound();
-        }
-
-        private IEnumerable<ILineItem> GetCurrentLineItems()
-        {
-            var customerId = PrincipalInfo.CurrentPrincipal.GetContactId();
-            var cart = _orderRepository.LoadCart<ICart>(customerId, "Default");
-            return cart?.GetAllLineItems() ?? new List<ILineItem>();
         }
     }
 }

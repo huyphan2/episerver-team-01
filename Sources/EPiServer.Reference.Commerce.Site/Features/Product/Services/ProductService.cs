@@ -16,11 +16,13 @@ using EPiServer.Reference.Commerce.Site.Features.Product.ViewModels;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions;
 using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find;
+using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Orders;
+using Mediachase.Commerce.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +41,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         private readonly IRelationRepository _relationRepository;
         private readonly IContentRepository _contentRepository;
         private readonly ReferenceConverter _referenceConverter;
+        private readonly IOrderRepository _orderRepository;
         public ProductService(IContentLoader contentLoader,
             IPricingService pricingService,
             UrlResolver urlResolver,
@@ -46,7 +49,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             CatalogContentService catalogContentService,
             IRelationRepository relationRepository,
             ReferenceConverter referenceConverter,
-            IContentRepository contentRepository)
+            IContentRepository contentRepository,
+            IOrderRepository orderRepository)
         {
             _contentLoader = contentLoader;
             _pricingService = pricingService;
@@ -56,6 +60,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             _relationRepository = relationRepository;
             _referenceConverter = referenceConverter;
             _contentRepository = contentRepository;
+            _orderRepository = orderRepository;
         }
 
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
@@ -195,8 +200,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 return items.Select(GetProductTileViewModel);
         }
 
-        public IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, IEnumerable<ILineItem> lineItems, int size = 12)
+        public IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, int size = 12)
         {
+            var lineItems = GetCurrentLineItems();
             var skuCodes = lineItems.Select(s => s.Code);
             List<FashionProduct> allCartProducts = new List<FashionProduct>();
             skuCodes.ForEach(code =>
@@ -248,6 +254,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             var listProductView = list.Select(t => GetProductTileViewModel(t)).ToList();
             return listProductView;
 
+        }
+
+
+        private IEnumerable<ILineItem> GetCurrentLineItems()
+        {
+            var customerId = PrincipalInfo.CurrentPrincipal.GetContactId();
+            var cart = _orderRepository.LoadCart<ICart>(customerId, "Default");
+            return cart?.GetAllLineItems() ?? new List<ILineItem>();
         }
     }
 

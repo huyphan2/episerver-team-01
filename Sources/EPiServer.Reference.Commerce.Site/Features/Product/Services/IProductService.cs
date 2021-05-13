@@ -16,7 +16,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         List<ProductTileViewModel> GetBestSellerFasionProduct();
         List<ProductTileViewModel> GetNewestFasionProduct();       
   		IEnumerable<ProductTileViewModel> GetRelatedProducts(FashionProduct product, int size = 12);
-        IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, IEnumerable<ILineItem> lineItems, int size = 12);
+        IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, int size = 12);
 		List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string language, string category, string orderField, int numberOfItem);
     }
 }
