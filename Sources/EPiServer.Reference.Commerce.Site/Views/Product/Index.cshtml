@@ -50,18 +50,23 @@
         <div class="row">
             @if (!Equals(Model.Product.TechSpecs, null) && Model.Product.TechSpecs.Any())
             {
-                <div class="col col-12">
-                    <div class="product-detail-paragraph">
+                for (int i = 0; i < Model.Product.TechSpecs.Count; i++)
+                {
+                    var specification = Model.Product.TechSpecs.ElementAt(i);
+                    <div class="col col-12">
+                        <div class="product-detail-paragraph">
 
-                        foreach (var specification in Model.Product.TechSpecs)
-                        {
-                        <div class="product-tech-spec">
-                            <p class="title">@specification.Name</p>
-                            <p class="text">@Html.Raw(specification.Description)</p>
+                            foreach (var specification in Model.Product.TechSpecs)
+                            {
+                            <div class="product-tech-spec">
+                                <p class="title">@specification.Name</p>
+                                <p class="text">@Html.Raw(specification.Description)</p>
+                            </div>
+                            }
                         </div>
-                        }
                     </div>
-                </div>
+                }
+
             }
 
         </div>
