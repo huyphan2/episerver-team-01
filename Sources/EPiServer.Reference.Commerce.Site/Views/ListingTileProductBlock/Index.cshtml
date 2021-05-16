@@ -1,6 +1,6 @@
 ﻿@model EPiServer.Reference.Commerce.Site.Features.Product.ViewModels.ListTileProductViewModel
 
- 
+
 @if (Model != null)
 {
     <section id="new-product" class="product-group new-product">
@@ -16,8 +16,10 @@
             <div class="row">
                 @foreach (var item in Model.productTileViewModels)
                 {
-                    @Html.Partial("_ProductTile", item)
-
+                    if (!Equals(item, null))
+                    {
+                        @Html.Partial("_ProductTile", item)
+                    }
                 }
             </div>
         </div>

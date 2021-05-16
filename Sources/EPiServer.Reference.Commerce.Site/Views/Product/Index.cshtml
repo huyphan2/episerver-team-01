@@ -69,23 +69,25 @@
 <section class="prefer">
     <div class="container">
         <div class="row">
-            <div class="col col-12">
-                <h2 class="prefer-title">You may also like</h2>
-                <div class="prefer-carousel">
-                    <div class="prefer-slick prefer-js-slick">
-                        @if (!Equals(Model.MayLikeProducts, null) && Model.MayLikeProducts.Any())
-                        {
-                            var mayLikeCount = Model.MayLikeProducts.Count();
-                            for (int i = 0; i < mayLikeCount; i++)
-                            {
-                                <div class='slick-item'>
-                                    @Html.Partial("_Product", Model.MayLikeProducts.ElementAt(i))
-                                </div>
+            @if (!Equals(Model.MayLikeProducts, null) && Model.MayLikeProducts.Any())
+            {
+                <div class="col col-12">
+                    <h2 class="prefer-title">You may also like</h2>
+                    <div class="prefer-carousel">
+                        <div class="prefer-slick prefer-js-slick">
+                            @{
+                                var mayLikeCount = Model.MayLikeProducts.Count();
+                                for (int i = 0; i < mayLikeCount; i++)
+                                {
+                                    <div class='slick-item'>
+                                        @Html.Partial("_Product", Model.MayLikeProducts.ElementAt(i))
+                                    </div>
+                                }
                             }
-                        }
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </section>

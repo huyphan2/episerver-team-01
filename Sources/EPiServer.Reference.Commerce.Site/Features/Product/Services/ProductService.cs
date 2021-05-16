@@ -5,10 +5,13 @@ using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Api;
 using EPiServer.Find.Api.Querying;
+using EPiServer.Find.Api.Querying.Filters;
+using EPiServer.Find.Api.Querying.Queries;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Commerce;
 using EPiServer.Find.Framework;
 using EPiServer.Find.Helpers;
+using EPiServer.Globalization;
 using EPiServer.Reference.Commerce.Site.Features.Cart.Services;
 using EPiServer.Reference.Commerce.Site.Features.Product.Models;
 using EPiServer.Reference.Commerce.Site.Features.Product.ViewModelFactories;
@@ -42,6 +45,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
         private readonly IContentRepository _contentRepository;
         private readonly ReferenceConverter _referenceConverter;
         private readonly IOrderRepository _orderRepository;
+        private readonly LanguageResolver _languageResolver;
+
         public ProductService(IContentLoader contentLoader,
             IPricingService pricingService,
             UrlResolver urlResolver,
@@ -50,7 +55,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             IRelationRepository relationRepository,
             ReferenceConverter referenceConverter,
             IContentRepository contentRepository,
-            IOrderRepository orderRepository)
+            IOrderRepository orderRepository,
+            LanguageResolver languageResolver)
         {
             _contentLoader = contentLoader;
             _pricingService = pricingService;
@@ -61,6 +67,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             _referenceConverter = referenceConverter;
             _contentRepository = contentRepository;
             _orderRepository = orderRepository;
+            _languageResolver = languageResolver;
         }
 
         public string GetSiblingVariantCodeBySize(string siblingCode, string size)
@@ -173,58 +180,93 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
             return listProductView;
         }
 
-        private IEnumerable<FashionProduct> GetRelatedProductItems(FashionProduct product)
+        private FilterBuilder<FashionProduct> GetRelatedProductQuery(FashionProduct product)
         {
-            var categories = product.GetCategories();
-            List<FashionProduct> result = new List<FashionProduct>();
-            var query = FindClient.Search<FashionProduct>()
+            product.ListCategories = ConvertCategories(product.GetCategories());
+            var query = FindClient.BuildFilter<FashionProduct>()
                .FilterOnCurrentMarket()
-               .FilterOnLanguages(new string[] { product.Language.Name })
-               .Filter(p => !p.Code.Match(product.Code));
+               .And(p => !p.Code.Match(product.Code));
 
-            categories.ForEach(category =>
+            if (!Equals(product.ListCategories, null))
             {
-                query = query.Filter(p => p.ParentNodeRelations().MatchContained(item => item.ID, category.ID));
-                var items = query.GetContentResult().Items;
-                result.AddRange(items);
-            });
-
-            return result.DistinctBy(d => d.Code);
+                for (int i = 0; i < product.ListCategories.Count; i++)
+                {
+                    var category = product.ListCategories.ElementAt(0);
+                    if (i > 0)
+                    {
+                        query = query.Or(p => p.ListCategories.MatchCaseInsensitive(category));
+                    }
+                    else
+                    {
+                        query = query.And(p => p.ListCategories.MatchCaseInsensitive(category));
+                    }
+                }
+            }
+            else
+            {
+                query = query.And(p => p.Code.Match("null"));
+            }
+            return query;
+        }
+        private List<string> ConvertCategories(IEnumerable<ContentReference> categories)
+        {
+            if (categories == null) return null;
+            return categories.Select(contentReference => _contentLoader.Get<FashionNode>(contentReference)?.DisplayName)
+                .Distinct().ToList();
         }
         public IEnumerable<ProductTileViewModel> GetRelatedProducts(FashionProduct product, int size = 12)
         {
-            var items = GetRelatedProductItems(product).OrderBy(o => o.Ranking);
-            if (size > 0)
-                return items.Take(size).Select(GetProductTileViewModel);
-            else
-                return items.Select(GetProductTileViewModel);
-        }
+            var query = GetRelatedProductQuery(product);
+            var result = FindClient.Search<FashionProduct>()
+                .Filter(query)
+                .FilterOnLanguages(new string[] { product.Language.Name });
 
+            if (size > 0)
+                return result.Take(size).GetContentResult().Items.Select(GetProductTileViewModel);
+            else
+                return result.GetContentResult().Items.Select(GetProductTileViewModel);
+        }
         public IEnumerable<ProductTileViewModel> GetMayLikeProducts(FashionProduct product, int size = 12)
         {
             var lineItems = GetCurrentLineItems();
             var skuCodes = lineItems.Select(s => s.Code);
-            List<FashionProduct> allCartProducts = new List<FashionProduct>();
-            skuCodes.ForEach(code =>
+            IEnumerable<ProductTileViewModel> result = new List<ProductTileViewModel>();
+
+            if (skuCodes.Any())
             {
-                var variantLink = _referenceConverter.GetContentLink(code);
-                FashionVariant variant;
-                if (_contentLoader.TryGet<FashionVariant>(variantLink, out variant))
+                var query = FindClient.BuildFilter<FashionProduct>();
+                var resultFind = FindClient
+                    .Search<FashionProduct>()
+                    .FilterOnLanguages(new string[] { product.Language.Name });
+
+                var cartProducts = _contentRepository.GetItems(
+                     skuCodes
+                         .Select(x => _referenceConverter.GetContentLink(x))
+                         .Where(r => !ContentReference.IsNullOrEmpty(r)), _languageResolver.GetPreferredCulture()).OfType<FashionVariant>()
+                         .Select(s => _contentLoader.Get<FashionProduct>(s.GetParentProducts().FirstOrDefault())
+                 );
+
+                for (int i = 0; i < cartProducts.Count(); i++)
                 {
-                    var parent = variant.GetParentProducts().FirstOrDefault();
-                    var cartProduct = _contentRepository.Get<FashionProduct>(parent) as FashionProduct;
-                    var relatedCartProducts = GetRelatedProductItems(cartProduct);
-                    allCartProducts.AddRange(relatedCartProducts);
+                    var cartProduct = cartProducts.ElementAt(i);
+                    var relatedQuery = GetRelatedProductQuery(cartProduct);
+                    if (i > 0)
+                    {
+                        resultFind = resultFind.OrFilter(relatedQuery);
+                    }
+                    else
+                    {
+                        resultFind = resultFind.Filter(relatedQuery);
+                    }
                 }
 
-            });
+                result = resultFind
+                    .OrderByDescending(o => o.Ranking)
+                    .GetContentResult().Items
+                    .Select(GetProductTileViewModel);
+            }
 
-            return allCartProducts
-                .Where(w => w.Code != product.Code)
-                .DistinctBy(d => d.Code)
-                .Take(size)
-                .OrderBy(o => o.Ranking)
-                .Select(GetProductTileViewModel);
+            return result;
         }
         public List<ProductTileViewModel> GetFasionProductByCategoryAndSorting(string language, string category, string orderField, int numberOfItem)
         {

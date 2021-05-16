@@ -22,7 +22,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
     public class EPiServerFindInitialization : IInitializableModule
     {
         private IContentLoader _contentLoader = null;
-        private IContentRepository _contentRepository = null;        
+        private IContentRepository _contentRepository = null;
         //private IProductIndexingService _productIndexingService;
         private IProductService _productService;
         private IProductListingService _productListingService;
@@ -43,7 +43,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
             _contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
             //_productIndexingService = ServiceLocator.Current.GetInstance<IProductIndexingService>();
             _contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
-            _productService= ServiceLocator.Current.GetInstance<IProductService>();
+            _productService = ServiceLocator.Current.GetInstance<IProductService>();
             _client = EpiserverFind.Instance.Create();
             _productListingService = ServiceLocator.Current.GetInstance<IProductListingService>();
 
@@ -70,10 +70,12 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find
 
         private bool ShouldIndexFashionProduct(FashionProduct theProduct)
         {
-
-            theProduct.Price = _productService.GetProductTileViewModel(theProduct).PlacedPrice;
-            theProduct.ListCategories = _productListingService.ProductCategories(theProduct.GetCategories());
-
+            var product = _productService.GetProductTileViewModel(theProduct);
+            if (!Equals(product, null))
+            {
+                theProduct.Price = _productService.GetProductTileViewModel(theProduct).PlacedPrice;
+                theProduct.ListCategories = _productListingService.ProductCategories(theProduct.GetCategories());
+            }
             return true;
         }
     }
