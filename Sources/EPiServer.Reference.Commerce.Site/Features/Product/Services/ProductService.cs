@@ -237,7 +237,8 @@ namespace EPiServer.Reference.Commerce.Site.Features.Product.Services
                 var query = FindClient.BuildFilter<FashionProduct>();
                 var resultFind = FindClient
                     .Search<FashionProduct>()
-                    .FilterOnLanguages(new string[] { product.Language.Name });
+                    .FilterOnLanguages(new string[] { product.Language.Name })
+                    .Filter(p => !p.Code.Match(product.Code));
 
                 var cartProducts = _contentRepository.GetItems(
                      skuCodes
