@@ -413,6 +413,7 @@
     <Content Include="lang\Quicksilver_SV.xml" />
     <Content Include="lang\Display_en.xml" />
     <Content Include="license.txt" />
+    <Content Include="Scripts\custom\product-detail.js" />
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
@@ -457,6 +458,7 @@
     <Content Include="Static\libs\slick.min.css" />
     <Content Include="Static\libs\slick.min.js" />
     <Content Include="Static\script\index.js" />
+    <Content Include="Static\script\jquery-simple-tree-table.js" />
     <Content Include="Static\script\_product-list.js" />
     <Content Include="Styles\font-awesome\.gitignore" />
     <Content Include="Styles\font-awesome\css\font-awesome.css" />
@@ -1023,6 +1025,8 @@
     <Content Include="Views\News\BlogNewsDetail.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\ProductListBlock\Index.cshtml" />
+    <Content Include="Views\OrderHistory\Index - Copy.cshtml" />
+    <Content Include="Views\Shared\_AddressList.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
