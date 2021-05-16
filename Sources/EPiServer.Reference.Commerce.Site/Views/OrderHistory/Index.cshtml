@@ -2,52 +2,120 @@
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
 
+@section Styles{
+
+    <style type="text/css">
+        .o-history {
+            padding: 2rem;
+            background-color: #ebe7df;
+        }
+
+            .o-history .l-content {
+                background-color: #fff;
+                width: 100%;
+            }
+
+        .tb-head {
+            background-color: #57c5a0;
+        }
+
+        .tb-item {
+            background-color: #f0f8ff5e;
+        }
+
+            .tb-item.odd {
+                background-color: whitesmoke;
+            }
+
+        .simple-tree-table-handler.simple-tree-table-icon {
+            background-color: #007bff3b;
+            border-radius: 50%;
+        }
+
+        .simple-tree-table-opened .simple-tree-table-icon:after,
+        .simple-tree-table-closed .simple-tree-table-icon:after {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+
+}
 
 <div class="container-fluid">
-    <div class="row">
-        @Html.Partial("_CmsNavigation", Model.CurrentPage)
-        <div class="col-xs-12 col-sm-9">
-            <div class="section-box">
-                <h2>@Html.PropertyFor(x => x.CurrentPage.Name)</h2>
-                @Html.PropertyFor(x => x.CurrentPage.MainBody)
+    <div class="row o-history">
+        <div class="l-content">
+            <div class="treetable d-flex w-100">
+                @if (!Equals(Model.Orders, null))
+                {
+                    <table class="tree-table table table-hover table-bordered">
+                        <thead>
+                            <tr class="tb-head">
+                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderID")</th>
+                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/Status")</th>
+                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderDate")</th>
+                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/Payment")</th>
+                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/TotalPrice")</th>
+                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/ShippedTo")</th>
+                                <th class="text-center">@("Manipulate")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model.Orders)
+                            {
+                                var orderForm = order.PurchaseOrder.GetFirstForm();
+
+                            <tr data-node-id="@orderForm.OrderFormId">
+                                <td class=""> <span class="ml-5">@order.PurchaseOrder.OrderNumber</span></td>
+                                <td class="text-center">@order.PurchaseOrder.OrderStatus</td>
+                                <td class="text-center">@order.PurchaseOrder.Created.ToLongDateString()</td>
+                                <td class="text-center">
+                                    @if (orderForm.Payments.Any())
+                                    {
+                                        @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @Helpers.RenderMoney(order.PurchaseOrder.GetTotal())
+                                </td>
+                                <td class="text-center">
+                                    @foreach (var shippingAddress in order.ShippingAddresses)
+                                    {
+                                        @Html.Partial("_AddressList", shippingAddress)
+                                    }
+                                </td>
+                                <td class="text-center"></td>
+                            </tr>
+                                for (var i = 0; i < order.Items.Count(); i++)
+                                {
+                                    var item = order.Items.ElementAt(i);
+                                    var color = i % 2 > 0 ? "even" : "odd";
+                                    <tr class="tb-item" data-node-id="@item.LineItem.Code" data-node-pid="@orderForm.OrderFormId">
+                                        <td colspan="7" class="font-weight-bold @color">
+                                            <a href="@item.LineItem.GetUrl()" class="text-primary">
+                                                <img class="img-thumbnail" src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+
+                }
             </div>
 
-            @foreach (var order in Model.Orders)
-            {
-                var orderForm = order.PurchaseOrder.GetFirstForm();
-                <hr />
-                <div class="row section-box">
-                    <div class="col-xs-12 col-sm-6">
-                        <h3>@Html.Translate("/OrderHistory/Labels/OrderID") @order.PurchaseOrder.OrderNumber</h3>
-                        <p>@Html.Translate("/OrderHistory/Labels/OrderDate") @order.PurchaseOrder.Created.ToLongDateString()<br>@Html.Translate("/OrderHistory/Labels/Status") <strong>@order.PurchaseOrder.OrderStatus</strong></p>
-                        @Html.Translate("/OrderHistory/Labels/Payment")
-                        @if (orderForm.Payments.Any())
-                        {
-                            @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
-                        }
-                        <br>
-                        @Html.Translate("/OrderHistory/Labels/TotalPrice") @Helpers.RenderMoney(order.PurchaseOrder.GetTotal())
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <h4>@Html.Translate("/OrderHistory/Labels/ShippedTo")</h4>
-
-                        @foreach (var shippingAddress in order.ShippingAddresses)
-                        {
-                            @Html.Partial("_Address", shippingAddress)
-                        }
-
-                    </div>
-                    <div class="col-xs-12">
-                        <h4>@Html.Translate("/OrderHistory/Labels/ObjectsOrdered")</h4>
-                        <ul class="list-unstyled">
-                            @foreach (var item in order.Items)
-                            {
-                                <li><a href="@item.LineItem.GetUrl()" class="link--black"><img src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName</a></li>
-                            }
-                        </ul>
-                    </div>
-                </div>
-            }
         </div>
     </div>
 </div>
+@section  Scripts {
+    <script src="~/Static/script/jquery-simple-tree-table.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.tree-table').simpleTreeTable({
+                opened: 0
+            });
+        });
+    </script>
+}
