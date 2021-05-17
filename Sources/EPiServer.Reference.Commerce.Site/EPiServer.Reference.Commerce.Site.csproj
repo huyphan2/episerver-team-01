@@ -430,6 +430,7 @@
     <Content Include="Scripts\js\Search.js" />
     <Content Include="Scripts\js\Warehouse.js" />
     <Content Include="Scripts\mustache.min.js" />
+    <Content Include="Static\css\order-history.css" />
     <Content Include="Static\css\quick-search-component.css" />
     <Content Include="Static\css\font.css" />
     <Content Include="Static\css\footer.css" />

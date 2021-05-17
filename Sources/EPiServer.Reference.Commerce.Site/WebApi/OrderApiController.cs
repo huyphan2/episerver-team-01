@@ -20,15 +20,15 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
     public class OrderApiController : ApiController
     {
         private readonly IOrderHistoryService _orderHistoryService;
-        private  IViewRender _viewRender;
+        private IViewRenderer _viewRender;
         public OrderApiController(IOrderHistoryService orderHistoryService)
         {
             _orderHistoryService = orderHistoryService;
-          //  _viewRender = viewRender;
+            //  _viewRender = viewRender;
         }
         [HttpGet]
         [Route("Get")]
-        public IHttpActionResult Get(int pageNumber = 1)
+        public IHttpActionResult Get(int pageNumber)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
                 var response = new
                 {
                     Html = html,
-                    HasMore = (pageNumber * viewModel.PageSize) < viewModel.Total
+                    HasMore = (pageNumber * viewModel.Take) < viewModel.Total
                 };
                 return Ok(response);
             }

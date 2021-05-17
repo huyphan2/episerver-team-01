@@ -31,6 +31,7 @@ using System.Web.WebPages;
 using EPiServer.Personalization.Commerce.Tracking;
 using EPiServer.Reference.Commerce.Site.Features.ProductListing.Services;
 using EPiServer.Reference.Commerce.Site.Infrastructure.Epi.Find;
+using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Services;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -95,6 +96,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             services.AddTransient<HttpContextBase>(locator => HttpContext.Current.ContextBaseOrNull());
 
             services.AddSingleton<ServiceAccessor<IContentRouteHelper>>(locator => locator.GetInstance<IContentRouteHelper>);
+
+            /// Regist more customizing Services
+            RegistBussinessServices(services);
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.StructureMap()));
             GlobalConfiguration.Configure(config =>
@@ -233,6 +237,11 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                     }
                 }
             }
+        }
+
+        private void RegistBussinessServices(IServiceConfigurationProvider services)
+        {
+            services.AddTransient<IOrderHistoryService, OrderHistoryService>();
         }
     }
 }

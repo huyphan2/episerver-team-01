@@ -3,76 +3,46 @@
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
 
 @{
-    string orderLoadingUrl = StringConstants.Https + StringConstants.CurrentHostName + StringConstants.OrderListApiUrl;
+    string orderLoadingUrl = StringConstants.Https + StringConstants.CurrentHostName + StringConstants.OrderApiUrl;
 }
 @section Styles{
 
-    <style type="text/css">
-        .o-history {
-            padding: 2rem;
-            background-color: #ebe7df;
-        }
-
-            .o-history .l-content {
-                background-color: #fff;
-                width: 100%;
-            }
-
-        .tb-head {
-            background-color: #57c5a0;
-        }
-
-        .tb-item {
-            background-color: #f0f8ff5e;
-        }
-
-            .tb-item.odd {
-                background-color: whitesmoke;
-            }
-
-        .simple-tree-table-handler.simple-tree-table-icon {
-            background-color: #007bff3b;
-            border-radius: 50%;
-        }
-
-        .simple-tree-table-opened .simple-tree-table-icon:after,
-        .simple-tree-table-closed .simple-tree-table-icon:after {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white;
-        }
-    </style>
-
+    <link href="~/Static/css/order-history.css" rel="stylesheet" />
 }
 <section id="order-loading" class="js-order-loading-container" data-more="true">
     <div class="hidden">
         <input id="orderLoadingUrl" type="hidden" value="@orderLoadingUrl">
     </div>
+
     <div class="container-fluid">
         <div class="row o-history">
+            <div class="w-100">
+                <div class="form-group has-search">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </div>
             <div class="l-content">
-                <div class="">
-                    <div class="treetable d-flex w-100">
-                        @if (!Equals(Model.Orders, null))
-                        {
-                            <table class="tree-table table table-hover table-bordered">
-                                <thead>
-                                    <tr class="tb-head">
-                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderID")</th>
-                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/Status")</th>
-                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderDate")</th>
-                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/Payment")</th>
-                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/TotalPrice")</th>
-                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/ShippedTo")</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="js-order-loading">
-                                    @Html.Partial("DataTable", Model)
-                                </tbody>
-                            </table>
+                <div class="treetable d-flex w-100">
+                    @if (!Equals(Model.Orders, null))
+                    {
+                        <table class="tree-table table table-hover table-bordered">
+                            <thead>
+                                <tr class="tb-head">
+                                    <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderID")</th>
+                                    <th class="text-center">@Html.Translate("/OrderHistory/Labels/Status")</th>
+                                    <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderDate")</th>
+                                    <th class="text-center">@Html.Translate("/OrderHistory/Labels/Payment")</th>
+                                    <th class="text-center">@Html.Translate("/OrderHistory/Labels/TotalPrice")</th>
+                                    <th class="text-center">@Html.Translate("/OrderHistory/Labels/ShippedTo")</th>
+                                </tr>
+                            </thead>
+                            <tbody class="js-order-loading">
+                                @Html.Partial("DataTable", Model)
+                            </tbody>
+                        </table>
 
-                        }
-                    </div>
+                    }
                 </div>
                 <div class="order-list-loading" hidden>
                     <div class="line"></div>

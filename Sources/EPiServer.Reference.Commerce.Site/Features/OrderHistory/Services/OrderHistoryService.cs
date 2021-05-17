@@ -26,18 +26,19 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Services
         }
         public OrderHistoryViewModel GetModel(OrderParam param)
         {
-            return GetBaseModel(new OrderHistoryViewModel());
+            return GetBaseModel(new OrderHistoryViewModel(param));
         }
         public OrderHistoryViewModel GetModel(OrderHistoryPage page)
         {
             return GetBaseModel(new OrderHistoryViewModel { CurrentPage = page });
         }
-
         private OrderHistoryViewModel GetBaseModel(OrderHistoryViewModel baseModel)
         {
+            baseModel.BindingParam();
             var purchaseOrders = _orderRepository
                 .Load<IPurchaseOrder>(_customerContext.CurrentContactId)
-                .Take(baseModel.PageSize)
+                .Skip(baseModel.Skip)
+                .Take(baseModel.Take)
                 .OrderByDescending(x => x.Created)
                 .ToList();
             baseModel.Orders = new List<OrderViewModel>();

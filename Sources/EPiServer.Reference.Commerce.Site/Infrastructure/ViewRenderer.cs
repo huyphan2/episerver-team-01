@@ -7,7 +7,12 @@ using EPiServer.Reference.Commerce.Site.Helpers;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
-    public class ViewRenderer
+    public interface IViewRenderer
+    {
+        string RenderPartialViewToString(string viewPath, object model = null);
+    }
+
+    public class ViewRenderer : IViewRenderer
     {
         protected ControllerContext Context
         {
