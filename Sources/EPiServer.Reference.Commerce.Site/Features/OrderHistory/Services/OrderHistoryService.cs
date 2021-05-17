@@ -1,5 +1,8 @@
 ﻿using EPiServer.Commerce.Order;
+using EPiServer.Find;
+using EPiServer.Find.Framework;
 using EPiServer.Reference.Commerce.Site.Features.AddressBook.Services;
+using EPiServer.Reference.Commerce.Site.Features.Market.Services;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Models;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Pages;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels;
@@ -18,11 +21,15 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Services
         private readonly CustomerContextFacade _customerContext;
         private readonly IAddressBookService _addressBookService;
         private readonly IOrderRepository _orderRepository;
-        public OrderHistoryService(CustomerContextFacade customerContextFacade, IAddressBookService addressBookService, IOrderRepository orderRepository)
+        private readonly ICurrencyService _currencyService;
+
+
+        public OrderHistoryService(CustomerContextFacade customerContextFacade, IAddressBookService addressBookService, IOrderRepository orderRepository, ICurrencyService currencyService)
         {
             _customerContext = customerContextFacade;
             _addressBookService = addressBookService;
             _orderRepository = orderRepository;
+            _currencyService = currencyService;
         }
         public OrderHistoryViewModel GetModel(OrderParam param)
         {
@@ -42,6 +49,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Services
                 .OrderByDescending(x => x.Created)
                 .ToList();
             baseModel.Orders = new List<OrderViewModel>();
+
             foreach (var purchaseOrder in purchaseOrders)
             {
                 // Assume there is only one form per purchase.
@@ -71,6 +79,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Services
 
                 baseModel.Orders.Add(orderViewModel);
             }
+            baseModel.Currency = _currencyService.GetCurrentCurrency();
             return baseModel;
         }
     }

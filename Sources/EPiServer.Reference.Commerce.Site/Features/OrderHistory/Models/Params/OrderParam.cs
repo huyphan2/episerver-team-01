@@ -15,6 +15,7 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Models
         }
         public int pageNumber { get; set; }
         public int pageSize { get; set; }
+        public string term { get; set; }
 
     }
 }

@@ -28,16 +28,22 @@
                 }
             </td>
         </tr>
-        for (var i = 0; i < order.Items.Count(); i++)
+        foreach (var item in order.Items)
         {
-            var item = order.Items.ElementAt(i);
-            var color = i % 2 > 0 ? "even" : "odd";
+            var discountPrice = item.LineItem.GetDiscountedPrice(Model.Currency);
+            var quantity = item.LineItem.Quantity;
+            var disCountTotal = item.LineItem.GetDiscountTotal(Model.Currency);
             <tr class="tb-item" data-node-id="@item.LineItem.Code" data-node-pid="@orderForm.OrderFormId">
-                <td colspan="6" class="font-weight-bold @color">
+                <td colspan="4" class="font-weight-bold">
                     <a href="@item.LineItem.GetUrl()" class="text-primary">
                         <img class="img-thumbnail" src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName
                     </a>
                 </td>
+                <td class="text-center">
+                    @*<p>@string.Format("{0} - {1}", (int)quantity,discountPrice)</p>
+                    <p>@string.Format("{0}", disCountTotal)</p>*@
+                </td>
+                <td></td>
             </tr>
         }
     }

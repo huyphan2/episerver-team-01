@@ -19,7 +19,7 @@
             <div class="w-100">
                 <div class="form-group has-search">
                     <span class="fa fa-search form-control-feedback"></span>
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control quick-search" placeholder="Seach by order id and product code">
                 </div>
             </div>
             <div class="l-content">
@@ -63,9 +63,7 @@
     <script src="~/Static/script/order-loading.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.tree-table').simpleTreeTable({
-                opened: 0
-            });
+            $('.tree-table').simpleTreeTable();
         });
     </script>
 }

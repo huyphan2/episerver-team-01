@@ -32,9 +32,7 @@ $(document).ready(function () {
                 orderLoadingSection.append(res.Html || '');
                 isLoading = false;
                 $(document).ready(function () {
-                    $('.tree-table').simpleTreeTable({
-                        opened: 0
-                    });
+                    $('.tree-table').simpleTreeTable();
                 });
             }
         });

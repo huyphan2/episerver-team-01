@@ -511,11 +511,11 @@
       <Labels>
         <ShippedTo>Shipped to</ShippedTo>
         <ObjectsOrdered>Objects ordered</ObjectsOrdered>
-        <OrderID>Order ID:</OrderID>
-        <OrderDate>Order date:</OrderDate>
-        <Payment>Payment:</Payment>
-        <Status>Status:</Status>
-        <TotalPrice>Total price:</TotalPrice>
+        <OrderID>Order ID</OrderID>
+        <OrderDate>Order date</OrderDate>
+        <Payment>Payment</Payment>
+        <Status>Status</Status>
+        <TotalPrice>Total price</TotalPrice>
       </Labels>
     </OrderHistory>
     <Search>
