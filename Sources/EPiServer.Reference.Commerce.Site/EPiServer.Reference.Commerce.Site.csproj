@@ -459,6 +459,7 @@
     <Content Include="Static\libs\slick.min.js" />
     <Content Include="Static\script\index.js" />
     <Content Include="Static\script\jquery-simple-tree-table.js" />
+    <Content Include="Static\script\order-loading.js" />
     <Content Include="Static\script\_product-list.js" />
     <Content Include="Styles\font-awesome\.gitignore" />
     <Content Include="Styles\font-awesome\css\font-awesome.css" />
@@ -541,6 +542,9 @@
     <Compile Include="Features\News\Controllers\BlogNewsController.cs" />
     <Compile Include="Features\News\Controllers\BlogNewsDetailController.cs" />
     <Compile Include="Features\News\Controllers\NewsController.cs" />
+    <Compile Include="Features\OrderHistory\Models\Params\OrderParam.cs" />
+    <Compile Include="Features\OrderHistory\Services\IOrderHistoryService.cs" />
+    <Compile Include="Features\OrderHistory\Services\OrderHistoryService.cs" />
     <Compile Include="Features\Payment\Controllers\PaymentController.cs" />
     <Compile Include="Features\Payment\PaymentMethods\AuthorizePaymentMethod.cs" />
     <Compile Include="Features\Payment\PaymentMethods\CashOnDeliveryPaymentMethod.cs" />
@@ -779,6 +783,7 @@
     <Compile Include="Infrastructure\WebApi\StructureMapResolver.cs" />
     <Compile Include="Infrastructure\WebApi\StructureMapDependencyScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\OrderApiController.cs" />
     <Compile Include="WebApi\ProductListApiController.cs" />
     <Content Include="Views\Search\_QuickSearch.cshtml" />
     <Content Include="Views\OrderConfirmationMailPage\Index.cshtml" />
@@ -1025,8 +1030,9 @@
     <Content Include="Views\News\BlogNewsDetail.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\ProductListBlock\Index.cshtml" />
-    <Content Include="Views\OrderHistory\Index - Copy.cshtml" />
+    <Content Include="Views\OrderHistory\DataTable.cshtml" />
     <Content Include="Views\Shared\_AddressList.cshtml" />
+    <Content Include="Views\Shared\_NavbarCartInfo.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
