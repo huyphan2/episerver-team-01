@@ -2,6 +2,9 @@
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
 
+@{
+    string orderLoadingUrl = StringConstants.Https + StringConstants.CurrentHostName + StringConstants.OrderListApiUrl;
+}
 @section Styles{
 
     <style type="text/css">
@@ -41,76 +44,53 @@
     </style>
 
 }
-
-<div class="container-fluid">
-    <div class="row o-history">
-        <div class="l-content">
-            <div class="treetable d-flex w-100">
-                @if (!Equals(Model.Orders, null))
-                {
-                    <table class="tree-table table table-hover table-bordered">
-                        <thead>
-                            <tr class="tb-head">
-                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderID")</th>
-                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/Status")</th>
-                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderDate")</th>
-                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/Payment")</th>
-                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/TotalPrice")</th>
-                                <th class="text-center">@Html.Translate("/OrderHistory/Labels/ShippedTo")</th>
-                                <th class="text-center">@("Manipulate")</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var order in Model.Orders)
-                            {
-                                var orderForm = order.PurchaseOrder.GetFirstForm();
-
-                            <tr data-node-id="@orderForm.OrderFormId">
-                                <td class=""> <span class="ml-5">@order.PurchaseOrder.OrderNumber</span></td>
-                                <td class="text-center">@order.PurchaseOrder.OrderStatus</td>
-                                <td class="text-center">@order.PurchaseOrder.Created.ToLongDateString()</td>
-                                <td class="text-center">
-                                    @if (orderForm.Payments.Any())
-                                    {
-                                        @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
-                                    }
-                                </td>
-                                <td class="text-center">
-                                    @Helpers.RenderMoney(order.PurchaseOrder.GetTotal())
-                                </td>
-                                <td class="text-center">
-                                    @foreach (var shippingAddress in order.ShippingAddresses)
-                                    {
-                                        @Html.Partial("_AddressList", shippingAddress)
-                                    }
-                                </td>
-                                <td class="text-center"></td>
-                            </tr>
-                                for (var i = 0; i < order.Items.Count(); i++)
-                                {
-                                    var item = order.Items.ElementAt(i);
-                                    var color = i % 2 > 0 ? "even" : "odd";
-                                    <tr class="tb-item" data-node-id="@item.LineItem.Code" data-node-pid="@orderForm.OrderFormId">
-                                        <td colspan="7" class="font-weight-bold @color">
-                                            <a href="@item.LineItem.GetUrl()" class="text-primary">
-                                                <img class="img-thumbnail" src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName
-                                            </a>
-                                        </td>
+<section id="order-loading" class="js-order-loading-container" data-more="true">
+    <div class="hidden">
+        <input id="orderLoadingUrl" type="hidden" value="@orderLoadingUrl">
+    </div>
+    <div class="container-fluid">
+        <div class="row o-history">
+            <div class="l-content">
+                <div class="">
+                    <div class="treetable d-flex w-100">
+                        @if (!Equals(Model.Orders, null))
+                        {
+                            <table class="tree-table table table-hover table-bordered">
+                                <thead>
+                                    <tr class="tb-head">
+                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderID")</th>
+                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/Status")</th>
+                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/OrderDate")</th>
+                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/Payment")</th>
+                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/TotalPrice")</th>
+                                        <th class="text-center">@Html.Translate("/OrderHistory/Labels/ShippedTo")</th>
                                     </tr>
-                                }
+                                </thead>
+                                <tbody class="js-order-loading">
+                                    @Html.Partial("DataTable", Model)
+                                </tbody>
+                            </table>
 
-                            }
-                        </tbody>
-                    </table>
-
-                }
+                        }
+                    </div>
+                </div>
+                <div class="order-list-loading" hidden>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
             </div>
-
         </div>
     </div>
-</div>
+</section>
 @section  Scripts {
     <script src="~/Static/script/jquery-simple-tree-table.js"></script>
+    <script src="~/Static/script/order-loading.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('.tree-table').simpleTreeTable({

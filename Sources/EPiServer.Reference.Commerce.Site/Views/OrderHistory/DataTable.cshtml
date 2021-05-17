@@ -1,0 +1,45 @@
+﻿@using EPiServer.Commerce.Order
+@using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
+
+@if (!Equals(Model.Orders, null))
+{
+    foreach (var order in Model.Orders)
+    {
+        var orderForm = order.PurchaseOrder.GetFirstForm();
+
+        <tr data-node-id="@orderForm.OrderFormId">
+            <td class=""> <span class="ml-5">@order.PurchaseOrder.OrderNumber</span></td>
+            <td class="text-center">@order.PurchaseOrder.OrderStatus</td>
+            <td class="text-center">@order.PurchaseOrder.Created.ToLongDateString()</td>
+            <td class="text-center">
+                @if (orderForm.Payments.Any())
+                {
+                    @String.Join(", ", orderForm.Payments.Select(x => x.PaymentMethodName))
+                }
+            </td>
+            <td class="text-center">
+                @Helpers.RenderMoney(order.PurchaseOrder.GetTotal())
+            </td>
+            <td class="text-center">
+                @foreach (var shippingAddress in order.ShippingAddresses)
+                {
+                    @Html.Partial("_AddressList", shippingAddress)
+                }
+            </td>
+        </tr>
+        for (var i = 0; i < order.Items.Count(); i++)
+        {
+            var item = order.Items.ElementAt(i);
+            var color = i % 2 > 0 ? "even" : "odd";
+            <tr class="tb-item" data-node-id="@item.LineItem.Code" data-node-pid="@orderForm.OrderFormId">
+                <td colspan="6" class="font-weight-bold @color">
+                    <a href="@item.LineItem.GetUrl()" class="text-primary">
+                        <img class="img-thumbnail" src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName
+                    </a>
+                </td>
+            </tr>
+        }
+    }
+}
+

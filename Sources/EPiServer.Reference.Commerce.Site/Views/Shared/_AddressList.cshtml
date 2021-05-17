@@ -10,15 +10,15 @@
             case "AUS":
             case "CAN":
             case "USA":
-                addressValues = new string[] { Model.Organization, Model.FirstName + " " + Model.LastName, Model.Email, Model.Line1, Model.Line2, Model.City + " " + Model.PostalCode, Model.CountryRegion.Region, Model.CountryName };
+                addressValues = new string[] { Model.Email, string.Format("{0},{1}", Model.City, Model.CountryName) };
                 break;
 
             case "GBR":
-                addressValues = new string[] { Model.Organization, Model.FirstName + " " + Model.LastName, Model.Email, Model.Line1, Model.Line2, Model.City, Model.CountryRegion.Region, Model.PostalCode, Model.CountryName };
+                addressValues = new string[] { Model.Email, string.Format("{0},{1}", Model.City, Model.CountryName) };
                 break;
 
             default:
-                addressValues = new string[] { Model.Organization, Model.FirstName + " " + Model.LastName, Model.Email, Model.Line1, Model.Line2, Model.PostalCode + " " + Model.City, Model.CountryRegion.Region, Model.CountryName };
+                addressValues = new string[] { Model.Email, string.Format("{0},{1}", Model.City, Model.CountryName) };
                 break;
         }
 
@@ -29,7 +29,7 @@
                 {
                     if (email.IsMatch(value))
                     {
-                        <a href="mailto:@value">@value</a><br />
+                        <a href="mailto:@value">@value</a>
                     }
                     else
                     {
