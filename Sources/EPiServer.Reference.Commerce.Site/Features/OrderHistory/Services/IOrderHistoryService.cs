@@ -12,5 +12,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Services
     {
         OrderHistoryViewModel GetModel(OrderParam param);
         OrderHistoryViewModel GetModel(OrderHistoryPage page);
+        OrderHistoryViewModel GetModelByOrderNumber(string orderNumber);
     }
 }

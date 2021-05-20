@@ -619,6 +619,7 @@
     <Compile Include="Features\Warehouse\ViewModelFactories\WarehouseViewModelFactory.cs" />
     <Compile Include="Features\Warehouse\ViewModels\WarehouseInventoryViewModel.cs" />
     <Compile Include="Features\Warehouse\ViewModels\WarehouseViewModel.cs" />
+    <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Helpers\CategoryHelper.cs" />
     <Compile Include="Helpers\EmptyController.cs" />
     <Compile Include="Helpers\PageHelper.cs" />
@@ -1034,6 +1035,7 @@
     <Content Include="Views\OrderHistory\DataTable.cshtml" />
     <Content Include="Views\Shared\_AddressList.cshtml" />
     <Content Include="Views\Shared\_NavbarCartInfo.cshtml" />
+    <Content Include="Views\OrderHistory\Detail.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

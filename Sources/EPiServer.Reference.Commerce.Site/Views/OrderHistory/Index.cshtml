@@ -1,17 +1,14 @@
 ﻿@using EPiServer.Commerce.Order
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
+@using EPiServer.Reference.Commerce.Site.Helpers
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
 
-@{
-    string orderLoadingUrl = StringConstants.Https + StringConstants.CurrentHostName + StringConstants.OrderApiUrl;
-}
 @section Styles{
-
     <link href="~/Static/css/order-history.css" rel="stylesheet" />
 }
 <section id="order-loading" class="js-order-loading-container" data-more="true">
     <div class="hidden">
-        <input id="orderLoadingUrl" type="hidden" value="@orderLoadingUrl">
+        <input id="orderLoadingUrl" type="hidden" value="@ApiHelper.Call(ApiUrl.OrderGet)">
     </div>
 
     <div class="container-fluid">
@@ -19,12 +16,12 @@
             <div class="w-100">
                 <div class="form-group has-search">
                     <span class="fa fa-search form-control-feedback"></span>
-                    <input type="text" class="form-control quick-search" placeholder="Seach by order id and product code">
+                    <input data-url-api="@ApiHelper.Call(ApiUrl.OrderSearch)" type="text" class="form-control quick-search">
                 </div>
             </div>
             <div class="l-content">
                 <div class="treetable d-flex w-100">
-                    @if (!Equals(Model.Orders, null))
+                    @if (!Equals(Model.Orders, null) && Model.Orders.Any())
                     {
                         <table class="tree-table table table-hover table-bordered">
                             <thead>
@@ -43,6 +40,15 @@
                         </table>
 
                     }
+                    else
+                    {
+                        <div class="w-100 d-flex justify-content-center align-items-center">
+                            <h4 class="text-info">
+                                @Html.Translate("/OrderHistory/Labels/NotOrder")
+                            </h4>
+                        </div>
+                    }
+
                 </div>
                 <div class="order-list-loading" hidden>
                     <div class="line"></div>

@@ -19,7 +19,7 @@
                             <img src="~/Static/images/logo.png" alt="logo">
                         </a>
                         <div class="d-flex align-items-center">
-                            @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "header-search d-flex align-items-center product-search-wrap" ,autocomplete="off"}))
+                            @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "header-search d-flex align-items-center product-search-wrap", autocomplete = "off" }))
                             {
 
                                 <div class="input-group">
@@ -30,10 +30,7 @@
                                 </div>
                                 <div class="jsQuickSearchResult product-dropdown-container product-search-result" style="display: none;"></div>
                             }
-
-                            @*<a href="#" class="header-login">
-                                    <span>LOGIN or REGISTER</span>
-                                </a>*@
+                          
                             @Html.PropertyFor(model => model.UserLinks, new { @class = "header-login", role = "menu" })
                         </div>
                     </div>

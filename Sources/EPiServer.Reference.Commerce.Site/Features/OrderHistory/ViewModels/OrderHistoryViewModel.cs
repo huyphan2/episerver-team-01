@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Models;
 using EPiServer.Reference.Commerce.Site.Features.OrderHistory.Pages;
+using EPiServer.Reference.Commerce.Site.Features.Shared.Services;
 using EPiServer.Reference.Commerce.Site.Features.Shared.ViewModels;
 using Mediachase.Commerce;
 
@@ -18,7 +19,6 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels
         public int Skip { get; set; } = 0;
         public int Take { get; set; } = 6;
         public int Total { get; set; }
-        public Currency Currency { get; set; }
         public OrderHistoryViewModel BindingParam()
         {
             if (!Equals(SearchParam, null))
@@ -28,9 +28,9 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels
             }
             return this;
         }
-
         public OrderParam SearchParam { get; set; }
-
         public List<OrderViewModel> Orders { get; set; }
+
+        public IPricingService PricingService { get; set; }
     }
 }

@@ -27,5 +27,18 @@ namespace EPiServer.Reference.Commerce.Site.Features.OrderHistory.Controllers
             var viewModel = _orderHistoryService.GetModel(currentPage);
             return View(viewModel);
         }
+
+
+        [HttpGet]
+        public ActionResult Detail(string orderNumber)
+        {
+            var viewModel = _orderHistoryService.GetModelByOrderNumber(orderNumber);
+            if (Equals(viewModel.Orders, null) || !viewModel.Orders.Any())
+            {
+                return RedirectToAction("Forbidden", "ErrorHandling", new { message = "You have not permission to access this page" });
+            }
+            return View("Detail", viewModel);
+        }
+
     }
 }

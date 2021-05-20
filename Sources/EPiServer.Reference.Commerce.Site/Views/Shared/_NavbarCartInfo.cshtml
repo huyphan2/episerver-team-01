@@ -10,6 +10,13 @@
         <span data-cart-count="@Model.ItemCount.ToString("F0")" class="counter counter--small cartItemCountLabel">@Model.ItemCount.ToString("F0")</span>
         &nbsp; &nbsp; <b data-cart-total="@Model.Total.ToString()" class="cartTotalAmountLabel">@Model.Total.ToString()</b>
     </a>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a class="nav-item nav-link header-my-cart" href="@Url.Action("","orderhistory")">
+            <i class="fa fa-cart-plus" aria-hidden="true"></i>
+            <span class="ml-2">@Html.Translate("/Navigation/MyOrder")</span>
+        </a>
+    }
 
     <span id="MiniCart" class="dropdown-menu product-dropdown-container cart-dropdown-container jsCartDropdown">@{ Html.RenderPartial("_MiniCartDetails", Model); }</span>
 </div>

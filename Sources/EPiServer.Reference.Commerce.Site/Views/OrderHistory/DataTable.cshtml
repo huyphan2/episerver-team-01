@@ -2,14 +2,19 @@
 @using EPiServer.Reference.Commerce.Site.Features.Shared.Extensions
 @model EPiServer.Reference.Commerce.Site.Features.OrderHistory.ViewModels.OrderHistoryViewModel
 
-@if (!Equals(Model.Orders, null))
+@if (!Equals(Model.Orders, null) && Model.Orders.Any())
 {
     foreach (var order in Model.Orders)
     {
         var orderForm = order.PurchaseOrder.GetFirstForm();
-
+        var orderUrl = Url.Action("Detail", "OrderHistory", new { orderNumber = order.PurchaseOrder.OrderNumber });
+        var shippingTotal = order.PurchaseOrder.GetShippingTotal();
         <tr data-node-id="@orderForm.OrderFormId">
-            <td class=""> <span class="ml-5">@order.PurchaseOrder.OrderNumber</span></td>
+            <td>
+                <span class="ml-5">
+                    <a href="@orderUrl">@order.PurchaseOrder.OrderNumber</a>
+                </span>
+            </td>
             <td class="text-center">@order.PurchaseOrder.OrderStatus</td>
             <td class="text-center">@order.PurchaseOrder.Created.ToLongDateString()</td>
             <td class="text-center">
@@ -20,8 +25,14 @@
             </td>
             <td class="text-center">
                 @Helpers.RenderMoney(order.PurchaseOrder.GetTotal())
+                @if (shippingTotal > 0)
+                {
+                    <span class="d-flex justify-content-around align-item-center text-info text-right">
+                        <span class="shipping-text">@(string.Format("(Shipping: {0})", shippingTotal))</span>
+                    </span>
+                }
             </td>
-            <td class="text-center">
+            <td class="text-center wpx-200">
                 @foreach (var shippingAddress in order.ShippingAddresses)
                 {
                     @Html.Partial("_AddressList", shippingAddress)
@@ -30,18 +41,18 @@
         </tr>
         foreach (var item in order.Items)
         {
-            var discountPrice = item.LineItem.GetDiscountedPrice(Model.Currency);
-            var quantity = item.LineItem.Quantity;
-            var disCountTotal = item.LineItem.GetDiscountTotal(Model.Currency);
             <tr class="tb-item" data-node-id="@item.LineItem.Code" data-node-pid="@orderForm.OrderFormId">
-                <td colspan="4" class="font-weight-bold">
+                <td colspan="5" class="font-weight-bold">
                     <a href="@item.LineItem.GetUrl()" class="text-primary">
                         <img class="img-thumbnail" src="@item.LineItem.GetThumbnailUrl()" /> @item.LineItem.DisplayName
                     </a>
-                </td>
-                <td class="text-center">
-                    @*<p>@string.Format("{0} - {1}", (int)quantity,discountPrice)</p>
-                    <p>@string.Format("{0}", disCountTotal)</p>*@
+                    <span class="d-flex justify-content-around align-item-center text-info text-right">
+                        <span class="font-weight-light ">@(string.Format("Size: {0}",item.Variant.Size))</span>
+                        <span class="font-weight-light ">@(string.Format("Color: {0}",item.Variant.Color))</span>
+                        <span class="font-weight-light ">@(string.Format("Quantity: {0}",(int)item.LineItem.Quantity))</span>
+                        <span class="font-weight-light ">@(string.Format("UnitPrice: {0}",Model.PricingService.GetMoney(item.LineItem.PlacedPrice)))</span>
+                        <span class="font-weight-light ">@(string.Format("Total: {0}", item.LineItem.GetDiscountedPrice(order.PurchaseOrder.Currency)))</span>
+                    </span>
                 </td>
                 <td></td>
             </tr>

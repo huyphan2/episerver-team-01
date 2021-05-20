@@ -48,5 +48,27 @@ namespace EPiServer.Reference.Commerce.Site.WebApi
             }
         }
 
+        [HttpGet]
+        [Route("Search")]
+        public IHttpActionResult Search(string term)
+        {
+            try
+            {
+                var searchParam = new OrderParam().BuildTerm(term);
+                var viewModel = _orderHistoryService.GetModel(searchParam);
+                _viewRender = new ViewRenderer();
+                var html = _viewRender.RenderPartialViewToString("~/Views/OrderHistory/DataTable.cshtml", viewModel);
+                var response = new
+                {
+                    Html = html,
+                    HasMore = (searchParam.pageNumber * viewModel.Take) < viewModel.Total
+                };
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
